@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScanUtilityLibrary.Core.SICK;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,15 +12,15 @@ namespace ScanUtilityLibrary.Model.SICK
     /// </summary>
     public class UserInfo
     {
-        /// <summary>
-        /// 用户级别代码(维护人员 - 2/授权用户 - 3/维修 - 4)
-        /// </summary>
-        public byte UserCode { get; set; }
+        ///// <summary>
+        ///// 用户级别代码(维护人员 - 2/授权用户 - 3/维修 - 4)
+        ///// </summary>
+        //public byte UserCode { get; set; }
 
         /// <summary>
         /// 用户级别(维护人员/授权用户/维修)
         /// </summary>
-        public string UserLevel { get; set; }
+        public UserLevel UserLevel { get; set; }
 
         /// <summary>
         /// 登录密码(8位16进制哈希值)
@@ -44,8 +45,8 @@ namespace ScanUtilityLibrary.Model.SICK
         /// </summary>
         public void Reset()
         {
-            UserCode = 0;
-            UserLevel = string.Empty;
+            //UserCode = 0;
+            UserLevel = UserLevel.Run;
             UserPassword = "00000000";
             LoginInfo = string.Empty;
         }

@@ -147,6 +147,19 @@ namespace ScanUtilityLibrary.Model
         }
 
         /// <summary>
+        /// 转换为字符串，XY坐标向下取整，Z坐标向上取整
+        /// </summary>
+        /// <param name="scale">保存时对各坐标进行缩放的比例</param>
+        /// <param name="z">保存时给定的Z坐标，假如不为null则覆盖原本对象的Z值</param>
+        /// <returns></returns>
+        public string ToString(double scale = 1, double? z = null)
+        {
+            double z_value = z == null ? Z : z.Value;
+            //return string.Format("{0} {1} {2}", Math.Floor(X * scale), Math.Floor(Y * scale), Math.Ceiling(Z * scale));
+            return string.Format("{0} {1} {2}", Math.Floor(X * scale), Math.Floor(Y * scale), Math.Ceiling(z_value * scale));
+        }
+
+        /// <summary>
         /// 根据距离与角度刷新XY坐标
         /// </summary>
         public void RefreshCoordinates()

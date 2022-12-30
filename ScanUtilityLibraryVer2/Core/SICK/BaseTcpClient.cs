@@ -1,5 +1,5 @@
 ﻿using CommonLib.Clients;
-using ScanUtilityLibrary.Core.SICK.LMS;
+using ScanUtilityLibrary.Core.SICK.Scanner;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -243,7 +243,8 @@ namespace ScanUtilityLibrary.Core.SICK
             ErrorMessage = string.Empty;
             IsConnected = false;
             IsReceiving = false;
-            CommandSender.OutputFlag = 0;
+            if (CommandSender != null)
+                CommandSender.OutputFlag = 0;
             try
             {
                 if (Client == null)
@@ -272,7 +273,7 @@ namespace ScanUtilityLibrary.Core.SICK
                 {
                     watch.Stop();
                     //假如连续读标志为1，时间累积
-                    if (CommandSender.OutputFlag > 0)
+                    if (CommandSender != null && CommandSender.OutputFlag > 0)
                         DataFetchTimeout += watch.ElapsedMilliseconds;
                     else
                         DataFetchTimeout = 0;

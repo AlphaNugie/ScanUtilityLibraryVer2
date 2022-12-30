@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -30,8 +31,13 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonLib, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\CommonLib\CommonLib\CommonLib\bin\Debug\CommonLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -88,9 +94,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ScanUtilityLibraryVer2\ScanUtilityLibrary.csproj">
+    <ProjectReference Include="..\ScanUtilityLibraryVer2.Tianhe\ScanUtilityLibraryVer2.Tianhe.csproj">
+      <Project>{b45c3300-d45b-4bd7-8add-364d63474883}</Project>
+      <Name>ScanUtilityLibraryVer2.Tianhe</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScanUtilityLibraryVer2\ScanUtilityLibraryVer2.csproj">
       <Project>{79610400-2210-4636-bc60-d5ce8d1081e6}</Project>
-      <Name>ScanUtilityLibrary</Name>
+      <Name>ScanUtilityLibraryVer2</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

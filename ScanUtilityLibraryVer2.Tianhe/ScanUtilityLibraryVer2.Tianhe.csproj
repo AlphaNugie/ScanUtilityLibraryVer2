@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B45C3300-D45B-4BD7-8ADD-364D63474883}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ScanUtilityLibrary</RootNamespace>
+    <AssemblyName>ScanUtilityLibraryVer2.Tianhe</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\ScanUtilityLibraryVer2.Tianhe.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonLib">
+      <HintPath>..\..\..\CommonLib\CommonLib\CommonLib\bin\Debug\CommonLib.dll</HintPath>
+    </Reference>
+    <Reference Include="SocketHelper">
+      <HintPath>..\..\..\_Old_Assembly\SocketHelper\SocketHelper\bin\Debug\SocketHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Tianhe\ProcessUtil.cs" />
+    <Compile Include="Event\EventHandlers.cs" />
+    <Compile Include="Core\Tianhe\Enums.cs" />
+    <Compile Include="Core\Tianhe\StreamTcpClient.cs" />
+    <Compile Include="Model\Tianhe\DataFormat.cs" />
+    <Compile Include="Model\Tianhe\DataFormatMap.cs" />
+    <Compile Include="Model\Tianhe\MeasDataGroup.cs" />
+    <Compile Include="Model\Tianhe\SyncInfo.cs" />
+    <Compile Include="Model\Tianhe\TimeStamp.cs" />
+    <Compile Include="Model\Tianhe\TipBodyBase.cs" />
+    <Compile Include="Model\Tianhe\TipBodyDataOutput.cs" />
+    <Compile Include="Model\Tianhe\TipBodyCommon.cs" />
+    <Compile Include="Model\Tianhe\TipBodyLogin.cs" />
+    <Compile Include="Model\Tianhe\TipHeadDataOutput.cs" />
+    <Compile Include="Model\Tianhe\TipHeadBase.cs" />
+    <Compile Include="Model\Tianhe\TipHeadCommon.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ScanUtilityLibraryVer2\ScanUtilityLibraryVer2.csproj">
+      <Project>{79610400-2210-4636-bc60-d5ce8d1081e6}</Project>
+      <Name>ScanUtilityLibraryVer2</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /e /r /y /exclude:D:\DLL\_uncopy.txt $(ProjectDir)bin\Debug D:\DLL\</PostBuildEvent>
+  </PropertyGroup>
+</Project>

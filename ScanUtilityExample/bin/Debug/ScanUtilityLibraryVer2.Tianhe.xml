@@ -1,0 +1,1420 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ScanUtilityLibraryVer2.Tianhe</name>
+    </assembly>
+    <members>
+        <member name="T:ScanUtilityLibrary.Core.Tianhe.ProcessUtil">
+            <summary>
+            天河激光雷达的输出处理工具类
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.Tianhe.ProcessUtil.GetWrappedMessage(System.String@)">
+            <summary>
+            返回接收信息中包含的包裹消息集合
+            </summary>
+            <param name="input">接收信息，处理成功后会修改为数据输出报文的内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.Tianhe.ProcessUtil.GetWrappedMessage(System.String@,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            返回接收信息中包含的包裹消息集合
+            </summary>
+            <param name="input">接收信息，处理成功后会修改为数据输出报文的内容</param>
+            <param name="msgList">输出的所有报文消息列表</param>
+            <returns></returns>
+        </member>
+        <member name="T:ScanUtilityLibrary.Core.Tianhe.StreamDirection">
+            <summary>
+            报文数据流通方向
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.StreamDirection.ToDevice">
+            <summary>
+            向设备发送
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.StreamDirection.FromDevice">
+            <summary>
+            从设备接收
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibrary.Core.Tianhe.TipCode">
+            <summary>
+            TIP包功能代码
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.None">
+            <summary>
+            不代表任何功能
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.Heartbeat">
+            <summary>
+            心跳发送
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.HeartbeatReply">
+            <summary>
+            心跳回复
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.DataOutput">
+            <summary>
+            数据输出
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.DataOutput3d">
+            <summary>
+            数据输出（3维）
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.Login">
+            <summary>
+            登录
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.LoginReply">
+            <summary>
+            登录回复
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.RequestDevState">
+            <summary>
+            查询设备工作状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.RequestDevStateReply">
+            <summary>
+            查询设备工作状态的回复
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.Reboot">
+            <summary>
+            重新启动
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.SetTime">
+            <summary>
+            设置时间（登录后）
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.SetTimeReply">
+            <summary>
+            设置时间的回复
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.RequestDevInfo">
+            <summary>
+            查询设备信息
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.RequestDevInfoReply">
+            <summary>
+            查询设备信息的回复
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.Blocked">
+            <summary>
+            处于遮挡状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.BlockedNoMore">
+            <summary>
+            从被遮挡状态中恢复
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.Error">
+            <summary>
+            处于故障状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.ErrorNoMore">
+            <summary>
+            从故障状态恢复
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.RequestDataFormat">
+            <summary>
+            获取设备标准输出数据格式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.RequsetDataFormatReply">
+            <summary>
+            获取设备标准输出数据格式的回复
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.RequsetDevSgnlState">
+            <summary>
+            获取雷达遥信状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.RequsetDevSgnlStateReply">
+            <summary>
+            获取雷达遥信状态的回复
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.RequsetDevCtrlState">
+            <summary>
+            获取雷达遥控状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.RequsetDevCtrlStateReply">
+            <summary>
+            获取雷达遥控状态的回复
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.SetDevIO">
+            <summary>
+            控制雷达IO
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.SetDevIOReply">
+            <summary>
+            控制雷达IO的回复
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.RequestDevParams">
+            <summary>
+            查询设备参数
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.RequestDevParamsReply">
+            <summary>
+            查询设备参数的回复
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.SetPowerState">
+            <summary>
+            设置雷达启动/待机
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.SetPowerStateReply">
+            <summary>
+            雷达启动/待机的回复
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.Contaminated">
+            <summary>
+            处于脏污状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TipCode.ContaminatedNoMore">
+            <summary>
+            从脏污状态中恢复
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibrary.Core.Tianhe.PackType">
+            <summary>
+            包类型
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.PackType.Downstream_all">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.PackType.Downstream_up">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.PackType.Downstream_down">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.PackType.Upstream_all">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.PackType.Upstream_up">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.PackType.Upstream_down">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibrary.Core.Tianhe.TimeStampType">
+            <summary>
+            时间戳类型（DataFormatMap）
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TimeStampType.Relative">
+            <summary>
+            相对时间
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.TimeStampType.Calendar">
+            <summary>
+            日历时间
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibrary.Core.Tianhe.CoordSystemType">
+            <summary>
+            坐标系类型（DataFormatMap）
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.CoordSystemType.Cartesian">
+            <summary>
+            直角坐标系（笛卡尔坐标系）
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibrary.Core.Tianhe.AngleResolutionType">
+            <summary>
+            角度分辨率类型（DataFormatMap）
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.AngleResolutionType.MilliDeg">
+            <summary>
+            毫度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.AngleResolutionType.MilliDegDivBy100">
+            <summary>
+            0.01毫度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.AngleResolutionType.TotalPoints360">
+            <summary>
+            一圈360°内点的总数（使用360除以这个值得到最终角分辨率）
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibrary.Core.Tianhe.MeasUnitType">
+            <summary>
+            测量的距离单位（DataFormatMap）
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.MeasUnitType.Centi_2bytes">
+            <summary>
+            2字节厘米
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.MeasUnitType.Milli_2bytes">
+            <summary>
+            2字节毫米
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.MeasUnitType.Centi_4bytes">
+            <summary>
+            4字节厘米
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.MeasUnitType.Milli_4bytes">
+            <summary>
+            4字节毫米
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibrary.Core.Tianhe.EchoPulseType">
+            <summary>
+            回波脉冲类型（DataFormatMap）
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.EchoPulseType.Farthest">
+            <summary>
+            最远脉冲
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.EchoPulseType.Strongest">
+            <summary>
+            最强脉冲
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.EchoPulseType.Both">
+            <summary>
+            双脉冲
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient">
+            <summary>
+            天河Lidar扫描仪TCP通讯类
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient._watchdogTask">
+            <summary>
+            执行看门狗行为的任务，周期性发送心跳
+            </summary>
+        </member>
+        <member name="E:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.OnStateInfo">
+            <summary>
+            连接状态改变时返回连接状态事件
+            </summary>
+        </member>
+        <member name="E:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.LoggedIn">
+            <summary>
+            设备登录成功事件
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.SocketCloseCommand">
+            <summary>
+            是否在发送关闭命令的状态下
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.ServerIp">
+            <summary>
+            Tcp服务端的IP
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.ServerPort">
+            <summary>
+            Tcp服务端的端口号
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.Client">
+            <summary>
+            TcpClient对象
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.IsConnected">
+            <summary>
+            是否连接
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.IsConnected_Socket">
+            <summary>
+            Tcp Socket的真实连接状态
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.ErrorMsg_TcpConnections">
+            <summary>
+            错误信息
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.UserName">
+            <summary>
+            用户名（不超过64个字符）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.Password">
+            <summary>
+            密码（不超过64个字符）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.NumOfPoints">
+            <summary>
+            报文中数据点个数
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.UseCenti">
+            <summary>
+            报文中距离是否使用厘米, true: 厘米, false: 毫米
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.PrefPulseType">
+            <summary>
+            扫描点数组中每个点使用的回波脉冲类型（选择双脉冲将默认为输出最远脉冲）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.EchoPulseType">
+            <summary>
+            报文中回波脉冲的类型
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.AlbedoOn">
+            <summary>
+            报文中是否输出反射率
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.AngularIncrement">
+            <summary>
+            实际角分辨率（°）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.StartAngle">
+            <summary>
+            扫描起始角度（°）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.StopAngle">
+            <summary>
+            扫描结束角度（°）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.ScanPoints">
+            <summary>
+            扫描点数组
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.TipBodyHeartbeat">
+            <summary>
+            TIP心跳报文（向设备发送）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.TipBodyLogin">
+            <summary>
+            TIP登录报文（向设备发送）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.TipBodyDataOutput">
+            <summary>
+            TIP数据输出报文（从设备接收）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.Blocked">
+            <summary>
+            处于被遮挡状态
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.Contaminated">
+            <summary>
+            处于脏污状态
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.Error">
+            <summary>
+            处于故障状态
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.#ctor(ScanUtilityLibrary.Core.Tianhe.EchoPulseType)">
+            <summary>
+            使用给定的希望使用的回波脉冲类型初始化
+            </summary>
+            <param name="prefPulseType">扫描点数组采用的回波脉冲类型</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.Connect">
+            <summary>
+            使用当前设定的IP、端口、用户名和密码与TCP服务端连接
+            </summary>
+            <returns>假如成功，返回0，否则返回1</returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.Connect(System.String,System.Int32,System.String,System.String)">
+            <summary>
+            利用特定的IP、端口与TCP服务端连接
+            </summary>
+            <param name="server">TCP服务端IP</param>
+            <param name="port">端口号</param>
+            <param name="userName">用户名，假如为null/空/空白字符串则使用上一次定义的值，假如从未定义过则使用默认值</param>
+            <param name="password">密码，假如为null/空/空白字符串则使用上一次定义的值，假如从未定义过则使用默认值</param>
+            <returns>假如成功，返回0，否则返回1</returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.Login">
+            <summary>
+            登录
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.SendHeartbeat">
+            <summary>
+            发送心跳数据
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.Close">
+            <summary>
+            关闭TCP连接
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.ResolveTipBody(System.String)">
+            <summary>
+            根据16进制字符串解析TIP数据
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.ResolveTipBody(System.Byte[])">
+            <summary>
+            根据byte数组解析TIP数据
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.RecDataStream">
+            <summary>
+            刷新扫描点信息
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.GetTcpHeader">
+            <summary>
+            获取TCP信息抬头
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.GetScanDataString">
+            <summary>
+            获取扫描点信息（前36个坐标点）的字符串形式
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.GetScanDataString(System.Int32)">
+            <summary>
+            获取扫描点信息（从指定索引处开始的36个坐标点）的字符串形式
+            </summary>
+            <param name="startValue">起始坐标点索引</param>
+            <returns></returns>
+        </member>
+        <member name="T:ScanUtilityLibrary.Event.EventHandlers">
+            <summary>
+            各事件的委托
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibrary.Event.EventHandlers.LoggedInEventHandler">
+            <summary>
+            登录成功事件的委托
+            </summary>
+            <param name="eventArgs"></param>
+            <param name="sender"></param>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.Tianhe.DataFormat">
+            <summary>
+            数据格式的结构类，总长20个字节
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormat.DataFormatMap">
+            <summary>
+            按位定义的数据格式（4字节长度）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormat.StartAngle">
+            <summary>
+            起始角度（毫度）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormat.StopAngle">
+            <summary>
+            终止角度（毫度）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormat.AngleResolution">
+            <summary>
+            角度分辨率，其含义由DataFormatMap中《角分辨率类型》字段决定
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormat.RadarModel">
+            <summary>
+            雷达型号
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormat.LineNum">
+            <summary>
+            雷达线数，0表示单层雷达
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormat.PackSum">
+            <summary>
+            总包数m：当前扫描帧数据的总包数
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormat.PackNo">
+            <summary>
+            扫描包序号：0至(m-1)
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormat.Phaseshift">
+            <summary>
+            相移信息
+            bit0-3：当前相移次数，bit4-7：相移总次数
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.DataFormat.#ctor">
+            <summary>
+            默认构造器
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.DataFormat.#ctor(System.String)">
+            <summary>
+            用给定的16进制字符串初始化
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.DataFormat.#ctor(System.Byte[])">
+            <summary>
+            用给定的byte数组初始化
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.DataFormat.Resolve(System.String)">
+            <summary>
+            根据16进制字符串解析
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.DataFormat.Resolve(System.Byte[])">
+            <summary>
+            根据byte数组解析
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.Tianhe.DataFormatMap">
+            <summary>
+            按位定义的数据格式的实体类（4字节长度）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormatMap.SyncInfoOn">
+            <summary>
+            同步信息（SyncInfo结构）输出开关
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormatMap.TimeStampOn">
+            <summary>
+            时间戳（TimeStamp结构）输出开关
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormatMap.TimeStampType">
+            <summary>
+            时间戳类型，长度1比特
+            0：相对时间，1：日历时间
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormatMap.Info3dOn">
+            <summary>
+            三维标志输出
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormatMap.Info3dCoordType">
+            <summary>
+            三维坐标系类型，长度2比特
+            0：直角坐标，其他保留
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormatMap.AnglResltnType">
+            <summary>
+            角度分辨率类型，长度2比特
+            0:毫度，1:0.01毫度，2：保留，3:360度的点数（使用360除以这个值得到最终角分辨率）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormatMap.UnitType">
+            <summary>
+            数据单位，长度3比特
+            0:2字节厘米，1：2字节毫米，6:4字节厘米，7：4字节毫米，2-5保留
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormatMap.EchoPulseType">
+            <summary>
+            回波脉冲选项，长度2比特
+            0：最远脉冲，1：最强脉冲，2：双脉冲，3：保留
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormatMap.AlbedoOn">
+            <summary>
+            反射率输出开关
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.DataFormatMap.OutputRestricted">
+            <summary>
+            是否限制整圈输出扫描数据，false：整圈输出扫描数据，true：限长输出扫描数据（即时扫描输出）
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.DataFormatMap.#ctor">
+            <summary>
+            使用默认值0初始化
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.DataFormatMap.#ctor(System.UInt32)">
+            <summary>
+            使用给定的值初始化
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.DataFormatMap.SetValue(System.UInt32)">
+            <summary>
+            用给定值设置各项属性的具体值
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.Tianhe.MeasDataGroup">
+            <summary>
+            包含每点测量数据的结构体
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.MeasDataGroup.AnglResltnType">
+            <summary>
+            角度分辨率类型
+            0:毫度，1:0.01毫度，2：保留，3:360度的点数（使用360除以这个值得到最终角分辨率）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.MeasDataGroup.UnitType">
+            <summary>
+            数据单位
+            0:2字节厘米，1：2字节毫米，6:4字节厘米，7：4字节毫米，2-5保留
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.MeasDataGroup.PulseFarthest">
+            <summary>
+            最远脉冲的测量距离
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.MeasDataGroup.AlbedoFarthest">
+            <summary>
+            脉冲1的反射率
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.MeasDataGroup.PulseStrongest">
+            <summary>
+            最强脉冲的测量距离
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.MeasDataGroup.AlbedoStrongest">
+            <summary>
+            脉冲2的反射率
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.MeasDataGroup.#ctor(ScanUtilityLibrary.Core.Tianhe.AngleResolutionType,ScanUtilityLibrary.Core.Tianhe.MeasUnitType,System.UInt16,System.Byte,System.UInt16,System.Byte)">
+            <summary>
+            用给定的各属性值初始化
+            </summary>
+            <param name="resltnType">角度分辨率类型</param>
+            <param name="unitType">测量的距离单位</param>
+            <param name="f_pulse">最远脉冲的距离</param>
+            <param name="f_albedo">最远脉冲的反射率</param>
+            <param name="s_pulse">最强脉冲的距离</param>
+            <param name="s_albedo">最强脉冲的反射率</param>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.Tianhe.SyncInfo">
+            <summary>
+            雷达同步信息结构体
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.SyncInfo.Microseconds">
+            <summary>
+            最后一次同步信号以来的精确时间
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.SyncInfo.#ctor">
+            <summary>
+            默认构造器
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.SyncInfo.#ctor(System.String)">
+            <summary>
+            用给定的16进制字符串初始化
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.SyncInfo.#ctor(System.Byte[])">
+            <summary>
+            用给定的byte数组初始化
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.SyncInfo.Resolve(System.String)">
+            <summary>
+            根据16进制字符串解析
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.SyncInfo.Resolve(System.Byte[])">
+            <summary>
+            根据byte数组解析
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.Tianhe.TimeStamp">
+            <summary>
+            雷达时间戳信息结构体
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TimeStamp.Seconds">
+            <summary>
+            秒数
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TimeStamp.Microseconds">
+            <summary>
+            微秒数
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TimeStamp.#ctor">
+            <summary>
+            默认构造器
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TimeStamp.#ctor(System.String)">
+            <summary>
+            用给定的16进制字符串初始化
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TimeStamp.#ctor(System.Byte[])">
+            <summary>
+            用给定的byte数组初始化
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TimeStamp.Resolve(System.String)">
+            <summary>
+            根据16进制字符串解析
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TimeStamp.Resolve(System.Byte[])">
+            <summary>
+            根据byte数组解析
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.Tianhe.TipBodyBase">
+            <summary>
+            TIP协议数据体基础类
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyBase.TipHead">
+            <summary>
+            协议数据头
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyBase.#ctor">
+            <summary>
+            默认构造器
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyBase.#ctor(System.String)">
+            <summary>
+            用给定的16进制字符串初始化
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyBase.#ctor(System.Byte[])">
+            <summary>
+            用给定的byte数组初始化
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyBase.Resolve(System.String)">
+            <summary>
+            根据16进制字符串解析
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyBase.Resolve(System.Byte[])">
+            <summary>
+            根据byte数组解析
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyBase.InitTipHead(System.Byte[])">
+            <summary>
+            每个子类均需要初始化自己的TIP数据头（即使提供的字节数组初始化数据头的各属性值
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyBase.ResolveUrOwn(System.Byte[])">
+            <summary>
+            每个子类根据当前字节数组进行一些自己独有的解析工作
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyBase.ComposeHexString">
+            <summary>
+            将各属性值组合为16进制字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyBase.Compose">
+            <summary>
+            将各属性值组合为byte数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyBase.UpdateAllBytesLen_Composing(System.UInt32)">
+            <summary>
+            更新TIP数据头中的全报文长度（AllBytesLen）；假如不做其它调用，则仅在组合字节流时使用
+            </summary>
+            <param name="abtLen"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyBase.UpdateTipCode_Composing(ScanUtilityLibrary.Core.Tianhe.TipCode)">
+            <summary>
+            更新TIP数据头中的TIP功能代码（TipCode），可根据需要进行自定义处理，也可考虑用给定的参数赋值，否则；假如不做其它调用，则仅在组合字节流时使用
+            </summary>
+            <param name="code">TIP功能码，可考虑用此给定的参数赋值</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyBase.GetTipHeadBytes">
+            <summary>
+            获取TIP数据头的byte数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyBase.ComposeUrOwn">
+            <summary>
+            每个子类根据自己特有属性值进行一些自己独有的byte数组组合工作（没有需要则返回null）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput">
+            <summary>
+            TIP协议数据体：设备数据输出
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.EchoPulseType">
+            <summary>
+            回波脉冲选项
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.AlbedoOn">
+            <summary>
+            反射率输出开关
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.TipHead">
+            <summary>
+            协议数据头
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.DataFormatLen">
+            <summary>
+            数据格式字节数
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.DataFormat">
+            <summary>
+            数据格式结构的实体类对象
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.SyncInfoLen">
+            <summary>
+            同步信息字节数
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.SyncInfo">
+            <summary>
+            设备同步信息结构的实体类对象
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.TimeStampLen">
+            <summary>
+            时间戳信息字节数
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.TimeStamp">
+            <summary>
+            设备时间戳信息结构的实体类对象
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.MeasDataLen">
+            <summary>
+            测量数据字节数
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.MeasDataGroups">
+            <summary>
+            测量数据的列表
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.#ctor">
+            <summary>
+            默认构造器
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.#ctor(System.String)">
+            <summary>
+            用给定的16进制字符串初始化
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.#ctor(System.Byte[])">
+            <summary>
+            用给定的byte数组初始化
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.InitTipHead(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.ResolveUrOwn(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.UpdateAllBytesLen_Composing(System.UInt32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.UpdateTipCode_Composing(ScanUtilityLibrary.Core.Tianhe.TipCode)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.GetTipHeadBytes">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyDataOutput.ComposeUrOwn">
+            <inheritdoc/>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.Tianhe.TipBodyCommon">
+            <summary>
+            通用的TIP数据体，在继承基础类的基础上没有额外的属性与解析、组合工作
+            适用于LoginReply/Heartbeat/HeartbeatReply/Blocked/BlockedNoMore/Contaminated/ContaminatedNoMore/ErrorNoMore/Reboot/SetTimeReply/RequestDevInfo/RequestDevParams/RequestDevState/RequestDevStateReply/RequestDataFormat/
+            不适用于Login/DataOutput/DataOutput3d/Error/SetPowerState/SetPowerStateReply/SetTime/RequestDevInfoReply/RequestDevParamsReply/RequsetDataFormatReply/SetDevIO/SetDevIOReply/RequsetDevCtrlState/RequsetDevCtrlStateReply/RequsetDevSgnlState/RequsetDevSgnlStateReply/
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyCommon.TipHead">
+            <summary>
+            协议数据头
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyCommon.#ctor(ScanUtilityLibrary.Core.Tianhe.TipCode)">
+            <summary>
+            用给定的TIP功能码初始化
+            </summary>
+            <param name="code">给定的TIP功能码</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyCommon.#ctor(ScanUtilityLibrary.Core.Tianhe.TipCode,System.String)">
+            <summary>
+            用给定的TIP功能码、16进制字符串初始化
+            </summary>
+            <param name="code">给定的TIP功能码</param>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyCommon.#ctor(ScanUtilityLibrary.Core.Tianhe.TipCode,System.Byte[])">
+            <summary>
+            用给定的TIP功能码、byte数组初始化
+            </summary>
+            <param name="code">给定的TIP功能码</param>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyCommon.ComposeUrOwn">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyCommon.GetTipHeadBytes">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyCommon.InitTipHead(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyCommon.ResolveUrOwn(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyCommon.UpdateAllBytesLen_Composing(System.UInt32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyCommon.UpdateTipCode_Composing(ScanUtilityLibrary.Core.Tianhe.TipCode)">
+            <inheritdoc/>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin">
+            <summary>
+            TIP协议数据体：登录
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.DEFAULT_USERNAME">
+            <summary>
+            默认用户名
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.DEFAULT_PASSWORD">
+            <summary>
+            默认密码
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.TipHead">
+            <summary>
+            协议数据头
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.UserName">
+            <summary>
+            用户名（不超过64个字符）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.Password">
+            <summary>
+            密码（不超过64个字符）
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.#ctor">
+            <summary>
+            默认构造器
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.#ctor(System.String)">
+            <summary>
+            用给定的16进制字符串初始化
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.#ctor(System.Byte[])">
+            <summary>
+            用给定的byte数组初始化
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.UpdateUserInfos(System.String,System.String)">
+            <summary>
+            更新用户名密码
+            </summary>
+            <param name="userName"></param>
+            <param name="password"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.RestoreDefUserInfos">
+            <summary>
+            恢复到默认的用户名密码
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.ComposeUrOwn">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.GetTipHeadBytes">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.InitTipHead(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.ResolveUrOwn(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.UpdateAllBytesLen_Composing(System.UInt32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipBodyLogin.UpdateTipCode_Composing(ScanUtilityLibrary.Core.Tianhe.TipCode)">
+            <inheritdoc/>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.Tianhe.TipHeadDataOutput">
+            <summary>
+            设备数据输出TIP数据头
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadDataOutput.UnitType">
+            <summary>
+            数据单位，长度1字节byte
+            0:2字节厘米，1：2字节毫米，6:4字节厘米，7：4字节毫米，2-5保留
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadDataOutput.EchoPulseType">
+            <summary>
+            回波脉冲选项，长度1字节byte
+            0：最远脉冲，1：最强脉冲，2：双脉冲，3：保留
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadDataOutput.LineNum">
+            <summary>
+            雷达线数，0表示单层雷达
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadDataOutput.OffsetToData">
+            <summary>
+            到雷达距离输出部分的偏移量，基本固定为0x0020，代表从“数据点个数”到“雷达扫描数据长度” 偏移的字节个数；可利用此偏移量直接找到数据部分
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadDataOutput.NumOfPoints">
+            <summary>
+            数据点个数，假如为540，就是共540个点的数据（270°，0.5°角分辨率，每度里两个点）
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadDataOutput.#ctor(System.String)">
+            <summary>
+            用给定的16进制字符串初始化
+            </summary>
+            <param name="hexString">报文的16进制字符串</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadDataOutput.#ctor(System.Byte[])">
+            <summary>
+            用给定的byte数组初始化
+            </summary>
+            <param name="bytes">报文的字节流</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadDataOutput.ResolveUrOwn(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadDataOutput.ComposeUrOwn">
+            <inheritdoc/>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.Tianhe.TipHeadBase">
+            <summary>
+            TCP协议数据头基础类
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.ChecksumPassed">
+            <summary>
+            校验通过
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.Direction">
+            <summary>
+            报文流通方向
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.HeadAd">
+            <summary>
+            开头固定字节0xAD
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.Head49">
+            <summary>
+            开头固定字节0x49
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.TipCode">
+            <summary>
+            TIP代码（类型），长度2字节unsigned short
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.PackType">
+            <summary>
+            包类型，downstream或upstream，默认值0，长度1字节byte
+            downstream(0x0:all,0x1:up,0x2:down);
+            upstream(0x80:all,0x81:up,0x82:down);
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.SourceObjType">
+            <summary>
+            源类型，默认值0（从设备接收时为0x5B）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.SourceId">
+            <summary>
+            源地址，默认值0（从设备接收时为0x0002）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.RnPri">
+            <summary>
+            网络重发次数和优先级（无另行说明为默认值0x11，否则以说明值为准）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.DestObjType">
+            <summary>
+            目的类型，默认值0
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.DestId">
+            <summary>
+            目的地址，默认值0
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.Version">
+            <summary>
+            版本号，默认值0x5
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.SysRunMode">
+            <summary>
+            运行模式，默认值0
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.Checksum">
+            <summary>
+            校验和，TIP代码与报文长度的校验和
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.AllBytesLen">
+            <summary>
+            完整报文长度（TIP头+TIP后数据包总字节数），无另行说明为默认值40，否则以说明值为准
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.Tid">
+            <summary>
+            应用编号，默认值0（从设备接收时为0x00000001）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.CreatedTime">
+            <summary>
+            TIP创建时间，长度4字节unsigned int
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.ConnId">
+            <summary>
+            网络传输编号，发送时默认填0（设备接收时为0x0000000F）
+            0 means posted by PostTIP.
+            non-zero means by physical channel.
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.#ctor(ScanUtilityLibrary.Core.Tianhe.StreamDirection)">
+            <summary>
+            默认构造器
+            </summary>
+            <param name="dir"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.#ctor(System.String,ScanUtilityLibrary.Core.Tianhe.StreamDirection)">
+            <summary>
+            用给定的16进制字符串初始化
+            </summary>
+            <param name="hexString">报文的16进制字符串</param>
+            <param name="dir">报文流通方向</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.#ctor(System.Byte[],ScanUtilityLibrary.Core.Tianhe.StreamDirection)">
+            <summary>
+            用给定的byte数组初始化
+            </summary>
+            <param name="bytes">报文的字节流</param>
+            <param name="dir">报文流通方向</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.ResolveTipCode(System.String)">
+            <summary>
+            根据16进制字符串来解析TIP代码
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.ResolveTipCode(System.Byte[])">
+            <summary>
+            根据byte数组来解析TIP代码
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.Resolve(System.String)">
+            <summary>
+            根据16进制字符串解析
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.Resolve(System.Byte[])">
+            <summary>
+            根据byte数组解析
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.ResolveUrOwn(System.Byte[])">
+            <summary>
+            每个子类根据当前字节数组进行一些自己独有的解析工作（通常是解析预留的8字节Resparm信息）
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.UpdateTipCode(ScanUtilityLibrary.Core.Tianhe.TipCode)">
+            <summary>
+            更新自定义时所需的TIP功能代码
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.UpdateAllBytesLen(System.UInt32)">
+            <summary>
+            更新自定义时所需的全报文长度
+            </summary>
+            <param name="abtLen"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.Compose">
+            <summary>
+            将各属性值组合为byte数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.ComposeUrOwn">
+            <summary>
+            每个子类根据自己特有属性值进行一些自己独有的byte数组组合工作，长度应保证为8（通常是组合与预留的8字节Resparm信息相关的属性）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.GetChecksum(System.UInt16,System.UInt16)">
+            <summary>
+            根据TIP头的代码以及TIP完整报文字节数计算校验和
+            </summary>
+            <param name="tipCode">TIP代码</param>
+            <param name="abtLen">TIP完整报文字节数</param>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadBase.IsChecksumPassed(System.UInt16,System.UInt16,System.UInt16)">
+            <summary>
+            根据TIP头的代码以及TIP完整报文字节数计算校验和，并验证是否与报文中的校验和相符
+            </summary>
+            <param name="givenChecksum">与之验证的给定校验和</param>
+            <param name="tipCode">TIP代码</param>
+            <param name="abtLen">TIP完整报文字节数</param>
+            <returns></returns>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.Tianhe.TipHeadCommon">
+            <summary>
+            通用的TIP数据头，在继承基础类的基础上没有额外的属性与解析、组合工作，预留属性的8个字节均为0
+            适用于Login/LoginReply/Heartbeat/HeartbeatReply/Blocked/BlockedNoMore/Contaminated/ContaminatedNoMore/ErrorNoMore/Reboot/SetTimeReply/RequestDevInfo/RequestDevInfoReply/RequestDevParams/RequestDevParamsReply/RequestDevState/RequestDevStateReply/RequestDataFormat/
+            不适用于DataOutput/DataOutput3d/Error/SetPowerState/SetPowerStateReply/SetTime/RequsetDataFormatReply/SetDevIO/SetDevIOReply/RequsetDevCtrlState/RequsetDevCtrlStateReply/RequsetDevSgnlState/RequsetDevSgnlStateReply/
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadCommon.#ctor(System.String)">
+            <summary>
+            用给定的16进制字符串初始化
+            </summary>
+            <param name="hexString">报文的16进制字符串</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadCommon.#ctor(System.Byte[])">
+            <summary>
+            用给定的byte数组初始化
+            </summary>
+            <param name="bytes">报文的字节流</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadCommon.ResolveUrOwn(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.Tianhe.TipHeadCommon.ComposeUrOwn">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

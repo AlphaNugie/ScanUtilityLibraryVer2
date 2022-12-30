@@ -1,17 +1,19 @@
-﻿using ScanUtilityLibrary.Core.SICK.LMS;
+﻿using CommonLib.Function;
+using ScanUtilityLibrary.Core.SICK.Scanner;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScanUtilityLibrary.Model.SICK.LMS
+namespace ScanUtilityLibrary.Model.SICK.Scanner
 {
     /// <summary>
     /// LMS扫描仪参数
     /// </summary>
     public class ScannerParameters
     {
+        #region 属性
         /// <summary>
         /// 设备版本号
         /// </summary>
@@ -73,7 +75,8 @@ namespace ScanUtilityLibrary.Model.SICK.LMS
         /// <summary>
         /// 扫描频率(单位：HZ)
         /// </summary>
-        public uint ScanFrequency { get; set; }
+        public double ScanFrequency { get; set; }
+        //public uint ScanFrequency { get; set; }
 
         /// <summary>
         /// 每次扫描频率
@@ -105,30 +108,31 @@ namespace ScanUtilityLibrary.Model.SICK.LMS
         /// </summary>
         public string OutputChannel { get; set; }
 
-        private string _scaleStr;
-        /// <summary>
-        /// 测量值比例系数的16进制字符串描述
-        /// </summary>
-        public string ScaleFactorString
-        {
-            get { return _scaleStr; }
-            set
-            {
-                _scaleStr = value;
-                switch (_scaleStr)
-                {
-                    case "3F800000":
-                        ScaleFactor = 1;
-                        break;
-                    case "40000000":
-                        ScaleFactor = 2;
-                        break;
-                    default:
-                        ScaleFactor = 0;
-                        break;
-                }
-            }
-        }
+        //private string _scaleStr;
+        ///// <summary>
+        ///// 测量值比例系数的16进制字符串描述
+        ///// </summary>
+        //public string ScaleFactorString
+        //{
+        //    get { return _scaleStr; }
+        //    set
+        //    {
+        //        _scaleStr = value;
+        //        ScaleFactor = HexHelper.HexString2Single(_scaleStr);
+        //        //switch (_scaleStr)
+        //        //{
+        //        //    case "3F800000":
+        //        //        ScaleFactor = 1;
+        //        //        break;
+        //        //    case "40000000":
+        //        //        ScaleFactor = 2;
+        //        //        break;
+        //        //    default:
+        //        //        ScaleFactor = 0;
+        //        //        break;
+        //        //}
+        //    }
+        //}
 
         /// <summary>
         /// 测量值比例系数
@@ -154,6 +158,7 @@ namespace ScanUtilityLibrary.Model.SICK.LMS
         /// 测量数据数量
         /// </summary>
         public ushort AmountOfData { get; set; }
+        #endregion
 
         /// <summary>
         /// 构造器
@@ -166,6 +171,9 @@ namespace ScanUtilityLibrary.Model.SICK.LMS
         /// <param name="results">设备返回扫描数据分解后的字符串数组（不包括STX, ETX）</param>
         public void ResolveParameters(string[] results)
         {
+            if (results == null || results.Length < 26)
+                return;
+
             VersionNumber = Convert.ToUInt16(results[2], 16); //设备版本号
             DeviceNumber = Convert.ToUInt16(results[3], 16); //设备ID
             SerialNumber = Convert.ToUInt32(results[4], 16); //设备序列号
@@ -178,7 +186,7 @@ namespace ScanUtilityLibrary.Model.SICK.LMS
             //StatusOfDigitalOutputs = Convert.ToByte(results[15], 16); //设备开关量输出状态
             StatusOfDigitalOutputs = (DigitalOutputStatus)Convert.ToUInt16(results[13] + results[14], 16); //设备开关量输出状态
             LayerAngle = Convert.ToUInt16(results[15]);
-            ScanFrequency = Convert.ToUInt32(results[16], 16) / 100; //扫描频率
+            ScanFrequency = (double)Convert.ToUInt32(results[16], 16) / 100; //扫描频率
             MeasurementFrequency = Convert.ToUInt32(results[17], 16); //每次扫描频率
             AmountOfEncoder = Convert.ToByte(results[18]); //编码器数量
             if (AmountOfEncoder > 0)
@@ -189,8 +197,10 @@ namespace ScanUtilityLibrary.Model.SICK.LMS
             int offset = AmountOfEncoder > 0 ? 2 : 0;
             AmountOfChannels = Convert.ToUInt16(results[19 + offset]); //回波层数量
             OutputChannel = results[20 + offset]; //回波层序号
-            ScaleFactorString = results[21 + offset]; //系数
-            ScaleOffset = Convert.ToInt32(results[22 + offset], 16); //系数偏移量
+            //ScaleFactorString = results[21 + offset]; //系数
+            //ScaleOffset = Convert.ToInt32(results[22 + offset], 16); //系数偏移量
+            ScaleFactor = HexHelper.HexString2Single(results[21 + offset]); //系数
+            ScaleOffset = HexHelper.HexString2Single(results[22 + offset]); //系数偏移量
             StartAngle = (double)Convert.ToInt32(results[23 + offset], 16) / 10000;
             AngleResolution = (double)Convert.ToInt32(results[24 + offset], 16) / 10000;
             AmountOfData = Convert.ToUInt16(results[25 + offset], 16);

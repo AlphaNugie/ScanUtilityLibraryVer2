@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScanUtilityLibrary.Core.SICK.LMS
+namespace ScanUtilityLibrary.Core.SICK.Scanner
 {
     /// <summary>
     /// 各指令正则表达式模式

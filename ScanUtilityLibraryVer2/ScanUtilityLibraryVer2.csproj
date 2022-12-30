@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\BasicEnums.cs" />
     <Compile Include="Core\SICK\BaseTcpClient.cs" />
     <Compile Include="Core\SICK\BaseCmdSender.cs" />
     <Compile Include="Core\SICK\Const.cs" />
@@ -55,26 +56,24 @@
     <Compile Include="Core\SICK\Dx\StreamTcpClient.cs" />
     <Compile Include="Core\SICK\Enums.cs" />
     <Compile Include="Core\SICK\FtyUserPwds.cs" />
-    <Compile Include="Core\SICK\LMS\ScanConst.cs" />
-    <Compile Include="Core\SICK\LMS\CommandSender.cs" />
-    <Compile Include="Core\SICK\LMS\Enums.cs" />
-    <Compile Include="Core\SICK\LMS\Patterns.cs" />
-    <Compile Include="Core\SICK\LMS\StreamTcpClient.cs" />
+    <Compile Include="Core\SICK\Scanner\ScanConst.cs" />
+    <Compile Include="Core\SICK\Scanner\CommandSender.cs" />
+    <Compile Include="Core\SICK\Scanner\Enums.cs" />
+    <Compile Include="Core\SICK\Scanner\Patterns.cs" />
+    <Compile Include="Core\SICK\Scanner\StreamTcpClient.cs" />
     <Compile Include="Core\SICK\BasePatterns.cs" />
     <Compile Include="Model\SICK\Dx\DeviceStatusWord.cs" />
     <Compile Include="Model\SICK\Dx\SensorData.cs" />
-    <Compile Include="Model\SICK\LMS\ScannerParameters.cs" />
+    <Compile Include="Model\SICK\Scanner\ScannerParameters.cs" />
+    <Compile Include="Model\SICK\Scanner\ScannerSector.cs" />
     <Compile Include="Model\SICK\StrHashPair.cs" />
     <Compile Include="Model\SICK\UserInfo.cs" />
     <Compile Include="Core\R2000\Commands.cs" />
     <Compile Include="Core\R2000\CommonGround.cs" />
     <Compile Include="Core\R2000\Enums.cs" />
-    <Compile Include="Core\ScanPointUtil.cs" />
     <Compile Include="Core\R2000\StreamTcpClient.cs" />
     <Compile Include="Core\DataProcessUtil.cs" />
     <Compile Include="Model\ScanPoint.cs" />
-    <Compile Include="Model\Tianhe\BaseMessage.cs" />
-    <Compile Include="Model\Tianhe\TipHead.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -82,9 +81,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Debug\" />
-    <Folder Include="Core\Tianhe\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /e /r /y /exclude:D:\DLL\_uncopy.txt $(ProjectDir)bin\Debug D:\DLL\</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

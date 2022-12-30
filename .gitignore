@@ -8,3 +8,4 @@
 /ScanUtilityLibraryVer2/bin/Debug/ScanUtilityLibraryVer2.pdb
 /ScanUtilityLibraryVer2/bin/Debug/CommonLib.pdb
 /ScanUtilityLibraryVer2/obj
+*.pdb

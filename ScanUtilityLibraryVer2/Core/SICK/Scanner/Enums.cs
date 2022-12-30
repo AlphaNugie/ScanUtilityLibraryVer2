@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScanUtilityLibrary.Core.SICK.LMS
+namespace ScanUtilityLibrary.Core.SICK.Scanner
 {
     /// <summary>
-    /// LMS扫描仪型号
+    /// SICK扫描仪型号
     /// </summary>
     public enum ScannerVersion
     {
@@ -19,7 +19,12 @@ namespace ScanUtilityLibrary.Core.SICK.LMS
         /// <summary>
         /// LMS 500系列
         /// </summary>
-        LMS_5xx = 2
+        LMS_5xx = 2,
+
+        /// <summary>
+        /// LD-LRS 36x1系列
+        /// </summary>
+        LRS_36x1 = 3,
     }
 
     /// <summary>

@@ -9,9 +9,9 @@ using CommonLib.Clients;
 using System.Diagnostics;
 using CommonLib.Function;
 using ScanUtilityLibrary.Model;
-using ScanUtilityLibrary.Model.SICK.LMS;
+using ScanUtilityLibrary.Model.SICK.Scanner;
 
-namespace ScanUtilityLibrary.Core.SICK.LMS
+namespace ScanUtilityLibrary.Core.SICK.Scanner
 {
     /// <summary>
     /// 西克（SICK）LMS扫描仪TCP通讯类
@@ -64,10 +64,10 @@ namespace ScanUtilityLibrary.Core.SICK.LMS
         ///// </summary>
         //public NetworkStream NetStream { get; private set; }
 
-        ///// <summary>
-        ///// 命令发送接收对象
-        ///// </summary>
-        //public CommandSender CommandSender { get; private set; }
+        /// <summary>
+        /// 命令发送接收对象
+        /// </summary>
+        public new CommandSender CommandSender { get; set; }
 
         /// <summary>
         /// 设备参数
@@ -98,7 +98,8 @@ namespace ScanUtilityLibrary.Core.SICK.LMS
         /// <summary>
         /// 默认构造器
         /// </summary>
-        public StreamTcpClient() : base() { }
+        public StreamTcpClient() : this("127.0.0.1", "2111") { }
+        //public StreamTcpClient() : base() { }
 
         /// <summary>
         /// TCP服务端连接

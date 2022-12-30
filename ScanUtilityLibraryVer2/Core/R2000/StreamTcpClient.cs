@@ -6,11 +6,13 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using ScanUtilityLibrary.Model;
 using CommonLib.Extensions;
+using System.Collections.Generic;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ScanUtilityLibrary.Core.R2000
 {
     /// <summary>
-    /// 
+    /// 连接激光扫描仪的TCP客户端
     /// </summary>
     public class StreamTcpClient
     {
@@ -61,7 +63,8 @@ namespace ScanUtilityLibrary.Core.R2000
         /// <summary>
         /// 数据包类型，A：距离；B：距离+能量反馈；C：距离+能量反馈(C)
         /// </summary>
-        public ushort PacketType { get; set; }
+        public PacketType PacketType { get; set; }
+        //public ushort PacketType { get; set; }
 
         /// <summary>
         /// 数据包大小
@@ -234,7 +237,7 @@ namespace ScanUtilityLibrary.Core.R2000
                 {
                     if (R2000Client != null)
                     {
-                        if (R2000Client.Connected != false && R2000Client.Available > 0)
+                        if (R2000Client.Connected && R2000Client.Available > 0)
                         {
                             byte[] data;
                             // Buffer to store the response bytes.
@@ -251,7 +254,8 @@ namespace ScanUtilityLibrary.Core.R2000
 
                                 if ((data[1] == 0xa2) && (data[0] == 0x5c))
                                 {
-                                    PacketType = BitConverter.ToUInt16(data, 2);
+                                    //PacketType = BitConverter.ToUInt16(data, 2);
+                                    PacketType = Enum.TryParse(BitConverter.ToChar(data, 2) + string.Empty, false, out PacketType type) ? type : PacketType.NONE;
                                     PacketSize = BitConverter.ToUInt32(data, 4);
                                     HeaderSize = BitConverter.ToUInt16(data, 8);
                                     ScanNumber = BitConverter.ToUInt16(data, 10);
@@ -268,13 +272,12 @@ namespace ScanUtilityLibrary.Core.R2000
                                     OutputStatus = BitConverter.ToUInt32(data, 52);
                                     FieldStatus = BitConverter.ToUInt32(data, 56);
 
-
                                     if (h_num_points_scan != Num_Points_Scan)
                                     {
                                         h_num_points_scan = Num_Points_Scan;
                                         AngularIncrement_Real = 360 / Convert.ToDouble(Num_Points_Scan); // Calculation of real angular_increment value
-                                        int i;
-                                        for (i = 0; i < 25200; i++)
+                                        //int i;
+                                        for (int i = 0; i < ScanPoints.Length; i++)
                                         {
                                             ScanPoints[i].Distance = 0;
                                             ScanPoints[i].EchoValue = 0;
@@ -291,7 +294,7 @@ namespace ScanUtilityLibrary.Core.R2000
                             }
 
                             // Read incomming data if all data from packet available - length is (packet_size-header_size)
-                            if ((IsScanRead == true) && (R2000Client.Available >= PacketSize - HeaderSize))
+                            if (IsScanRead && (R2000Client.Available >= PacketSize - HeaderSize))
                             {
                                 ushort i = 0;
                                 //z_point++;//Z轴坐标增加10
@@ -305,7 +308,8 @@ namespace ScanUtilityLibrary.Core.R2000
                                 DateTime time = DateTime.Now;//数据提取时间为当下系统时间
                                 switch (PacketType)
                                 {
-                                    case 65: // Type A
+                                    //case 65: // Type A
+                                    case PacketType.A: // Type A
                                         AnzPoints = bytes / 4;
                                         for (i = 0; i < AnzPoints; i++)
                                         {
@@ -314,27 +318,25 @@ namespace ScanUtilityLibrary.Core.R2000
                                             ScanPoints[FirstIndex + i].ScannedTime = time;//输出时间
                                         }
                                         break;
-                                    case 66: // Type B
+                                    //case 66: // Type B
+                                    case PacketType.B: // Type B
                                         AnzPoints = bytes / 6;
                                         for (i = 0; i < AnzPoints; i++)
                                         {
                                             distance = BitConverter.ToUInt32(data, i * 6);
-                                            //angle = ScanPoints[FirstIndex + i].Angle * Math.PI / 180;//弧度
                                             ScanPoints[FirstIndex + i].Distance = distance;//距离
                                             ScanPoints[FirstIndex + i].EchoValue = BitConverter.ToUInt16(data, i * 6 + 4);
-                                            //ScanPoints[FirstIndex + i].Z = z_point;//Z轴坐标
                                             ScanPoints[FirstIndex + i].ScannedTime = time;//输出时间
                                         }
                                         break;
-                                    case 67: // Type C
+                                    //case 67: // Type C
+                                    case PacketType.C: // Type C
                                         AnzPoints = bytes / 4;
                                         for (i = 0; i < AnzPoints; i++)
                                         {
                                             distance = BitConverter.ToUInt32(data, i * 4) & 0xfffff;
-                                            //angle = ScanPoints[FirstIndex + i].Angle * Math.PI / 180;//弧度
                                             ScanPoints[FirstIndex + i].Distance = distance;//距离
                                             ScanPoints[FirstIndex + i].EchoValue = BitConverter.ToUInt32(data, i * 4) >> 20;
-                                            //ScanPoints[FirstIndex + i].Z = z_point;//Z轴坐标
                                             ScanPoints[FirstIndex + i].ScannedTime = time;//输出时间
                                         }
                                         break;
@@ -375,39 +377,59 @@ namespace ScanUtilityLibrary.Core.R2000
         /// <returns></returns>
         public string GetTcpHeader()
         {
-            string txt = "数据包类型 = ";
-            switch (PacketType)
+            //string txt = "数据包类型 = ";
+            //switch (PacketType)
+            //{
+            //    case 65:
+            //        txt += "A" + (char)13 + (char)10;
+            //        break;
+            //    case 66:
+            //        txt += "B" + (char)13 + (char)10;
+            //        break;
+            //    case 67:
+            //        txt += "C" + (char)13 + (char)10;
+            //        break;
+            //    default:
+            //        txt += "" + (char)13 + (char)10;
+            //        break;
+            //}
+            //txt += "数据包大小 = " + PacketSize.ToString("D") + (char)13 + (char)10;
+            //txt += "包头大小 = " + HeaderSize.ToString("D") + (char)13 + (char)10;
+            //txt += "数据包序号 = " + ScanNumber.ToString("D") + (char)13 + (char)10;
+            //txt += "单圈数据包序号 = " + PacketNumber.ToString("D") + (char)13 + (char)10;
+            //txt += "原始时间戳 = " + Timestamp_Raw.ToString("D") + (char)13 + (char)10;
+            //txt += "同步时间戳 = " + Timestamp_Sync.ToString("D") + (char)13 + (char)10;
+            //txt += "扫描频率 = " + ScanFrequency.ToString("D") + (char)13 + (char)10;
+            //txt += "单圈测量样本数 = " + Num_Points_Scan.ToString("D") + (char)13 + (char)10;
+            //txt += "数据包样本数 = " + Num_Points_Packet.ToString("D") + (char)13 + (char)10;
+            //txt += "第一有效数据序号 = " + FirstIndex.ToString("D") + (char)13 + (char)10;
+            //txt += "第一有效数据角度 = " + FirstAngle.ToString("D") + (char)13 + (char)10;
+            //txt += "测量角分辨率 = " + AngularIncrement.ToString("D") + (char)13 + (char)10;//逆时针转动时角分辨率小于0
+            //txt += "" + (char)13 + (char)10 + "TCP是否已连接 = " + IsConnected + (char)13 + (char)10;
+            //txt += "TCP连接状态: " + ErrorMsg_TcpConnections + (char)13 + (char)10;
+            List<string> list = new List<string>
             {
-                case 65:
-                    txt += "A" + (char)13 + (char)10;
-                    break;
-                case 66:
-                    txt += "B" + (char)13 + (char)10;
-                    break;
-                case 67:
-                    txt += "C" + (char)13 + (char)10;
-                    break;
-                default:
-                    txt += "" + (char)13 + (char)10;
-                    break;
-            }
-            txt += "数据包大小 = " + PacketSize.ToString("D") + (char)13 + (char)10;
-            txt += "包头大小 = " + HeaderSize.ToString("D") + (char)13 + (char)10;
-            txt += "数据包序号 = " + ScanNumber.ToString("D") + (char)13 + (char)10;
-            txt += "单圈数据包序号 = " + PacketNumber.ToString("D") + (char)13 + (char)10;
-            txt += "原始时间戳 = " + Timestamp_Raw.ToString("D") + (char)13 + (char)10;
-            txt += "同步时间戳 = " + Timestamp_Sync.ToString("D") + (char)13 + (char)10;
-            txt += "扫描频率 = " + ScanFrequency.ToString("D") + (char)13 + (char)10;
-            txt += "单圈测量样本数 = " + Num_Points_Scan.ToString("D") + (char)13 + (char)10;
-            txt += "数据包样本数 = " + Num_Points_Packet.ToString("D") + (char)13 + (char)10;
-            txt += "第一有效数据序号 = " + FirstIndex.ToString("D") + (char)13 + (char)10;
-            txt += "第一有效数据角度 = " + FirstAngle.ToString("D") + (char)13 + (char)10;
-            txt += "测量角分辨率 = " + AngularIncrement.ToString("D") + (char)13 + (char)10;//逆时针转动时角分辨率小于0
+                "数据包类型 = " + PacketType.ToString(),
+                "数据包大小 = " + PacketSize.ToString("D"),
+                "包头大小 = " + HeaderSize.ToString("D"),
+                "数据包序号 = " + ScanNumber.ToString("D"),
+                "单圈数据包序号 = " + PacketNumber.ToString("D"),
+                "原始时间戳 = " + Timestamp_Raw.ToString("D"),
+                "同步时间戳 = " + Timestamp_Sync.ToString("D"),
+                "扫描频率 = " + ScanFrequency.ToString("D"),
+                "单圈测量样本数 = " + Num_Points_Scan.ToString("D"),
+                "数据包样本数 = " + Num_Points_Packet.ToString("D"),
+                "第一有效数据序号 = " + FirstIndex.ToString("D"),
+                "第一有效数据角度 = " + FirstAngle.ToString("D"),
+                //逆时针转动时角分辨率小于0
+                "测量角分辨率 = " + AngularIncrement.ToString("D"),
+                string.Empty,
+                "TCP是否已连接 = " + IsConnected,
+                "TCP连接状态: " + ErrorMsg_TcpConnections
+            };
 
-            txt += "" + (char)13 + (char)10 + "TCP是否已连接 = " + IsConnected + (char)13 + (char)10;
-            txt += "TCP连接状态: " + ErrorMsg_TcpConnections + (char)13 + (char)10;
-
-            return txt;
+            //return txt;
+            return string.Join("\r\n", list);
         }
 
         /// <summary>
@@ -432,26 +454,35 @@ namespace ScanUtilityLibrary.Core.R2000
             else if (startValue > 25164)
                 startValue = 25164;
 
-            string txt = "扫描数据点 " + startValue + "-" + (startValue + 35) + ":" + (char)13 + (char)10;
+            List<string> list = new List<string> { string.Format("扫描数据点 {0}-{1}:", startValue, startValue + 35) };
+            //string txt = "扫描数据点 " + startValue + "-" + (startValue + 35) + ":" + (char)13 + (char)10;
             if (ScanPoints == null)
-                return txt;
+                //return txt;
+                goto END;
 
             #region 显示X、Y、Z轴坐标
-            txt += "起始数据点:        x:          y:          echo:" + (char)13 + (char)10;
+            string blank = "        ";
+            list.Add(string.Format("起始数据点:{0}x:{0}y:{0}echo:", blank));
+            //txt += "起始数据点:        x:          y:          echo:" + (char)13 + (char)10;
             for (int i = startValue; i < (startValue + 36); i++)
             {
                 if (ScanPoints[i] == null)
                     continue;
-                txt += i.ToString("00000") + "         ";
-                if (!(ScanPoints[i].Distance == 0xFFFFFFFF))
-                    txt += ScanPoints[i].X.ToString("000.0000") + "     " + ScanPoints[i].Y.ToString("000.0000") + "     " + ScanPoints[i].EchoValue.ToString();
-                else
-                    txt += "Error" + "     " + "Error" + "     " + "Error";
-                txt += (char)13 + (char)10;
+                bool fault = ScanPoints[i].Distance == 0xFFFFFFFF;
+                string text = string.Format("{1:00000}{0}{2}{0}{3}{0}{4}", blank, i, fault ? "Error" : ScanPoints[i].X.ToString("000"), fault ? "Error" : ScanPoints[i].Y.ToString("000"), fault ? "Error" : ScanPoints[i].Z.ToString("000"));
+                list.Add(text);
+                //txt += i.ToString("00000") + "         ";
+                //if (!(ScanPoints[i].Distance == 0xFFFFFFFF))
+                //    txt += ScanPoints[i].X.ToString("000.0000") + "     " + ScanPoints[i].Y.ToString("000.0000") + "     " + ScanPoints[i].EchoValue.ToString();
+                //else
+                //    txt += "Error" + "     " + "Error" + "     " + "Error";
+                //txt += (char)13 + (char)10;
             }
-            #endregion
+        #endregion
 
-            return txt;
+        END:
+            //return txt;
+            return string.Join("\r\n", list);
         }
     }
 }

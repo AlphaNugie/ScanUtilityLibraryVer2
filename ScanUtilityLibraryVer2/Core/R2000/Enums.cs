@@ -27,23 +27,28 @@ namespace ScanUtilityLibrary.Core.R2000
     }
 
     /// <summary>
-    /// 信息包类型
+    /// 数据包类型
     /// </summary>
-    public enum PacketTypes
+    public enum PacketType
     {
         /// <summary>
-        /// 
+        /// 无类型
         /// </summary>
-        A = 0,
+        NONE,
 
         /// <summary>
-        /// 
+        /// 距离
         /// </summary>
-        B = 1,
+        A,
 
         /// <summary>
-        /// 
+        /// 距离+能量反馈
         /// </summary>
-        C = 2
+        B,
+
+        /// <summary>
+        /// 距离+能量反馈(C)
+        /// </summary>
+        C
     }
 }

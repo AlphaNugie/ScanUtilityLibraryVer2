@@ -6,7 +6,7 @@ using System.Data;
 using System.Xml;
 using System.Security.Cryptography;
 
-namespace ScanUtilityLibrary.Core.SICK.LMS
+namespace ScanUtilityLibrary.Core.SICK.Scanner
 {
     /// <summary>
     /// 公有变量类
@@ -57,5 +57,10 @@ namespace ScanUtilityLibrary.Core.SICK.LMS
         /// LMS-5xx扫描仪可选角分辨率
         /// </summary>
         public static List<double> AngleResolutions_5xx = new List<double>() { 0.1667, 0.25, 0.333, 0.5, 0.667, 1 };
+
+        /// <summary>
+        /// LRS-36x1扫描仪可选分辨率
+        /// </summary>
+        public static List<double> AngleResolutions_LRS36x1 = new List<double> { 0.1875, 0.25, 0.5, 0.667, 1.0 };
     }
 }
