@@ -35,5 +35,10 @@ namespace ScanUtilityLibrary.Core
         /// 保定天河GL11系列雷达
         /// </summary>
         Tianhe_GL11xx = 4,
+
+        /// <summary>
+        /// Triple-IN PSXXX(-90/-270)系列雷达
+        /// </summary>
+        TripleIN_PSxxx = 5,
     }
 }

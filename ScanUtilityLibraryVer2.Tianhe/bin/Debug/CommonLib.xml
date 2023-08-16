@@ -4,6 +4,168 @@
         <name>CommonLib</name>
     </assembly>
     <members>
+        <member name="T:CommonLib.Clients.CRC32Parameters">
+            <summary>
+            CRC参数的设置，当前设置为32位的CRC。如果需要切换到其他的CRC标准，只需要简单地修改这些参数即可。
+            The CRC parameters. Currently configured for 32 bit CRC. Simply modify these to switch to another CRC standard.
+            多项式：CRC32校验是一种循环冗余校验，使用一个特定的多项式进行计算。CRC32_POLYNOMIAL常量指定了这个多项式的值。
+            初始值：CRC32校验的初始值，通常为全1，即0xFFFFFFFF。
+            最终异或值：CRC32校验计算完成后，会将计算结果与一个特定的值进行异或，以得到最终的校验值。CRC32_FINAL_XOR_VALUE常量指定了这个特定的值。
+            位宽：CRC32校验的位宽，即校验值的位数。在这个实现中，位宽为32位。
+            空值：CRC32校验中，如果要计算的数据为空，那么校验值就是CRC32_NULL常量指定的值。
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.CRC32Parameters.CRC32_POLYNOMIAL">
+            <summary>
+            CRC32校验中使用的多项式
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.CRC32Parameters.CRC32_INITIAL_REMAINDER">
+            <summary>
+            CRC32校验的初始值
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.CRC32Parameters.CRC32_FINAL_XOR_VALUE">
+            <summary>
+            CRC32校验的最终异或值
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.CRC32Parameters.CRC32_WIDTH">
+            <summary>
+            CRC32校验的位宽
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.CRC32Parameters.CRC32_NULL">
+            <summary>
+            CRC32校验的空值
+            </summary>
+        </member>
+        <member name="M:CommonLib.Clients.CRC32Parameters.#ctor">
+            <summary>
+            默认构造器
+            </summary>
+        </member>
+        <member name="M:CommonLib.Clients.CRC32Parameters.#ctor(System.UInt32,System.UInt32,System.UInt32,System.Int32,System.UInt32)">
+            <summary>
+            初始化CRC32计算参数的新实体
+            </summary>
+            <param name="polynomial">CRC32校验中使用的多项式</param>
+            <param name="initialRemainder">CRC32校验的初始值</param>
+            <param name="finalXorValue">CRC32校验的最终异或值</param>
+            <param name="width">CRC32校验的位宽</param>
+            <param name="nullValue">CRC32校验的空值</param>
+        </member>
+        <member name="T:CommonLib.Clients.CRC32">
+            <summary>
+            用于CRC32校验计算的实体类
+            </summary>
+        </member>
+        <member name="F:CommonLib.Clients.CRC32.mRemainder">
+            <summary>
+            数据除以生成多项式后得到的余数
+            this remainder is used in the Add() method. It is reset by GetCRC32()
+            </summary>
+        </member>
+        <member name="F:CommonLib.Clients.CRC32.sCRC32IsInitialized">
+            <summary>
+            a local flag indicating if the CRC table was initialized
+            </summary>
+        </member>
+        <member name="F:CommonLib.Clients.CRC32.sCRCTable">
+            <summary>
+            An array containing the pre-computed intermediate result for each possible byte of input. This is used to speed up the computation.
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.CRC32.CRC32Parameters">
+            <summary>
+            CRC32校验计算的参数实体
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.CRC32.Length">
+            <summary>
+            The number of bytes added so far.
+            </summary>
+        </member>
+        <member name="M:CommonLib.Clients.CRC32.#ctor">
+            <summary>
+            The constructor.
+            Initialize the CRC table with default CRC32 parameters.
+            </summary>
+        </member>
+        <member name="M:CommonLib.Clients.CRC32.#ctor(CommonLib.Clients.CRC32Parameters)">
+            <summary>
+            The constructor.
+            Initialize the CRC table with given CRC32 parameters.
+            </summary>
+            <param name="crc32Params">给定的CRC32参数实体，假如为空则重新初始化并使用默认值</param>
+        </member>
+        <member name="M:CommonLib.Clients.CRC32.Finalize">
+            <summary>
+            析构函数
+            </summary>
+        </member>
+        <member name="M:CommonLib.Clients.CRC32.CheckCRC32(System.UInt32)">
+            <summary>
+            验证输入的CRC32校验值，判断是否符合当前已添加的所有数值所计算出的CRC32值
+            </summary>
+            <param name="crc32">输入的待验证的CRC32校验值</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.CRC32.CheckCRC32(System.String,System.Int32)">
+            <summary>
+            验证以16进制字符串格式输入（可不包含空格）的byte序列是否符合当前参数的CRC32校验，其中CRC32校验值在数组末尾，CRC32校验值在数组中占据的长度由给定参数指定
+            </summary>
+            <param name="input">添加要参与进行校验值评估的byte序列, 以16进制字符串格式输入（可不包含空格）</param>
+            <param name="crcLen">数组内CRC32校验值占据的byte数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.CRC32.CheckCRC32(System.Collections.Generic.IEnumerable{System.Byte},System.Int32)">
+            <summary>
+            验证输入的byte数组是否符合当前参数的CRC32校验，其中CRC32校验值在数组末尾，CRC32校验值在数组中占据的长度由给定参数指定
+            </summary>
+            <param name="byteArray">添加要参与进行校验值评估的数值数组</param>
+            <param name="crcLen">数组内CRC32校验值占据的byte数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.CRC32.GetCRC32">
+            <summary>
+            Compute the current CRC32 value, which is the 32 bit CRC for data which are previously added by add().
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.CRC32.GetCRC32(System.Collections.Generic.IEnumerable{System.Byte},System.Int32)">
+            <summary>
+            Compute a 32 bit CRC for the given data array.
+            </summary>
+            <param name="theDataPtr">添加要参与进行校验值计算的数值集合</param>
+            <param name="theLength">数组内参加计算的byte数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.CRC32.Reflect(System.UInt32,System.Byte)">
+            <summary>
+            将输入的数值在位域上进行首尾方向上的调换（范围是从第1位到指定长度位置的位）
+            Performs a reflection on a value: swaps bit 7 with 0, 6 with 1 and so on. Reflection is a requirement to conform to the official CRC-32 standard.
+            </summary>
+            <param name="value">即将进行位域调换的值</param>
+            <param name="theBits">进行位域调换部分的位的长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.CRC32.Add(System.Collections.Generic.IEnumerable{System.Byte},System.Int32)">
+            <summary>
+            Add some more data to compute a 32 bit CRC of several data.
+            Note: you should not use this function to add little endian integers that are transmitted in big endian network byte order.
+            Use addInt() instead.
+            </summary>
+            <param name="theDataPtr">添加要参与进行校验值计算的数值集合</param>
+            <param name="theLength">数组内参加计算的byte数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.CRC32.Clear">
+            <summary>
+            重置校验后的余数到初始值
+            Reset the checksum to initial stage.
+            </summary>
+        </member>
         <member name="T:CommonLib.Clients.CustomBitConverter`1">
             <summary>
             按位转换为对应泛型（整型）值的实体类
@@ -323,6 +485,104 @@
         <member name="F:CommonLib.Clients.ResponseState.NotExisted">
             <summary>
             进程不存在
+            </summary>
+        </member>
+        <member name="T:CommonLib.Clients.DerivedHttpClient">
+            <summary>
+            HTTP发送客户端
+            </summary>
+        </member>
+        <member name="M:CommonLib.Clients.DerivedHttpClient.OAuth(System.String)">
+            <summary>
+            验证授权
+            </summary>
+            <param name="token">用于验证授权的token</param>
+        </member>
+        <member name="M:CommonLib.Clients.DerivedHttpClient.Post(System.String,System.String,CommonLib.Clients.ContentType)">
+            <summary>
+            发送POST请求，并在HTTP内容标头中指定Content-Type
+            </summary>
+            <param name="url"></param>
+            <param name="content"></param>
+            <param name="contentType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.DerivedHttpClient.Post(System.String,System.String)">
+            <summary>
+            发送POST请求，HTTP内容标头的Content-Type指定为FormUrlEncoded
+            </summary>
+            <param name="url"></param>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.DerivedHttpClient.Post(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            发送POST请求
+            </summary>
+            <param name="url">待向其发送请求的URL地址</param>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.DerivedHttpClient.Put(System.String)">
+            <summary>
+            发送PUT请求
+            </summary>
+            <param name="url">待向其发送请求的URL地址</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.DerivedHttpClient.Put(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            发送PUT请求
+            </summary>
+            <param name="url">待向其发送请求的URL地址</param>
+            <param name="content">发送的请求内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.DerivedHttpClient.Delete(System.String)">
+            <summary>
+            发送删除请求
+            </summary>
+            <param name="url">待向其发送请求的URL地址</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.DerivedHttpClient.RunTask(System.Threading.Tasks.Task{System.Net.Http.HttpResponseMessage})">
+            <summary>
+            异步执行发送消息并获取响应的任务，响应时间为5秒
+            </summary>
+            <param name="task">待执行的任务</param>
+            <returns></returns>
+            <exception cref="T:System.TimeoutException"></exception>
+        </member>
+        <member name="M:CommonLib.Clients.DerivedHttpClient.FixUrl(System.String)">
+            <summary>
+            假如给出的URL没有http开头，则添加在URL前添加http://
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CommonLib.Clients.ContentType">
+            <summary>
+            POST请求的Content-Type
+            </summary>
+        </member>
+        <member name="F:CommonLib.Clients.ContentType.FormUrlEncoded">
+            <summary>
+            application/x-www-form-urlencoded
+            </summary>
+        </member>
+        <member name="F:CommonLib.Clients.ContentType.Xml">
+            <summary>
+            application/xml
+            </summary>
+        </member>
+        <member name="F:CommonLib.Clients.ContentType.Json">
+            <summary>
+            application/json
+            </summary>
+        </member>
+        <member name="F:CommonLib.Clients.ContentType.FormData">
+            <summary>
+            multipart/form-data
             </summary>
         </member>
         <member name="T:CommonLib.Clients.DerivedHttpListener">
@@ -826,6 +1086,11 @@
             默认构造器，初始化一个未连接DerivedTcpClient对象，不维持本地端口
             </summary>
         </member>
+        <member name="M:CommonLib.Clients.DerivedUdpClient.InitBaseClient">
+            <summary>
+            初始化本地BaseClient对象，同时更新LocalEndPoint
+            </summary>
+        </member>
         <member name="M:CommonLib.Clients.DerivedUdpClient.Connect">
             <summary>
             与UDP服务端连接
@@ -884,6 +1149,14 @@
             终止线程
             </summary>
         </member>
+        <member name="M:CommonLib.Clients.DerivedUdpClient.SendData(System.Object,System.String@)">
+            <summary>
+            UDP客户端以byte数组或16进制格式字符串发送数据
+            </summary>
+            <param name="data_origin">待发送数据，byte数组或16进制格式字符串</param>
+            <param name="errorMessage">返回的错误信息，假如未报错则为空</param>
+            <returns>返回发送结果</returns>
+        </member>
         <member name="M:CommonLib.Clients.DerivedUdpClient.SendData(System.Object,System.String,System.Int32,System.String@)">
             <summary>
             UDP客户端以byte数组或16进制格式字符串发送数据
@@ -903,13 +1176,11 @@
             <param name="errorMessage">返回的错误信息，假如未报错则为空</param>
             <returns>返回发送结果</returns>
         </member>
-        <member name="M:CommonLib.Clients.DerivedUdpClient.SendData(System.Object,System.String@)">
+        <member name="M:CommonLib.Clients.DerivedUdpClient.SendString(System.String)">
             <summary>
-            UDP客户端以byte数组或16进制格式字符串发送数据
+            发送字符串
             </summary>
-            <param name="data_origin">待发送数据，byte数组或16进制格式字符串</param>
-            <param name="errorMessage">返回的错误信息，假如未报错则为空</param>
-            <returns>返回发送结果</returns>
+            <param name="content">字符串</param>
         </member>
         <member name="M:CommonLib.Clients.DerivedUdpClient.SendString(System.String,System.String,System.Int32)">
             <summary>
@@ -925,12 +1196,6 @@
             </summary>
             <param name="content">字符串</param>
             <param name="endPoint">远程IP终结点</param>
-        </member>
-        <member name="M:CommonLib.Clients.DerivedUdpClient.SendString(System.String)">
-            <summary>
-            发送字符串
-            </summary>
-            <param name="content">字符串</param>
         </member>
         <member name="T:CommonLib.Clients.GaussianCalculator">
             <summary>
@@ -1783,9 +2048,31 @@
             <param name="sender"></param>
             <param name="e"></param>
         </member>
+        <member name="T:CommonLib.Clients.Tasks.Task.TaskStateChangedEventHandler">
+            <summary>
+            任务状态改变事件的委托
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
         <member name="E:CommonLib.Clients.Tasks.Task.ContentLooped">
             <summary>
             任务每经过一次循环就触发一次的事件
+            </summary>
+        </member>
+        <member name="E:CommonLib.Clients.Tasks.Task.StateChanged">
+            <summary>
+            任务状态改变后触发的事件（例如已启动或已停止）
+            </summary>
+        </member>
+        <member name="E:CommonLib.Clients.Tasks.Task.StateChangedAfterRestart">
+            <summary>
+            任务状态改变后触发的事件（例如已启动或已停止）（仅用于重启任务）
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.Tasks.Task.ThreadLoop">
+            <summary>
+            任务循环线程
             </summary>
         </member>
         <member name="P:CommonLib.Clients.Tasks.Task.ErrorMessage">
@@ -1805,7 +2092,7 @@
         </member>
         <member name="P:CommonLib.Clients.Tasks.Task.Interval">
             <summary>
-            任务循环运行间隔，毫秒
+            任务循环运行间隔（毫秒）
             </summary>
         </member>
         <member name="P:CommonLib.Clients.Tasks.Task.Initialized">
@@ -1823,9 +2110,37 @@
             是否为一次性任务
             </summary>
         </member>
+        <member name="P:CommonLib.Clients.Tasks.Task.AutoRestart">
+            <summary>
+            是否在循环的过程中每隔一段时间自动重新启动
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.Tasks.Task.RestartInterval">
+            <summary>
+            任务重新启动的时间间隔（毫秒），仅在任务开始运行后计量，假如不大于任务循环执行的时间间隔则不启用自动重启
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.Tasks.Task.RestartCounter">
+            <summary>
+            任务重启次数
+            </summary>
+        </member>
         <member name="M:CommonLib.Clients.Tasks.Task.#ctor">
             <summary>
-            初始化Task类，默认任务执行间隔1000毫秒，初始状态为暂停
+            初始化Task类，默认任务执行间隔1000毫秒，不自动重启，初始状态为暂停
+            </summary>
+        </member>
+        <member name="M:CommonLib.Clients.Tasks.Task.#ctor(System.Int32,System.Boolean,System.Int64)">
+            <summary>
+            初始化Task类，使用给定的任务执行间隔、是否自动重启、重启时间间隔的设置，初始状态为暂停
+            </summary>
+            <param name="interval"></param>
+            <param name="autoRestart"></param>
+            <param name="restartInterval"></param>
+        </member>
+        <member name="M:CommonLib.Clients.Tasks.Task.Dispose">
+            <summary>
+            释放当前实例所使用的所有资源
             </summary>
         </member>
         <member name="M:CommonLib.Clients.Tasks.Task.Initialize">
@@ -1853,9 +2168,14 @@
             任务停止
             </summary>
         </member>
-        <member name="P:CommonLib.Clients.Tasks.Task.ThreadLoop">
+        <member name="M:CommonLib.Clients.Tasks.Task.GetNewInstance">
             <summary>
-            任务循环线程
+            获取新实体的方法（目前仅为任务重启使用），在这个方法中重新声明、初始化一个当前任务类型的实体并返回（假如返回实体为空将不执行重启）
+            </summary>
+        </member>
+        <member name="M:CommonLib.Clients.Tasks.Task.Restart">
+            <summary>
+            任务重新启动
             </summary>
         </member>
         <member name="M:CommonLib.Clients.Tasks.Task.LoopContent">
@@ -1929,11 +2249,55 @@
             默认构造器
             </summary>
         </member>
+        <member name="T:CommonLib.Clients.Tasks.TaskStateChangedEventArgs">
+            <summary>
+            任务状态改变事件（已启动或已停止）的事件参数类
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.Tasks.TaskStateChangedEventArgs.LoopCounter">
+            <summary>
+            任务循环次数
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.Tasks.TaskStateChangedEventArgs.State">
+            <summary>
+            任务状态（已启动或已停止）
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.Tasks.TaskStateChangedEventArgs.RestartCounter">
+            <summary>
+            任务重启次数
+            </summary>
+        </member>
+        <member name="M:CommonLib.Clients.Tasks.TaskStateChangedEventArgs.#ctor(System.UInt64,CommonLib.Enums.ServiceState,System.UInt64)">
+            <summary>
+            构造器
+            </summary>
+            <param name="counter">任务循环次数</param>
+            <param name="state">任务状态（已启动或已停止）</param>
+            <param name="reCounter">任务重启次数</param>
+        </member>
+        <member name="M:CommonLib.Clients.Tasks.TaskStateChangedEventArgs.#ctor(CommonLib.Enums.ServiceState)">
+            <summary>
+            构造器
+            </summary>
+            <param name="state">任务状态（已启动或已停止）</param>
+        </member>
         <member name="T:CommonLib.Clients.ValueDiffStorage`1">
             <summary>
             数值存储器，存储当前值、上一个值以及差异值
             </summary>
             <typeparam name="T">数值的类型（只能是可比较类型）</typeparam>
+        </member>
+        <member name="E:CommonLib.Clients.ValueDiffStorage`1.ValueTrendTickerReached">
+            <summary>
+            变化趋势改变事件
+            </summary>
+        </member>
+        <member name="E:CommonLib.Clients.ValueDiffStorage`1.ValueChangedEvent">
+            <summary>
+            值改变事件
+            </summary>
         </member>
         <member name="P:CommonLib.Clients.ValueDiffStorage`1.Code">
             <summary>
@@ -2126,6 +2490,11 @@
             数据接收事件
             </summary>
         </member>
+        <member name="E:CommonLib.Clients.DerivedTcpClient.OnNoneReceived">
+            <summary>
+            持续一段时间未接收到任何数据的事件
+            </summary>
+        </member>
         <member name="F:CommonLib.Clients.DerivedTcpClient.baseClient">
             <summary>
             TcpClient对象
@@ -2209,6 +2578,16 @@
         <member name="P:CommonLib.Clients.DerivedTcpClient.ReconnectWhenReceiveNone">
             <summary>
             在无返回数据时是否重新连接
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.DerivedTcpClient.RaiseThreshold">
+            <summary>
+            超时未接收到数据的计时阈值，计时达到此值时触发事件，单位毫秒，默认5000
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.DerivedTcpClient.NoneReceivedThreshold">
+            <summary>
+            超时未接收到数据的计时阈值，计时达到此值时触发事件，单位毫秒，默认5000
             </summary>
         </member>
         <member name="P:CommonLib.Clients.DerivedTcpClient.ReconnTimer">
@@ -2490,6 +2869,171 @@
             </summary>
             <param name="sqlString">待执行的SQL语句</param>
             <returns>返回影响的记录行数</returns>
+        </member>
+        <member name="T:CommonLib.DataUtil.BaseDataServiceBatis`1">
+            <summary>
+            基础数据库操作类（仿Batis）
+            </summary>
+        </member>
+        <member name="F:CommonLib.DataUtil.BaseDataServiceBatis`1.batisLike">
+            <summary>
+            Batis操作类
+            </summary>
+        </member>
+        <member name="P:CommonLib.DataUtil.BaseDataServiceBatis`1.TypeName">
+            <summary>
+            类型名称
+            </summary>
+        </member>
+        <member name="P:CommonLib.DataUtil.BaseDataServiceBatis`1.LastErrorCode">
+            <summary>
+            最新错误代码
+            </summary>
+        </member>
+        <member name="P:CommonLib.DataUtil.BaseDataServiceBatis`1.LastErrorMessage">
+            <summary>
+            最新错误信息
+            </summary>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.#ctor">
+            <summary>
+            数据库操作类构造器
+            </summary>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.#ctor(System.String)">
+            <summary>
+            数据库操作类构造器
+            </summary>
+            <param name="connStr">连接字符串</param>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.#ctor(System.String,System.Boolean)">
+            <summary>
+            数据库操作类构造器
+            </summary>
+            <param name="connStr">连接字符串</param>
+            <param name="usingRemote">是否使用远程数据库（而非当前使用的数据库）</param>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.InitProviderInstance(System.String,System.Boolean)">
+            <summary>
+            根据给定的连接字符串和是否使用远程数据库的判断条件决定如何初始化Provider对象（推荐方式：在连接字符串不为空且使用远程数据库时用连接字符串初始化，否则使用默认构造函数）
+            </summary>
+            <param name="connStr">连接字符串</param>
+            <param name="usingRemote">是否使用远程数据库（而非当前使用的数据库）</param>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.ProviderQuery(System.String)">
+            <summary>
+            执行Provider的Query方法
+            </summary>
+            <param name="sqlString">执行的SQL语句</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.ProviderExecuteSql(System.String)">
+            <summary>
+            执行Provider的
+            </summary>
+            <param name="sqlString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.ProviderExecuteSqlTrans(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            执行Provider的ExecuteSqlTrans方法
+            </summary>
+            <param name="sqlStrings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.ConvertObjectByDataRow(System.Data.DataRow)">
+            <summary>
+            将数据行的数据转换为实体类
+            </summary>
+            <param name="dataRow">包含待转换数据的数据行</param>
+            <returns>返回转换后的实体类对象</returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.ConvertObjectListByDataTable(System.Data.DataTable)">
+            <summary>
+            将数据表的数据转换为实体类List
+            </summary>
+            <param name="dataTable">包含待转换数据的数据表</param>
+            <returns>返回转换后的实体类对象List</returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.GetEnableEnums">
+            <summary>
+            获取可用/不可用枚举
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.GetRecordById(System.Int32)">
+            <summary>
+            根据记录ID获取记录
+            </summary>
+            <param name="id">记录的ID</param>
+            <returns>返回数据表</returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.GetRecordObjectById(System.Int32)">
+            <summary>
+            根据数据库表ID获取数据库表实体类对象
+            </summary>
+            <param name="id">记录在数据库表中的ID</param>
+            <returns>返回实体类对象</returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.GetRecords(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            根据条件获取符合条件的记录
+            </summary>
+            <param name="dict">包含条件的键值对，假如为空，则所有参数为空</param>
+            <returns>返回数据表</returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.GetRecordObjects(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            根据条件获取包含实体类对象的List
+            </summary>
+            <param name="dict">包含条件的键值对，假如为空，则所有参数为空</param>
+            <returns>返回包含实体类对象的List</returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.EditRecords(System.Collections.Generic.List{`0},System.Collections.Generic.List{CommonLib.Enums.RoutineStatus})">
+            <summary>
+            批量新增、更新或删除記錄
+            </summary>
+            <param name="records">包含实体类的List</param>
+            <param name="statuses">包含新增、编辑或删除状态的List</param>
+            <returns>假如执行成功，返回true，否则返回false</returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.EditRecords(System.Collections.Generic.List{`0},CommonLib.Enums.RoutineStatus)">
+            <summary>
+            批量新增、编辑或删除记录
+            </summary>
+            <param name="records">包含实体类对象的List</param>
+            <param name="status">新增、编辑或删除状态</param>
+            <returns>假如执行成功，返回true，否则返回false</returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.EditRecord(`0,CommonLib.Enums.RoutineStatus)">
+            <summary>
+            新增、编辑或删除记录
+            </summary>
+            <param name="record">实体类对象</param>
+            <param name="status">新增、编辑或删除状态</param>
+            <returns>返回影响记录条数</returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.DeleteRecords(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            根据条件删除记录
+            </summary>
+            <param name="dict">字典键值对对象</param>
+            <returns>返回影像记录条数</returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.SetEnableById(`0)">
+            <summary>
+            根据ID启用或停用记录
+            </summary>
+            <param name="obj">实体类对象</param>
+            <returns>返回影响记录条数</returns>
+        </member>
+        <member name="M:CommonLib.DataUtil.BaseDataServiceBatis`1.SetEnableById(System.Int32,System.Int32)">
+            <summary>
+            根据ID启用或停用记录
+            </summary>
+            <param name="id">记录的唯一ID</param>
+            <param name="enable">是否可用，0 不可用，1 可用</param>
+            <returns>返回影响记录条数</returns>
         </member>
         <member name="T:CommonLib.DataUtil.BaseModel">
             <summary>
@@ -3669,8 +4213,21 @@
             <param name="propMapper">指定属性的名称，形如“Class.Student.Name”</param>
             <param name="initProp">假如查找指定属性的过程中有任意一层属性为空，决定是否初始化</param>
             <param name="upperLevelEntity">指定属性所属的实体：假如不查找子属性，则该实体就是当前待查询的实体；假如属性名形如“Class.Student.Name”，则所属实体就是Student</param>
-            <param name="lowerLevelEntity">指定属性所对应的实体，假如属性名称内带有索引，则为索引处元素的实体；假如属性名形如“Class.Student”，则对应实体就是Student，如属性名形如“Class.Desk[0]”，则对应实体就是Desk列表的第一个元素</param>
-            <param name="indexes">假如最底层属性名称中带有枚举数的索引，则将这些索引以uint数组的形式输出出来，否则输出null</param>
+            <param name="lowerLevelEntity">指定属性所对应的实体，假如属性名称内带有索引，则为索引处元素的实体；假如属性名形如“Class.Student”，则对应实体就是Student，假如属性名形如“Class.Desk[0]”，则对应实体就是Desk列表的第一个元素</param>
+            <param name="indices">假如最底层属性名称中带有枚举数的索引，则将这些索引以uint数组的形式输出出来，否则输出null</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.Property.PropertyMapperExtension.GetEntityProperty_InConstruction(System.Object,System.String,System.Boolean,System.Object@,System.Object@,System.Object@,System.Int32[]@)">
+            <summary>
+            根据给定的属性名称在实体中查找指定属性的值，可查找子属性
+            </summary>
+            <param name="entity">待查询的实体</param>
+            <param name="propMapper">指定属性的名称，形如“Class.Student.Name”</param>
+            <param name="initProp">假如查找指定属性的过程中有任意一层属性为空，决定是否初始化</param>
+            <param name="upperLevelEntity">指定属性所属的实体，假如不查找子属性，则该实体就是当前待查询的实体；假如属性名形如“Class.Student.Name”，则所属实体就是Student</param>
+            <param name="midLevelEntity">指定属性所对应或所属的中间实体，假如属性名称内带有索引，则为索引处元素所属的集合、数组或List；假如属性名形如“Class.Student”，则对应实体就是Student，假如属性名形如“Class.Desk[0]”，则对应实体就是Desk</param>
+            <param name="lowerLevelEntity">指定属性所对应的实体，假如属性名称内带有索引，则为索引处元素的实体；假如属性名形如“Class.Student”，则对应实体就是Student，假如属性名形如“Class.Desk[0]”，则对应实体就是Desk列表的第一个元素</param>
+            <param name="indices">假如最底层属性名称中带有枚举数的索引，则将这些索引以uint数组的形式输出出来，否则输出null</param>
             <returns></returns>
         </member>
         <member name="M:CommonLib.Extensions.Property.PropertyMapperExtension.GetEntityByBracketIndexes(System.Object@,System.Collections.Generic.IEnumerable{System.Int32},System.Type@)">
@@ -3678,7 +4235,16 @@
             从指定的实体中根据给定的方括号索引来获取实体对应索引位置的元素值，同时返回最终的元素类型
             </summary>
             <param name="currentEntity">从中获取索引元素的指定实体</param>
-            <param name="indexes">所有方括号索引</param>
+            <param name="indices">所有方括号索引</param>
+            <param name="entityType">最终的元素类型</param>
+        </member>
+        <member name="M:CommonLib.Extensions.Property.PropertyMapperExtension.GetEntityByBracketIndexes(System.Object@,System.Object@,System.Collections.Generic.IEnumerable{System.Int32},System.Type@)">
+            <summary>
+            从指定的实体中根据给定的方括号索引来获取实体对应索引位置的元素值，同时返回最终的元素类型
+            </summary>
+            <param name="currentEntity">从中获取索引元素的指定实体，方法执行完毕后将成为索引处元素的实体</param>
+            <param name="midLevelEntity">从中获取索引元素的指定实体，输入时与currentEntity相同，方法执行完毕后保持不变</param>
+            <param name="indices">所有方括号索引</param>
             <param name="entityType">最终的元素类型</param>
         </member>
         <member name="M:CommonLib.Extensions.Property.PropertyMapperExtension.CopyPropertyValueTo``1(System.Object,``0@)">
@@ -3785,6 +4351,35 @@
             类功能扩展类
             </summary>
         </member>
+        <member name="M:CommonLib.Extensions.ExtensionClass.Take4AfterSkip``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            将一组泛型序列从任意索引位置截取出4个元素
+            </summary>
+            <param name="numbers">提供的泛型序列</param>
+            <param name="startIndex">计算的起始索引，从此索引开始找出4个元素</param>
+            <typeparam name="T">提取的泛型序列的类型</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.ExtensionClass.Take8AfterSkip``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            将一组泛型序列从任意索引位置截取出8个元素
+            </summary>
+            <param name="numbers">提供的泛型序列</param>
+            <param name="startIndex">计算的起始索引，从此索引开始找出8个元素</param>
+            <typeparam name="T">提取的泛型序列的类型</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.ExtensionClass.TakeAfterSkip``1(System.Collections.Generic.IEnumerable{``0},System.Int32,System.Int32)">
+            <summary>
+            将一组泛型序列从任意索引位置截取出任意个元素
+            </summary>
+            <param name="numbers">提供的泛型序列</param>
+            <param name="startIndex">计算的起始索引，从此索引开始取出任意个元素</param>
+            <param name="count">取出元素的数量</param>
+            <typeparam name="T">提取的泛型序列的类型</typeparam>
+            <returns></returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
         <member name="M:CommonLib.Extensions.ExtensionClass.Shrink``1(System.Collections.Generic.IEnumerable{``0},System.Double,System.Boolean)">
             <summary>
             按比例或按数量缩小列表内元素数量（从两侧或从起始处缩减）
@@ -3849,29 +4444,14 @@
             计算功能类
             </summary>
         </member>
-        <member name="M:CommonLib.Extensions.MathExtension.GetAngleByCoordinates(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:CommonLib.Extensions.MathExtension.NormalDistribution(System.Double,System.Double,System.Double)">
             <summary>
-            根据给定的顶端以及回转处坐标计算（初步的）回转角度
+            计算正态分布函数的公式，计算时使用给定的平均值μ(mu)与标准差σ(sigma)，输入x坐标，输出正太分布曲线在这个位置的y坐标值
+            https://i.postimg.cc/P5NxZ0WX/image.png
             </summary>
-            <param name="x1">顶端X坐标</param>
-            <param name="y1">顶端Y坐标</param>
-            <param name="xa">回转处X坐标</param>
-            <param name="ya">回转处Y坐标</param>
-            <returns></returns>
-        </member>
-        <member name="M:CommonLib.Extensions.MathExtension.Exchange``1(``0@,``0@)">
-            <summary>
-            对两个值类型的值进行交换
-            </summary>
-            <typeparam name="T">要交换的值的类型</typeparam>
-            <param name="t1">值1</param>
-            <param name="t2">值2</param>
-        </member>
-        <member name="M:CommonLib.Extensions.MathExtension.GetDecimalPlaces(System.Object)">
-            <summary>
-            尝试获取值小数点后的数值位数
-            </summary>
-            <param name="value"></param>
+            <param name="x">x坐标值</param>
+            <param name="mean">平均值μ(mu)，分布的峰值在此处</param>
+            <param name="stdDev">标准差σ(sigma)，越大则分布的曲线越宽，反之则曲线越窄，标准差为1时为标准正态分布</param>
             <returns></returns>
         </member>
         <member name="M:CommonLib.Extensions.MathExtension.Haversine(System.Double,System.Boolean)">
@@ -3887,6 +4467,113 @@
             计算输入值的半正矢，默认输入为角度
             </summary>
             <param name="input">输入角度</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.Variance(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            根据样本计算方差
+            </summary>
+            <param name="numbers">样本</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.Variance(System.Collections.Generic.IEnumerable{System.Double},System.Double)">
+            <summary>
+            根据样本与平均值计算方差
+            </summary>
+            <param name="numbers">样本</param>
+            <param name="average">平均值</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.Standard(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            计算标准差
+            </summary>
+            <param name="numbers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.ToBytes(System.UInt32,System.Boolean)">
+            <summary>
+            将32位无符号整数转换为byte数组（长度为4）（默认大字节在前）
+            </summary>
+            <param name="input">输入的32位无符号整数</param>
+            <param name="isBigEndian">是否大字节在前</param>
+            <returns>长度为4的字节数组</returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.ToBytes(System.UInt64,System.Boolean)">
+            <summary>
+            将64位无符号整数转换为byte数组（长度为8）（默认大字节在前）
+            </summary>
+            <param name="input">输入的64位无符号整数</param>
+            <param name="isBigEndian">是否大字节在前</param>
+            <returns>长度为8的字节数组</returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.ToInt32(System.Collections.Generic.IEnumerable{System.Byte},System.Int32,System.Boolean)">
+            <summary>
+            将一组byte序列从索引位置转换为32位有符号整数（默认大字节在前）
+            </summary>
+            <param name="numbers">提供的byte序列</param>
+            <param name="startIndex">计算的起始索引，从此索引开始找出4个字节用于转换</param>
+            <param name="isBigEndian">是否大字节在前</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.ToUInt32(System.Collections.Generic.IEnumerable{System.Byte},System.Int32,System.Boolean)">
+            <summary>
+            将一组byte序列从索引位置转换为32位无符号整数（默认大字节在前）
+            </summary>
+            <param name="numbers">提供的byte序列</param>
+            <param name="startIndex">计算的起始索引，从此索引开始找出4个字节用于转换</param>
+            <param name="isBigEndian">是否大字节在前</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.ToInt64(System.Collections.Generic.IEnumerable{System.Byte},System.Int32,System.Boolean)">
+            <summary>
+            将一组byte序列从索引位置转换为64位无符号整数（默认大字节在前）
+            </summary>
+            <param name="numbers">提供的byte序列</param>
+            <param name="startIndex">计算的起始索引，从此索引开始找出8个字节用于转换</param>
+            <param name="isBigEndian">是否大字节在前</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.ToUInt64(System.Collections.Generic.IEnumerable{System.Byte},System.Int32,System.Boolean)">
+            <summary>
+            将一组byte序列从索引位置转换为64位无符号整数（默认大字节在前）
+            </summary>
+            <param name="numbers">提供的byte序列</param>
+            <param name="startIndex">计算的起始索引，从此索引开始找出8个字节用于转换</param>
+            <param name="isBigEndian">是否大字节在前</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.GetAngleByCoordinates(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            根据给定的顶端以及回转处坐标计算（初步的）回转角度（y轴正向为回转0°方位）
+            </summary>
+            <param name="x1">顶端X坐标</param>
+            <param name="y1">顶端Y坐标</param>
+            <param name="xa">回转处X坐标</param>
+            <param name="ya">回转处Y坐标</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.Exchange``1(``0@,``0@)">
+            <summary>
+            对两个值类型的值进行交换
+            </summary>
+            <typeparam name="T">要交换的值的类型</typeparam>
+            <param name="t1">值1</param>
+            <param name="t2">值2</param>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.Swap``1(``0@,``0@)">
+            <summary>
+            对两个值类型的值进行交换
+            </summary>
+            <typeparam name="T">要交换的值的类型</typeparam>
+            <param name="t1">值1</param>
+            <param name="t2">值2</param>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.GetDecimalPlaces(System.Object)">
+            <summary>
+            尝试获取值小数点后的数值位数
+            </summary>
+            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="M:CommonLib.Extensions.MathExtension.Between(System.Double,System.Double,System.Double)">
@@ -3925,40 +4612,41 @@
             <param name="number2">数值2</param>
             <returns>假如在数值之间，返回true，否则返回false</returns>
         </member>
-        <member name="M:CommonLib.Extensions.MathExtension.Variance(System.Collections.Generic.IEnumerable{System.Double})">
-            <summary>
-            根据样本计算方差
-            </summary>
-            <param name="numbers">样本</param>
-            <returns></returns>
-        </member>
-        <member name="M:CommonLib.Extensions.MathExtension.Variance(System.Collections.Generic.IEnumerable{System.Double},System.Double)">
-            <summary>
-            根据样本与平均值计算方差
-            </summary>
-            <param name="numbers">样本</param>
-            <param name="average">平均值</param>
-            <returns></returns>
-        </member>
-        <member name="M:CommonLib.Extensions.MathExtension.Standard(System.Collections.Generic.IEnumerable{System.Double})">
-            <summary>
-            计算标准差
-            </summary>
-            <param name="numbers"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CommonLib.Extensions.MathExtension.MinExceptZero(System.Collections.Generic.IEnumerable{System.Double})">
+        <member name="M:CommonLib.Extensions.MathExtension.MinExceptZero(System.Collections.Generic.IEnumerable{System.Double},System.Double)">
             <summary>
             获取数据集中所有不为0的数中最小的数，假如数据集为空或不存在非0的数据，则返回0
             </summary>
             <param name="set">待从中寻找符合条件的数据的源数据集</param>
+            <param name="def">当数据集为空或不存在非0的数据时返回的默认值，默认为0</param>
             <returns></returns>
         </member>
-        <member name="M:CommonLib.Extensions.MathExtension.MaxExceptZero(System.Collections.Generic.IEnumerable{System.Double})">
+        <member name="M:CommonLib.Extensions.MathExtension.MaxExceptZero(System.Collections.Generic.IEnumerable{System.Double},System.Double)">
             <summary>
             获取数据集中所有不为0的数中最大的数，假如数据集为空或不存在非0的数据，则返回0
             </summary>
             <param name="set">待从中寻找符合条件的数据的源数据集</param>
+            <param name="def">当数据集为空或不存在非0的数据时返回的默认值，默认为0</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.GetSequenceDifference(System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double},System.Int32,System.Double)">
+            <summary>
+            将一组原始数据(S)和一组对照数据(S')进行比较并计算差异参数（sum1→n[abs(Sn-S'n]/sum1→n[Sn]），数值区间在0到+∞（实际在等于或大于1时差异已明显过大），比较时指定原始数据在下标(索引)上和数值上的位移
+            </summary>
+            <param name="datas">原始数据组</param>
+            <param name="comparisons">对照数据组</param>
+            <param name="index_offset">原始数据在下标(索引)上的位移（假如偏移后超出范围则不参与计算）</param>
+            <param name="peak_offset">原始数据在数值上的位移</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.GetSequenceDifference(System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.List{System.Double}@,System.Int32,System.Double)">
+            <summary>
+            将一组原始数据(S)和一组对照数据(S')进行比较并计算差异参数（sum1→n[abs(Sn-S'n]/sum1→n[Sn]），数值区间在0到+∞（实际在等于或大于1时差异已明显过大），比较时指定原始数据在下标(索引)上和数值上的位移
+            </summary>
+            <param name="datas">原始数据组</param>
+            <param name="comparisons">对照数据组</param>
+            <param name="differences">对外输出的差值（绝对值）序列</param>
+            <param name="index_offset">原始数据在下标(索引)上的位移（假如偏移后超出范围则不参与计算）</param>
+            <param name="peak_offset">原始数据在数值上的位移</param>
             <returns></returns>
         </member>
         <member name="T:CommonLib.Function.ReflectionUtil">
@@ -3976,15 +4664,32 @@
             System.Linq.Enumerable的类型对象
             </summary>
         </member>
+        <member name="P:CommonLib.Function.ReflectionUtil.ArrayType">
+            <summary>
+            System.Array的类型对象
+            </summary>
+        </member>
         <member name="P:CommonLib.Function.ReflectionUtil.ElementAtMethod">
             <summary>
-            System.Linq.Enumerable.ElementAt[T]的方法对象
+            System.Linq.Enumerable.ElementAt[T]的静态方法对象
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.ReflectionUtil.SetValueMethod">
+            <summary>
+            System.Array.SetValue的实体方法对象
             </summary>
         </member>
         <member name="M:CommonLib.Function.ReflectionUtil.GetSystemCoreAssembly">
             <summary>
             获取System.Core程序集
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.ReflectionUtil.GetGenericType(System.Type)">
+            <summary>
+            获取泛型类中作为泛型参数的（第一种）类型，假如是数组的话则获取数组元素的类型，假如既不是泛型类也不是数组则返回空
+            </summary>
+            <param name="entityType">从中提取基本类型参数的泛类型</param>
             <returns></returns>
         </member>
         <member name="T:CommonLib.Function.Base">
@@ -4038,6 +4743,13 @@
             获取IPV4的地址
             </summary>
             <param name="start_with">用于过滤地址的地址起始匹配条件，假如为空则不过滤</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.Functions.GetIPAddressV4Alike(System.String)">
+            <summary>
+            获取与给定的IPV4地址相似的地址（同网段），假如给定地址为空则不过滤
+            </summary>
+            <param name="otherAddress">用于过滤地址的同网段IPV4地址，假如为空则不过滤</param>
             <returns></returns>
         </member>
         <member name="M:CommonLib.Function.Functions.GetIPAddressV4(System.String@)">
@@ -4317,6 +5029,15 @@
             <summary>
             16进制操作相关操作类
             </summary>
+        </member>
+        <member name="M:CommonLib.Function.HexHelper.NumberArrayToChn_8bit(System.Collections.Generic.IEnumerable{System.Int32},System.Int32,System.Int32)">
+            <summary>
+            将一组8位整型数值（无论有无符号）转16进制中文编码再转为中文字符串
+            </summary>
+            <param name="numbers">输入的8位整型数列（无论有无符号），每2个数值代表一个汉字</param>
+            <param name="offsetBelowZero">为数列中负数元素提供的校正值，假如数值小于0（一般因为值的源类型为8位有符号整型，值域取[-128,127]），则加上此校正值（默认为256）以变为8位无符号整型，方便转为16进制</param>
+            <param name="offset">为数列中每个元素提供的校正值，在为负数元素校正之后操作</param>
+            <returns></returns>
         </member>
         <member name="M:CommonLib.Function.HexHelper.GetReverseHexString(System.String,System.Int32,System.Int32)">
             <summary>
@@ -5445,6 +6166,20 @@
             <param name="timeStamp"></param>
             <returns></returns>
         </member>
+        <member name="M:CommonLib.Helpers.DateTimeHelper.GetUtcTimeByTimeStampSec(System.UInt64)">
+            <summary>
+            根据时间戳（秒）获取当前时间
+            </summary>
+            <param name="timeStamp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Helpers.DateTimeHelper.GetUtcTimeByTimeStampMillisec(System.UInt64)">
+            <summary>
+            根据时间戳（毫秒）获取当前时间
+            </summary>
+            <param name="timeStamp"></param>
+            <returns></returns>
+        </member>
         <member name="T:CommonLib.Helpers.FileSystemHelper">
             <summary>
             文件系统Helper
@@ -5531,20 +6266,20 @@
         </member>
         <member name="M:CommonLib.Helpers.FileSystemHelper.UpdateFilePath(System.String@,System.String,System.String@,System.String@,System.String@)">
             <summary>
-            根据路径与文件名称获取补完的路径与文件完整路径
+            根据路径与文件名称获取补完的路径与文件完整路径，假如文件名称为空则输出全为空字符串
             </summary>
             <param name="path">文件所在路径，假如为相对路径则在开头添加启动路径</param>
-            <param name="fileName">文件名称</param>
+            <param name="fileName">文件名称，假如为空则输出全为空字符串</param>
             <param name="fileNameDate">带日期的文件名称</param>
             <param name="filePath">包含文件名称的完整路径</param>
             <param name="filePathDate">包含带日期的文件名称的完整路径</param>
         </member>
         <member name="M:CommonLib.Helpers.FileSystemHelper.UpdateFilePath(System.String@,System.String,System.String@)">
             <summary>
-            根据路径与文件名称获取补完的路径与文件完整路径
+            根据路径与文件名称获取补完的路径与文件完整路径，假如文件名称为空则输出全为空字符串
             </summary>
             <param name="path">文件所在路径，假如为相对路径则在开头添加启动路径</param>
-            <param name="fileName">文件名称</param>
+            <param name="fileName">文件名称，假如为空则输出全为空字符串</param>
             <param name="filePath">包含文件名称的完整路径</param>
         </member>
         <member name="T:CommonLib.Properties.Resources">
@@ -5912,30 +6647,34 @@
             <param name="form">需在TabPage页中加载或显示的窗体对象</param>
             <param name="dock">停靠方式，假如为null则不停靠</param>
         </member>
-        <member name="M:CommonLib.UIControlUtil.TabControlUtil.DisposeTabPage(System.Windows.Forms.TabControl,System.Windows.Forms.TabPage)">
+        <member name="M:CommonLib.UIControlUtil.TabControlUtil.DisposeTabPage(System.Windows.Forms.TabControl,System.Windows.Forms.TabPage,System.Boolean)">
             <summary>
             释放TabControl的TabPage资源(WinForm)
             </summary>
             <param name="tabControl">需释放TabPage资源的TabControl控件</param>
             <param name="page">TabPage对象</param>
+            <param name="closeWinform">在释放TabPage时是否关闭并释放其中的Winform（假如第一个控件为Winform）</param>
         </member>
-        <member name="M:CommonLib.UIControlUtil.TabControlUtil.DisposeTabPage(System.Windows.Forms.TabPage)">
+        <member name="M:CommonLib.UIControlUtil.TabControlUtil.DisposeTabPage(System.Windows.Forms.TabPage,System.Boolean)">
             <summary>
             释放TabPage资源(WinForm)
             </summary>
             <param name="page">需进行资源释放的TabPage对象</param>
+            <param name="closeWinform">在释放TabPage时是否关闭并释放其中的Winform（假如第一个控件为Winform）</param>
         </member>
-        <member name="M:CommonLib.UIControlUtil.TabControlUtil.DisposeAllTabPages(System.Windows.Forms.TabControl)">
+        <member name="M:CommonLib.UIControlUtil.TabControlUtil.DisposeAllTabPages(System.Windows.Forms.TabControl,System.Boolean)">
             <summary>
             释放TabControl的所有TabPage资源
             </summary>
             <param name="tabControl">需释放所有TabPage资源的TabControl控件</param>
+            <param name="closeWinform">在释放所有TabPage时是否关闭并释放其中的所有Winform（假如第一个控件为Winform）</param>
         </member>
-        <member name="M:CommonLib.UIControlUtil.TabControlUtil.DisposeSelectedTabPage(System.Windows.Forms.TabControl)">
+        <member name="M:CommonLib.UIControlUtil.TabControlUtil.DisposeSelectedTabPage(System.Windows.Forms.TabControl,System.Boolean)">
             <summary>
             释放TabControl的选中TabPage资源
             </summary>
             <param name="tabControl">需释放选中TabPage资源的TabControl控件</param>
+            <param name="closeWinform">在释放TabPage时是否关闭并释放其中的Winform（假如第一个控件为Winform）</param>
         </member>
         <member name="T:CommonLib.UIControlUtil.TextBoxWrapper">
             <summary>

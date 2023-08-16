@@ -344,6 +344,11 @@
             连接状态改变时返回连接状态事件
             </summary>
         </member>
+        <member name="E:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.OnReceive">
+            <summary>
+            数据接收事件
+            </summary>
+        </member>
         <member name="E:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.LoggedIn">
             <summary>
             设备登录成功事件

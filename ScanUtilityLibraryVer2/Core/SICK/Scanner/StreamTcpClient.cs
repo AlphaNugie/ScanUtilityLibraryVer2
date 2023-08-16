@@ -134,18 +134,13 @@ namespace ScanUtilityLibrary.Core.SICK.Scanner
                 ScanPoints[i].Distance = 0;
         }
 
-        /// <summary>
-        /// 初始化命令通讯对象
-        /// </summary>
-        public override void InitCmdSender()
+        /// <inheritdoc/>
+        protected override void InitCmdSender()
         {
             CommandSender = new CommandSender(this);
         }
 
-        /// <summary>
-        /// 处理接收到的消息
-        /// </summary>
-        /// <param name="content"></param>
+        /// <inheritdoc/>
         public override void AnalyzeReceivedMessage(string content)
         {
             string[] results;
@@ -161,10 +156,7 @@ namespace ScanUtilityLibrary.Core.SICK.Scanner
             }
         }
 
-        /// <summary>
-        /// 解析扫描数据
-        /// </summary>
-        /// <param name="message"></param>
+        /// <inheritdoc/>
         public override void ResolveData(string message)
         {
             if (string.IsNullOrWhiteSpace(message))
@@ -183,6 +175,14 @@ namespace ScanUtilityLibrary.Core.SICK.Scanner
                 }
             }
             catch (Exception) { throw; }
+        }
+
+        /// <inheritdoc/>
+        protected override void ReconnectUrself()
+        {
+            ResetScanPoints(); //扫描点重置
+            IsReceiving = true;
+            CommandSender.ContinueOrStopOutput(1);
         }
 
         ///// <summary>

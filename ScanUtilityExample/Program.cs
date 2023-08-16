@@ -1,13 +1,19 @@
-﻿using CommonLib.Function;
+﻿using CommonLib.Extensions.Property;
+using CommonLib.Function;
 using CommonLib.Helpers;
 using ScanUtilityLibrary.Core.SICK;
+using ScanUtilityLibrary.Core.SICK.Scanner;
 using ScanUtilityLibrary.Core.Tianhe;
+using ScanUtilityLibrary.Core.TripleIN;
 using ScanUtilityLibrary.Model;
 //using ScanUtilityLibrary.Core.SICK.Dx;
 using ScanUtilityLibrary.Model.SICK.Dx;
 using ScanUtilityLibrary.Model.Tianhe;
+using ScanUtilityLibrary.Model.TripleIN;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reflection;
@@ -20,6 +26,11 @@ namespace ScanUtilityExample
 {
     static class Program
     {
+        private static void TcpClient_OnNoneReceived(object sender, CommonLib.Events.NoneReceivedEventArgs args)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -37,9 +48,56 @@ namespace ScanUtilityExample
             //return;
             #endregion
 
-            ScanUtilityLibrary.Core.Tianhe.StreamTcpClient tcpClient = new StreamTcpClient();
-            var scanData = tcpClient.GetScanDataString();
-            return;
+            #region triple-in 数据测试
+            //var udpClient = new StreamUdpClient("127.0.0.1", 1024);
+            ////udpClient.Connect();
+            //udpClient.RecDataStream();
+
+            //var str = "45 52 52 00 00 00 00 04 FF FF F8 24 3B 5D 2F A7";
+            //var code = CommandBase.ResolveFuncCode(str);
+            //var err_command = new ERRCommand(str);
+            //return;
+
+            //var gscn_command = new GSCNCommand();
+            //var hex = gscn_command.ComposeHexString();
+            ////hex = File.ReadAllText("D:\\SCANNING\\Triple-IN\\PSxxx-270\\数据\\data_in_PSDemoProgram\\GSCN\\GSCN#1.txt");
+            //hex = File.ReadAllText("D:\\SCANNING\\Triple-IN\\PSxxx-270\\数据\\GSCN#1.txt");
+            //gscn_command.Resolve(hex);
+            //var scan = gscn_command.CurrScan;
+            //DateTime time = DateTimeHelper.GetUtcTimeByTimeStampSec(scan.Parameters.PARAMETER_TIME_STAMP.ToString());
+            //return;
+            #endregion
+
+            #region ScanUtilityLibrary.Core.SICK.Scanner.StreamTcpClient 超时未接收测试
+            //ScanUtilityLibrary.Core.SICK.Scanner.StreamTcpClient tcpClient = new ScanUtilityLibrary.Core.SICK.Scanner.StreamTcpClient();
+            //tcpClient.OnNoneReceived += new CommonLib.Events.NoneReceivedEventHandler(TcpClient_OnNoneReceived);
+            //tcpClient.Connect("127.0.0.1", 8023);
+            //while (true)
+            //{
+            //    Thread.Sleep(1000);
+            //}
+            #endregion
+
+            //var time = DateTimeHelper.GetUtcTimeByTimeStampMillisec(1407535921);
+            //var runningTime = new TimeSpan(0, 0, 0, 0, 1407535921);
+            //var format = runningTime.ToString("c");
+            //return;
+
+            //var command = new SCANCommand();
+            //string hex = command.ComposeHexString();
+            //string rcvr = "53 43 41 4e 00 00 00 04 00 00 00 01 9a 35 13 20";
+            //command.Resolve(rcvr);
+            //return;
+
+            //GVERCommand command = new GVERCommand();
+            //string hex = command.ComposeHexString();
+            //string gver = "47 56 45 52 00 00 00 9C 50 53 32 35 30 2D 32 37 30 0D 0A 5B 50 53 46 69 72 6D 57 61 72 65 3B 20 30 33 2E 30 33 2E 32 30 2E 30 39 3B 20 32 30 31 37 2D 30 32 2D 30 38 3B 20 28 63 29 20 54 72 69 70 6C 65 2D 49 4E 20 47 6D 62 48 20 32 30 31 37 5D 0D 0A 42 75 69 6C 64 3A 20 46 65 62 20 20 39 20 32 30 31 37 20 30 37 3A 35 36 3A 34 33 0D 0A 49 6E 66 6F 3A 20 20 20 24 44 61 74 65 3A 20 32 30 31 37 2F 30 32 2F 30 38 20 31 35 3A 30 33 3A 34 34 20 24 3B 20 50 52 4F 54 4F 54 59 50 45 0D 0A 00 00 00 73 D6 86 EC";
+            //command.Resolve(gver);
+            //return;
+
+            //ScanUtilityLibrary.Core.Tianhe.StreamTcpClient tcpClient = new StreamTcpClient();
+            //var scanData = tcpClient.GetScanDataString();
+            //return;
 
             ////tcpClient.Connect("127.0.0.1", 8889);
             //tcpClient.Connect("127.0.0.1", 8887);

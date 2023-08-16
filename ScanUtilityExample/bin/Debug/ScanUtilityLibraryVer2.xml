@@ -34,9 +34,24 @@
             保定天河GL11系列雷达
             </summary>
         </member>
+        <member name="F:ScanUtilityLibrary.Core.AllScannerVersion.TripleIN_PSxxx">
+            <summary>
+            Triple-IN PSXXX(-90/-270)系列雷达
+            </summary>
+        </member>
         <member name="T:ScanUtilityLibrary.Core.SICK.BaseTcpClient">
             <summary>
             西克（SICK）设备基础TCP通讯类
+            </summary>
+        </member>
+        <member name="E:ScanUtilityLibrary.Core.SICK.BaseTcpClient.OnNoneReceived">
+            <summary>
+            持续一段时间未接收到任何数据的事件
+            </summary>
+        </member>
+        <member name="E:ScanUtilityLibrary.Core.SICK.BaseTcpClient.DataReceived">
+            <summary>
+            数据接收事件
             </summary>
         </member>
         <member name="P:ScanUtilityLibrary.Core.SICK.BaseTcpClient.ResetEvent">
@@ -114,6 +129,16 @@
             是否数据获取超时
             </summary>
         </member>
+        <member name="P:ScanUtilityLibrary.Core.SICK.BaseTcpClient.NoneReceivedThreshold">
+            <summary>
+            超时未接收到数据的计时阈值，计时达到此值时触发事件，单位毫秒，默认5000
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.SICK.BaseTcpClient.ReconnectWhenReceiveNone">
+            <summary>
+            在无返回数据时是否重新连接
+            </summary>
+        </member>
         <member name="M:ScanUtilityLibrary.Core.SICK.BaseTcpClient.#ctor">
             <summary>
             默认构造器
@@ -143,6 +168,16 @@
             </summary>
             <param name="message"></param>
         </member>
+        <member name="M:ScanUtilityLibrary.Core.SICK.BaseTcpClient.ReconnectUrself">
+            <summary>
+            进行重连后的后续处理
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.SICK.BaseTcpClient.InitTcpClient">
+            <summary>
+            初始化TCP客户端
+            </summary>
+        </member>
         <member name="M:ScanUtilityLibrary.Core.SICK.BaseTcpClient.Connect">
             <summary>
             使用默认的IP地址和端口连接
@@ -165,9 +200,15 @@
             <param name="port">端口号</param>
             <returns>假如成功，返回0，否则返回1</returns>
         </member>
+        <member name="M:ScanUtilityLibrary.Core.SICK.BaseTcpClient.ObscureConnect">
+            <summary>
+            与已配置了IP地址和端口号的TCP服务端连接
+            </summary>
+            <returns>假如成功，返回0，否则返回1</returns>
+        </member>
         <member name="M:ScanUtilityLibrary.Core.SICK.BaseTcpClient.ObscureConnect(System.String,System.UInt16)">
             <summary>
-            利用特定的端口与TCP服务端连接
+            与给出了IP地址和端口号的TCP服务端连接
             </summary>
             <param name="server">TCP服务端IP</param>
             <param name="port">端口号</param>
@@ -176,6 +217,11 @@
         <member name="M:ScanUtilityLibrary.Core.SICK.BaseTcpClient.Close">
             <summary>
             关闭TCP连接
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.SICK.BaseTcpClient.Reconnect">
+            <summary>
+            重新连接
             </summary>
         </member>
         <member name="M:ScanUtilityLibrary.Core.SICK.BaseTcpClient.GetDataStream">
@@ -537,21 +583,16 @@
             <param name="port">端口号</param>
         </member>
         <member name="M:ScanUtilityLibrary.Core.SICK.Dx.StreamTcpClient.InitCmdSender">
-            <summary>
-            初始化命令通讯对象
-            </summary>
+            <inheritdoc/>
         </member>
         <member name="M:ScanUtilityLibrary.Core.SICK.Dx.StreamTcpClient.AnalyzeReceivedMessage(System.String)">
-            <summary>
-            处理接收到的消息
-            </summary>
-            <param name="content"></param>
+            <inheritdoc/>
         </member>
         <member name="M:ScanUtilityLibrary.Core.SICK.Dx.StreamTcpClient.ResolveData(System.String)">
-            <summary>
-            解析扫描数据
-            </summary>
-            <param name="message"></param>
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.SICK.Dx.StreamTcpClient.ReconnectUrself">
+            <inheritdoc/>
         </member>
         <member name="M:ScanUtilityLibrary.Core.SICK.Dx.StreamTcpClient.GetTcpHeader">
             <summary>
@@ -878,21 +919,16 @@
             </summary>
         </member>
         <member name="M:ScanUtilityLibrary.Core.SICK.Scanner.StreamTcpClient.InitCmdSender">
-            <summary>
-            初始化命令通讯对象
-            </summary>
+            <inheritdoc/>
         </member>
         <member name="M:ScanUtilityLibrary.Core.SICK.Scanner.StreamTcpClient.AnalyzeReceivedMessage(System.String)">
-            <summary>
-            处理接收到的消息
-            </summary>
-            <param name="content"></param>
+            <inheritdoc/>
         </member>
         <member name="M:ScanUtilityLibrary.Core.SICK.Scanner.StreamTcpClient.ResolveData(System.String)">
-            <summary>
-            解析扫描数据
-            </summary>
-            <param name="message"></param>
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.SICK.Scanner.StreamTcpClient.ReconnectUrself">
+            <inheritdoc/>
         </member>
         <member name="M:ScanUtilityLibrary.Core.SICK.Scanner.StreamTcpClient.GetTcpHeader">
             <summary>
@@ -920,6 +956,421 @@
             <summary>
             登录回应，\u0002匹配STX（正文开始），\u0003匹配ETX（正文结束）
             </summary>
+        </member>
+        <member name="T:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient">
+            <summary>
+            天河Lidar扫描仪TCP通讯类
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient._watchdogTask">
+            <summary>
+            执行看门狗行为的任务，周期性发送心跳
+            </summary>
+        </member>
+        <member name="E:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.Connected">
+            <summary>
+            UDP连接事件
+            </summary>
+        </member>
+        <member name="E:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.Disconnected">
+            <summary>
+            UDP断开事件
+            </summary>
+        </member>
+        <member name="E:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.DataReceived">
+            <summary>
+            数据接收事件
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.SocketCloseCommand">
+            <summary>
+            是否在发送关闭命令的状态下
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.ServerIp">
+            <summary>
+            Udp服务端的IP
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.ServerPort">
+            <summary>
+            Udp服务端的端口号
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.LocalIp">
+            <summary>
+            Udp本地端的IP，自动检测为与服务端IP同网段地址
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.LocalPort">
+            <summary>
+            Udp本地端的端口号，默认为1025
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.Client">
+            <summary>
+            UdpClient对象
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.IsConnected">
+            <summary>
+            是否连接（假如为true则发送报文时不包含服务端IP地址、端口号，否则发送时需指定）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.IsConnected_Socket">
+            <summary>
+            Udp Socket的真实连接状态
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.ErrorMsg_UdpConnections">
+            <summary>
+            连接的错误信息
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.ErrorMsg_Resolving">
+            <summary>
+            报文解析的错误信息
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.FirmwareVersion">
+            <summary>
+            扫描仪固件版本描述
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.NumOfPoints">
+            <summary>
+            报文中数据点个数
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.AlbedoOn">
+            <summary>
+            报文中是否输出反射率
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.AngularIncrement">
+            <summary>
+            实际角分辨率（°）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.StartAngle">
+            <summary>
+            扫描起始角度（°）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.StopAngle">
+            <summary>
+            扫描结束角度（°）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.ScanPoints">
+            <summary>
+            扫描点数组
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.GVERCommand">
+            <summary>
+            固件版本报文（向设备发送以及从设备接收）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.SCANCommand">
+            <summary>
+            SCAN开启或关闭扫描报文（向设备发送）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.GSCNCommand">
+            <summary>
+            GSCN数据输出报文（向设备发送以及从设备接收）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.LastErrors">
+            <summary>
+            最后的若干个错误
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.#ctor(System.String,System.Int32)">
+            <summary>
+            使用服务端IP地址、端口号初始化StreamUdpClient
+            </summary>
+            <param name="serverIp">服务端（扫描仪）IP地址，本地端IP地址自动检测为同网段地址</param>
+            <param name="serverPort">服务端（扫描仪）端口号</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.Connect">
+            <summary>
+            使用当前设定的IP、端口、用户名和密码与TCP服务端连接
+            </summary>
+            <returns>假如成功，返回0，否则返回1</returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.Connect(System.String,System.Int32)">
+            <summary>
+            利用特定的IP、端口与TCP服务端连接<para/>
+            假如连接则发送报文时不包含服务端IP地址、端口号，否则发送时需指定
+            </summary>
+            <param name="server">TCP服务端IP</param>
+            <param name="port">端口号</param>
+            <returns>假如成功，返回0，否则返回1</returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.Close">
+            <summary>
+            关闭TCP连接
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.ResolveCommands(System.String)">
+            <summary>
+            根据16进制字符串解析报文数据
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.ResolveCommands(System.Byte[])">
+            <summary>
+            根据byte数组解析TIP数据
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.RecDataStream">
+            <summary>
+            刷新扫描点信息
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.GetUdpHeader">
+            <summary>
+            获取TCP信息抬头
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.GetScanDataString">
+            <summary>
+            获取扫描点信息（前36个坐标点）的字符串形式
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.GetScanDataString(System.Int32)">
+            <summary>
+            获取扫描点信息（从指定索引处开始的36个坐标点）的字符串形式
+            </summary>
+            <param name="startValue">起始坐标点索引</param>
+            <returns></returns>
+        </member>
+        <member name="T:ScanUtilityLibrary.Core.TripleIN.FunctionCodes">
+            <summary>
+            所有的2进制命令功能码
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.FunctionCodes.NONE">
+            <summary>
+            无定义
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.FunctionCodes.GVER">
+            <summary>
+            Version
+            Requesting the Firmware Version
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.FunctionCodes.GRTC">
+            <summary>
+            Get real time clock count
+            Requesting the real time clock count
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.FunctionCodes.SRTC">
+            <summary>
+            Set real time clock count
+            Set the real time clock
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.FunctionCodes.SCAN">
+            <summary>
+            Start scan
+            Starts the scanning mode
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.FunctionCodes.GSCN">
+            <summary>
+            Get scanned scan
+            Requesting one scan measurement. Returns a scan from the scan buffer
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.FunctionCodes.GPRM">
+            <summary>
+            Read parameter
+            Uses a parameter identification code to obtain a single parameter from the sensor.
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.FunctionCodes.GPIN">
+            <summary>
+            Get parameter info
+            Gives an information text about a parameter
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.FunctionCodes.SPRM">
+            <summary>
+            Write parameter
+            Set a value for a single sensor parameter.
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.FunctionCodes.ERR">
+            <summary>
+            错误信息
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.FunctionCodes.SYNC">
+            <summary>
+            同步信息
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibrary.Core.TripleIN.ErrorID">
+            <summary>
+            错误识别码
+            Error identification numbers.
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.__ELASTERROR">
+            <summary>
+            错误码的基础值
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERRORID_SERIAL_VERSION">
+            <summary>
+            Serial version ID of this table
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_SUCCESS">
+            <summary>
+            Function was successful.
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_NONE">
+            <summary>
+            no error
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.__ERR_LASTERROR">
+            <summary>
+            Number negative error codes from tail to top.
+            Last error code is defined in stdlib's errno.h.
+            22 is the number of codes defined here.
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_SYSTEM_NOT_READY">
+            <summary>
+            system not ready
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_FRONT_SCREEN_NOT_CLEAR">
+            <summary>
+            front screen dirty or wet
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_TEMPERATURE_OUT_OF_RANGE">
+            <summary>
+            temperature out of operating range
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_KEM_SCAN_UNIT_FAILURE">
+            <summary>
+            Angle encoder or motor unit failure.
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_KEM_UNIT">
+            <summary>
+            KEM unit / KEM measurement ufailure
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_SERIAL_VERSION">
+            <summary>
+            Error in serialization: version does not match.
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_CONFIGURATION_ERROR">
+            <summary>
+            invalid or defect system configuration
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_FATAL_SYSTEM_ERROR">
+            <summary>
+            Fatal system error
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_BUFFER_OVERFLOW">
+            <summary>
+            internal Buffer overflow
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_INDEX_OUT_OF_RANGE">
+            <summary>
+            array index is out of range
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_DIV_BY_ZERO">
+            <summary>
+            Division by zero
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_INVALID_HANDLE">
+            <summary>
+            Invalid handle / Bad address
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_UNSUPPORTED_FUNCTION">
+            <summary>
+            Function not supported
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_ACCESS_DENIED">
+            <summary>
+            Access denied / Permission denied
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_INVALID_PARAMETER">
+            <summary>
+            Parameter is out of range
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_UNKNOWN_COMMAND">
+            <summary>
+            Unknown command
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_CRC">
+            <summary>
+            CRC checksum error
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_USER_BREAK">
+            <summary>
+            user break
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_TIMEOUT">
+            <summary>
+            Timeout
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_WRITE">
+            <summary>
+            cannot write
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_READ">
+            <summary>
+            cannot read
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.TripleIN.ErrorID.ERR_IO">
+            <summary>
+            physical I/O error
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibrary.Core.TripleIN.ErrorIDConverter">
+            <summary>
+            ErrorID转换器
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.TripleIN.ErrorIDConverter.IntToError(System.Int64)">
+            <summary>
+            Convert an integer into ErrorID
+            </summary>
+            <param name="theErrorID">The corresponding ErrorID_t value, or ERR_SUCCESS if (theErrorID >= 0) or ERR_INVALID_HANDLE if the negative code is not in range of ErrorID</param>
         </member>
         <member name="T:ScanUtilityLibrary.Core.R2000.Commands">
             <summary>
@@ -1422,6 +1873,440 @@
             <param name="scale">保存时对各坐标进行缩放的比例</param>
             <param name="dividedBy">总点云数量将被除以此值</param>
             <param name="overriding">是否覆盖文本</param>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.TripleIN.CommandBase">
+            <summary>
+            PS激光扫描仪2进制命令基础类
+            Base class for PS Laser Scanner commands.
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Model.TripleIN.CommandBase.COMMAND_ID_SIZE">
+            <summary>
+            Length of the command ID
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.CommandBase.FunctionCode">
+            <summary>
+            功能码（命令ID）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.CommandBase.Length">
+            <summary>
+            数据部分占用的字节数
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.CommandBase.Data">
+            <summary>
+            数据部分
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.CommandBase.Checksum">
+            <summary>
+            CRC32校验值
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.CommandBase.ChecksumPassed">
+            <summary>
+            CRC32校验值是否通过
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.CommandBase.#ctor(ScanUtilityLibrary.Core.TripleIN.FunctionCodes)">
+            <summary>
+            默认构造器
+            </summary>
+            <param name="funcCode">报文的功能码</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.CommandBase.#ctor(ScanUtilityLibrary.Core.TripleIN.FunctionCodes,System.String)">
+            <summary>
+            用给定的16进制字符串初始化
+            </summary>
+            <param name="funcCode">报文的功能码</param>
+            <param name="hexString">报文的16进制字符串</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.CommandBase.#ctor(ScanUtilityLibrary.Core.TripleIN.FunctionCodes,System.Byte[])">
+            <summary>
+            用给定的byte数组初始化
+            </summary>
+            <param name="funcCode">报文的功能码</param>
+            <param name="bytes">2进制命令的字节流</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.CommandBase.Finalize">
+            <summary>
+            析构函数
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.CommandBase.ResolveFuncCode(System.String)">
+            <summary>
+            根据16进制字符串来解析功能码
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.CommandBase.ResolveFuncCode(System.Byte[])">
+            <summary>
+            根据byte数组来解析功能码
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.CommandBase.AppendCRC(System.Collections.Generic.List{System.Byte})">
+            <summary>
+            Calculates the CRC of a transmitter buffer and stores it in the last 4 bytes of the buffer.
+            The CRC is stored in network byte order. After this, the buffer is ready to send on the transmitter channel.
+            </summary>
+            <param name="theBuffer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.CommandBase.ComposeUrOwn">
+            <summary>
+            每个子类根据自己特有属性值进行一些自己独有的byte数组组合工作（没有需要则返回null）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.CommandBase.ResolveUrOwn(System.Byte[])">
+            <summary>
+            每个子类根据当前命令结构中的数据部分进行一些自己独有的解析工作
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.CommandBase.Resolve(System.String)">
+            <summary>
+            根据16进制字符串解析
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.CommandBase.Resolve(System.Byte[])">
+            <summary>
+            根据byte数组解析
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.CommandBase.ComposeHexString">
+            <summary>
+            将各属性值组合为16进制字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.CommandBase.Compose">
+            <summary>
+            将各属性值组合为byte数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.TripleIN.ERRCommand">
+            <summary>
+            Reading the firmware version.
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.ERRCommand.Error">
+            <summary>
+            发生的错误
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.ERRCommand.Time">
+            <summary>
+            发生时间
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.ERRCommand.#ctor">
+            <summary>
+            默认构造器
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.ERRCommand.#ctor(System.String)">
+            <summary>
+            用给定的16进制字符串初始化
+            </summary>
+            <param name="hexString">报文的16进制字符串</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.ERRCommand.#ctor(System.Byte[])">
+            <summary>
+            用给定的byte数组初始化
+            </summary>
+            <param name="bytes">报文的字节流</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.ERRCommand.ComposeUrOwn">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.ERRCommand.ResolveUrOwn(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.TripleIN.GSCNCommand">
+            <summary>
+            Getting scans from the sensor.
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.GSCNCommand.ScanNumber">
+            <summary>
+            扫描数，0代表获取最新的扫描数据
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.GSCNCommand.CurrScan">
+            <summary>
+            当前扫描数据
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.GSCNCommand.#ctor">
+            <summary>
+            用默认的扫描数0初始化，获取最新的扫描数据
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.GSCNCommand.#ctor(System.Int32)">
+            <summary>
+            用给定的扫描数初始化，默认为0，为0代表获取最新的扫描数据
+            </summary>
+            <param name="scanNum">扫描数，0代表获取最新的扫描数据</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.GSCNCommand.#ctor(System.String)">
+            <summary>
+            用给定的16进制字符串初始化
+            </summary>
+            <param name="hexString">报文的16进制字符串</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.GSCNCommand.#ctor(System.Byte[])">
+            <summary>
+            用给定的byte数组初始化
+            </summary>
+            <param name="bytes">报文的字节流</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.GSCNCommand.ComposeUrOwn">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.GSCNCommand.ResolveUrOwn(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.TripleIN.GSCNParameters">
+            <summary>
+            GSCN Parameters block. Is transmitted exactly in this order.
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.PARAMETER_SCAN_NUMBER">
+            <summary>
+            参数1：扫描数
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.PARAMETER_TIME_STAMP">
+            <summary>
+            参数2：时间戳
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.PARAMETER_SCAN_START_ANGLE">
+            <summary>
+            参数3：扫描开始角度（单位为milidegree，0.001°，PSXXX-270为45000)
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.PARAMETER_SCAN_ANGLE">
+            <summary>
+            参数4：扫描区域的角度（单位为milidegree，0.001°，PSXXX-270为270000）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.PARAMETER_NUMBER_OF_ECHOES">
+            <summary>
+            参数5：回波数量
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.PARAMETER_INCREMENTAL_ENCODER">
+            <summary>
+            参数6：角度增量编码器
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.PARAMETER_TEMPERATURE">
+            <summary>
+            参数7：温度（单位为0.1℃）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.PARAMETER_SYSTEM_STATUS">
+            <summary>
+            参数8：系统状态
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.PARAMETER_DATA_CONTENT">
+            <summary>
+            参数9：数据内容
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.PARAMETER_SCAN_LINE">
+            <summary>
+            参数10：扫描线
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.NO_DATABLOCK">
+            <summary>
+            data block is empty
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.DATABLOCK_WITH_DISTANCES">
+            <summary>
+            data block contains distances only
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.DATABLOCK_WITH_DISTANCES_PW">
+            <summary>
+            data block contains distances and pulse witdh
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.DATABLOCK_WITH_DISTANCES_PW_INCLUDES_ECHO">
+            <summary>
+            data block contains distances, and pulse witdh with echoes
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.MAX_POINTS_PER_SCAN">
+            <summary>
+            defines the max. number of points per profile
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Model.TripleIN.GSCNParameters.MAX_NUMBER_OF_ECHOS">
+            <summary>
+            defines the max. number of echoes per point
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.TripleIN.ScanData">
+            <summary>
+            Scan data structure.
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.ScanData.Distance">
+            <summary>
+            距离（单位0.1mm），回波信号过低时的值为-2147483648 (-0x80000000)，过高时的值为2147483647 (0x7FFFFFFF)
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.ScanData.EchoNumber">
+            <summary>
+            回波序号（最多4个回波，序号从0~3）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.ScanData.PulseWidth">
+            <summary>
+            回波脉冲宽度，单位为皮秒（picoseconds）
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.ScanData.Clear">
+            <summary>
+            重置元素值
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.TripleIN.Scan">
+            <summary>
+            GSCN scan Type definition.
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.Scan.NumberOfParameters">
+            <summary>
+            number of parameter in the parameter array
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.Scan.Parameters">
+            <summary>
+            参数列表
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.Scan.NumberOfPoints">
+            <summary>
+            number of points in the scan
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.Scan.ParsedTime">
+            <summary>
+            处理时间
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.Scan.RunningTime">
+            <summary>
+            已运行时间
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.Scan.ScanDatas">
+            <summary>
+            一个二维数组，1维索引为返回点序号，2维索引为回波组序号（最多4组（索引0~3），一般1组（索引0）），数组中元素为ScanData结构（包含距离、回波组序号、回波脉冲宽度）
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.Scan.#ctor">
+            <summary>
+            默认构造器
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.Scan.Clear">
+            <summary>
+            清空结构内容
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.Scan.Parse(System.Byte[])">
+            <summary>
+            Parses the receiver buffer and copy the result into the scan structure.
+            Must be called after performCommand().
+            </summary>
+            <param name="bytes">待转换的字节流</param>
+            <returns>ERR_SUCCESS on success, otherwise a negative error code.</returns>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.TripleIN.GVERCommand">
+            <summary>
+            Reading the firmware version.
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.GVERCommand.Version">
+            <summary>
+            固件版本信息
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.GVERCommand.#ctor">
+            <summary>
+            默认构造器
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.GVERCommand.#ctor(System.String)">
+            <summary>
+            用给定的16进制字符串初始化
+            </summary>
+            <param name="hexString">报文的16进制字符串</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.GVERCommand.#ctor(System.Byte[])">
+            <summary>
+            用给定的byte数组初始化
+            </summary>
+            <param name="bytes">报文的字节流</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.GVERCommand.ComposeUrOwn">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.GVERCommand.ResolveUrOwn(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="T:ScanUtilityLibrary.Model.TripleIN.SCANCommand">
+            <summary>
+            Reading the firmware version.
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Model.TripleIN.SCANCommand.ScanNumber">
+            <summary>
+            扫描数，默认为1，大于0时触发扫描仪开始扫描，设置为0则扫描功能关闭
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.SCANCommand.#ctor">
+            <summary>
+            用默认的扫描数1初始化，触发扫描仪开始扫描
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.SCANCommand.#ctor(System.Int32)">
+            <summary>
+            用给定的扫描数初始化，默认为1，大于0时触发扫描仪开始扫描，设置为0则扫描功能关闭
+            </summary>
+            <param name="scanNum"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.SCANCommand.#ctor(System.String)">
+            <summary>
+            用给定的16进制字符串初始化
+            </summary>
+            <param name="hexString">报文的16进制字符串</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.SCANCommand.#ctor(System.Byte[])">
+            <summary>
+            用给定的byte数组初始化
+            </summary>
+            <param name="bytes">报文的字节流</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.SCANCommand.ComposeUrOwn">
+            <inheritdoc/>
+        </member>
+        <member name="M:ScanUtilityLibrary.Model.TripleIN.SCANCommand.ResolveUrOwn(System.Byte[])">
+            <inheritdoc/>
         </member>
         <member name="T:ScanUtilityLibrary.Model.SICK.Dx.DeviceStatusWord">
             <summary>

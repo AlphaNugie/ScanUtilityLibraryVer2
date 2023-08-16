@@ -61,18 +61,13 @@ namespace ScanUtilityLibrary.Core.SICK.Dx
             _threadRequire.Start();
         }
 
-        /// <summary>
-        /// 初始化命令通讯对象
-        /// </summary>
-        public override void InitCmdSender()
+        /// <inheritdoc/>
+        protected override void InitCmdSender()
         {
             CommandSender = new CommandSender(this);
         }
 
-        /// <summary>
-        /// 处理接收到的消息
-        /// </summary>
-        /// <param name="content"></param>
+        /// <inheritdoc/>
         public override void AnalyzeReceivedMessage(string content)
         {
             string result;
@@ -89,10 +84,7 @@ namespace ScanUtilityLibrary.Core.SICK.Dx
             }
         }
 
-        /// <summary>
-        /// 解析扫描数据
-        /// </summary>
-        /// <param name="message"></param>
+        /// <inheritdoc/>
         public override void ResolveData(string message)
         {
             if (string.IsNullOrWhiteSpace(message))
@@ -104,14 +96,23 @@ namespace ScanUtilityLibrary.Core.SICK.Dx
             catch (Exception) { /*throw;*/ }
         }
 
+        /// <inheritdoc/>
+        protected override void ReconnectUrself()
+        {
+            //throw new NotImplementedException();
+        }
+
         private void RequireDataLoop()
         {
             while (true)
             {
-                //假如未连接，暂停线程
-                if (!IsConnected)
-                    ResetEvent.WaitOne();
                 Thread.Sleep(RequiredInterval);
+                ////假如未连接，暂停线程
+                //if (!IsConnected)
+                //    ResetEvent.WaitOne();
+                //假如未连接，进行下一次循环
+                if (!IsConnected)
+                    continue;
                 if (RequiredDataTypes == null || RequiredDataTypes.Count == 0 || CommandSender == null)
                     continue;
                 if (RequiredDataTypes.Contains(RequiredDataType.Distance))

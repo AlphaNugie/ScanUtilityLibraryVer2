@@ -62,6 +62,10 @@
     <Compile Include="Core\SICK\Scanner\Patterns.cs" />
     <Compile Include="Core\SICK\Scanner\StreamTcpClient.cs" />
     <Compile Include="Core\SICK\BasePatterns.cs" />
+    <Compile Include="Core\TripleIN\StreamUdpClient.cs" />
+    <Compile Include="Model\TripleIN\CommandBase.cs" />
+    <Compile Include="Core\TripleIN\Enums.cs" />
+    <Compile Include="Core\TripleIN\ErrorID.cs" />
     <Compile Include="Model\SICK\Dx\DeviceStatusWord.cs" />
     <Compile Include="Model\SICK\Dx\SensorData.cs" />
     <Compile Include="Model\SICK\Scanner\ScannerParameters.cs" />
@@ -74,6 +78,10 @@
     <Compile Include="Core\R2000\StreamTcpClient.cs" />
     <Compile Include="Core\DataProcessUtil.cs" />
     <Compile Include="Model\ScanPoint.cs" />
+    <Compile Include="Model\TripleIN\ERRCommand.cs" />
+    <Compile Include="Model\TripleIN\GSCNCommand.cs" />
+    <Compile Include="Model\TripleIN\GVERCommand.cs" />
+    <Compile Include="Model\TripleIN\SCANCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

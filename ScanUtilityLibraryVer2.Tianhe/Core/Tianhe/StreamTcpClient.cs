@@ -1,4 +1,5 @@
 ﻿using CommonLib.Clients.Tasks;
+using CommonLib.Events;
 using CommonLib.Extensions;
 using CommonLib.Function;
 using ScanUtilityLibrary.Model;
@@ -12,6 +13,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using static CommonLib.Clients.Tasks.Task;
+using static CommonLib.Function.TimerEventRaiser;
 using static ScanUtilityLibrary.Event.EventHandlers;
 using static SocketHelper.Event.EventHandlers;
 
@@ -22,21 +24,12 @@ namespace ScanUtilityLibrary.Core.Tianhe
     /// </summary>
     public class StreamTcpClient
     {
-        //private ushort h_num_points_scan = 361;
-        private ushort h_num_points_scan, h_angl_resltn; //储存的扫描点数目、角度分辨率原始值
-        private int h_start_angle;
-        //private bool IsScanRead = false;
-        //private string _received = string.Empty, _wrapped = string.Empty;
-        //点对象数组，假定最极限情况，0°-360°角度范围内每2度角有125个点，则最大点数为360*62.5=22500
-        private readonly ScanPoint[] _scanPoints = new ScanPoint[22500];
-        private readonly SocketTcpClient _client = new SocketTcpClient() { ReceiveBufferSize = 65535, ReconnectWhenReceiveNone = true };
-
-        /// <summary>
-        /// 执行看门狗行为的任务，周期性发送心跳
-        /// </summary>
-        protected readonly BlankTask _watchdogTask = new BlankTask() { Interval = 1000 };
-
         #region 事件
+        /// <summary>
+        /// 持续一段时间未接收到任何数据的事件
+        /// </summary>
+        public event NoneReceivedEventHandler OnNoneReceived;
+
         /// <summary>
         /// 连接状态改变时返回连接状态事件
         /// </summary>
@@ -51,6 +44,20 @@ namespace ScanUtilityLibrary.Core.Tianhe
         /// 设备登录成功事件
         /// </summary>
         public event LoggedInEventHandler LoggedIn;
+        #endregion
+
+        #region 私有变量
+        private ushort h_num_points_scan, h_angl_resltn; //储存的扫描点数目、角度分辨率原始值
+        private int h_start_angle;
+        //点对象数组，假定最极限情况，0°-360°角度范围内每2度角有125个点，则最大点数为360*62.5=22500
+        private readonly ScanPoint[] _scanPoints = new ScanPoint[22500];
+        private readonly SocketTcpClient _client = new SocketTcpClient() { ReceiveBufferSize = 65535, ReconnectWhenReceiveNone = true };
+        private readonly TimerEventRaiser _noRcvrRaiser = new TimerEventRaiser(1000); //超时未接收触发器
+
+        /// <summary>
+        /// 执行看门狗行为的任务，周期性发送心跳
+        /// </summary>
+        protected readonly BlankTask _watchdogTask = new BlankTask() { Interval = 1000 };
         #endregion
 
         #region 属性
@@ -98,20 +105,19 @@ namespace ScanUtilityLibrary.Core.Tianhe
         /// </summary>
         public string ErrorMsg_TcpConnections { get; set; }
 
-        ///// <summary>
-        ///// 数据获取超时时间
-        ///// </summary>
-        //public long DataFetchTimeout { get; set; }
+        /// <summary>
+        /// 超时未接收到数据的计时阈值，计时达到此值时触发事件，单位毫秒，默认5000
+        /// </summary>
+        public int NoneReceivedThreshold
+        {
+            get { return (int)_noRcvrRaiser.RaiseThreshold; }
+            set { _noRcvrRaiser.RaiseThreshold = value < 0 ? 0 : (ulong)value; }
+        }
 
-        ///// <summary>
-        ///// 数据获取超时时间阈值
-        ///// </summary>
-        //public long DataFetchTimeoutThres { get; set; }
-
-        ///// <summary>
-        ///// 是否数据获取超时
-        ///// </summary>
-        //public bool IsDataFetchTimeOut { get; set; }
+        /// <summary>
+        /// 在无返回数据时是否重新连接
+        /// </summary>
+        public bool ReconnectWhenReceiveNone { get; set; }
         #endregion
 
         #region 设备/扫描信息
@@ -237,17 +243,12 @@ namespace ScanUtilityLibrary.Core.Tianhe
             TipBodyLogin.RestoreDefUserInfos();
             TipBodyDataOutput = new TipBodyDataOutput();
             PrefPulseType = prefPulseType;
+            //超时未接收数据的触发器，无论是否连接都一直运行
+            _noRcvrRaiser.RaiseThreshold = 10000;
+            _noRcvrRaiser.RaiseInterval = 5000;
+            _noRcvrRaiser.ThresholdReached += new ThresholdReachedEventHandler(NoneReceived_ThresholdReached);
+            _noRcvrRaiser.Run();
         }
-
-        ///// <summary>
-        ///// TCP服务端连接
-        ///// </summary>
-        ///// <param name="server">IP地址</param>
-        ///// <param name="port">端口号</param>
-        //public StreamTcpClient(string server, int port)
-        //{
-        //    Connect(server, port);
-        //}
 
         #region 功能
         /// <summary>
@@ -553,12 +554,23 @@ namespace ScanUtilityLibrary.Core.Tianhe
         #endregion
 
         #region 事件
+        private void NoneReceived_ThresholdReached(object sender, ThresholdReachedEventArgs e)
+        {
+            OnNoneReceived?.Invoke(this, new NoneReceivedEventArgs((ulong)NoneReceivedThreshold)); //调用超时未接收的事件委托
+            if (!ReconnectWhenReceiveNone)
+                return;
+
+            //TODO 天河雷达需要重连方法
+            //Reconnect();
+        }
+
         private void SocketTcpClient_OnReceive(object sender, ReceivedEventArgs args)
         {
             //if (_received.Length > 1024 * 1024)
             //    _received = string.Empty;
             //_received += args.ReceivedHexString;
             OnReceive?.Invoke(this, args);
+            _noRcvrRaiser.Click();
             ResolveTipBody(args.ReceivedHexString);
         }
 

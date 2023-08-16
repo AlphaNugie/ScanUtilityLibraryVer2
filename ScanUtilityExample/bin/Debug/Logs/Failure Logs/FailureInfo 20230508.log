@@ -1,0 +1,82 @@
+﻿
+***********************************************************************
+
+2023年5月8日 11时34分36秒：
+
+从TcpServer获取数据的过程中出错：IP地址，端口0：未从此类上对应的异步方法中返回 IAsyncResult 对象。
+参数名: asyncResult
+出现异常的方法：Int32 EndReceiveFrom(System.IAsyncResult, System.Net.EndPoint ByRef)
+方法所在的类：System.Net.Sockets.Socket
+System.ArgumentException: 未从此类上对应的异步方法中返回 IAsyncResult 对象。
+参数名: asyncResult
+   在 System.Net.Sockets.Socket.EndReceiveFrom(IAsyncResult asyncResult, EndPoint& endPoint)
+   在 System.Net.Sockets.UdpClient.EndReceive(IAsyncResult asyncResult, IPEndPoint& remoteEP)
+   在 CommonLib.Clients.DerivedUdpClient.ReceiveCallBack(IAsyncResult ar) 位置 D:\CommonLib\CommonLib\CommonLib\Clients\DerivedUdpClient.cs:行号 517
+
+***********************************************************************
+
+2023年5月8日 11时34分48秒：
+
+UDP连接意外断开，正在尝试重连。UDP主机地址：，端口号：0
+
+***********************************************************************
+
+2023年5月8日 11时34分48秒：
+
+无法建立UDP连接，IP，端口号0：值不能为 null。
+参数名: hostname
+出现异常的方法：Void Connect(System.String, Int32)
+方法所在的类：System.Net.Sockets.UdpClient
+System.ArgumentNullException: 值不能为 null。
+参数名: hostname
+   在 System.Net.Sockets.UdpClient.Connect(String hostname, Int32 port)
+   在 CommonLib.Clients.DerivedUdpClient.Connect(String server, Int32 port, String localIp, Int32 localPort) 位置 D:\CommonLib\CommonLib\CommonLib\Clients\DerivedUdpClient.cs:行号 342
+
+***********************************************************************
+
+2023年5月8日 11时35分36秒：
+
+UDP连接意外断开，正在尝试重连。UDP主机地址：，端口号：0
+
+***********************************************************************
+
+2023年5月8日 11时35分36秒：
+
+UDP重新连接失败：正在中止线程。。UDP主机地址：，端口号：0
+出现异常的方法：System.String GetResourceFromDefault(System.String)
+方法所在的类：System.Environment
+System.Threading.ThreadAbortException: 正在中止线程。
+   在 System.Environment.GetResourceFromDefault(String key)
+   在 System.ArgumentNullException..ctor(String paramName)
+   在 System.Net.Sockets.UdpClient.Connect(String hostname, Int32 port)
+   在 CommonLib.Clients.DerivedUdpClient.TcpAutoReconnect() 位置 D:\CommonLib\CommonLib\CommonLib\Clients\DerivedUdpClient.cs:行号 407
+
+***********************************************************************
+
+2023年5月8日 11时35分42秒：
+
+UDP连接意外断开，正在尝试重连。UDP主机地址：，端口号：0
+
+***********************************************************************
+
+2023年5月8日 11时38分59秒：
+
+从TcpServer获取数据的过程中出错：IP地址，端口0：未从此类上对应的异步方法中返回 IAsyncResult 对象。
+参数名: asyncResult
+出现异常的方法：Int32 EndReceiveFrom(System.IAsyncResult, System.Net.EndPoint ByRef)
+方法所在的类：System.Net.Sockets.Socket
+System.ArgumentException: 未从此类上对应的异步方法中返回 IAsyncResult 对象。
+参数名: asyncResult
+   在 System.Net.Sockets.Socket.EndReceiveFrom(IAsyncResult asyncResult, EndPoint& endPoint)
+   在 System.Net.Sockets.UdpClient.EndReceive(IAsyncResult asyncResult, IPEndPoint& remoteEP)
+   在 CommonLib.Clients.DerivedUdpClient.ReceiveCallBack(IAsyncResult ar) 位置 D:\CommonLib\CommonLib\CommonLib\Clients\DerivedUdpClient.cs:行号 517
+
+***********************************************************************
+
+2023年5月8日 11时38分59秒：
+
+向UDP服务端127.0.0.1:64701->127.0.0.1:1024发送数据失败 未将对象引用设置到对象的实例。
+出现异常的方法：Boolean SendData(System.Object, System.Net.IPEndPoint, System.String ByRef)
+方法所在的类：CommonLib.Clients.DerivedUdpClient
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 CommonLib.Clients.DerivedUdpClient.SendData(Object data_origin, IPEndPoint endPoint, String& errorMessage) 位置 D:\CommonLib\CommonLib\CommonLib\Clients\DerivedUdpClient.cs:行号 627

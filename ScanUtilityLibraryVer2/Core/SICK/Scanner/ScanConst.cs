@@ -24,9 +24,10 @@ namespace ScanUtilityLibrary.Core.SICK.Scanner
         public static string XMLPath = string.Empty;
 
         /// <summary>
-        /// 样本可能出现的最大数目(LMS511扫描角度为-45°至225°、角分辨率为0.1667°时为1621个)
+        /// 样本可能出现的最大数目(LMS511扫描角度为-45°至225°、角分辨率为0.1667°时为1621个，LRS3601/3611角分辨率为0.125°时有2401个点)
         /// </summary>
-        public static int SampleMaxCount = 2160;
+        //public static int SampleMaxCount = 2160;
+        public static int SampleMaxCount = 3600;
 
         ///// <summary>
         ///// 指示是否即将结束接收数据

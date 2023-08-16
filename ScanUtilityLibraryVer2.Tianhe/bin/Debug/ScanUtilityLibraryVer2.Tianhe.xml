@@ -334,9 +334,9 @@
             天河Lidar扫描仪TCP通讯类
             </summary>
         </member>
-        <member name="F:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient._watchdogTask">
+        <member name="E:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.OnNoneReceived">
             <summary>
-            执行看门狗行为的任务，周期性发送心跳
+            持续一段时间未接收到任何数据的事件
             </summary>
         </member>
         <member name="E:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.OnStateInfo">
@@ -352,6 +352,11 @@
         <member name="E:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.LoggedIn">
             <summary>
             设备登录成功事件
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient._watchdogTask">
+            <summary>
+            执行看门狗行为的任务，周期性发送心跳
             </summary>
         </member>
         <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.SocketCloseCommand">
@@ -387,6 +392,16 @@
         <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.ErrorMsg_TcpConnections">
             <summary>
             错误信息
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.NoneReceivedThreshold">
+            <summary>
+            超时未接收到数据的计时阈值，计时达到此值时触发事件，单位毫秒，默认5000
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.ReconnectWhenReceiveNone">
+            <summary>
+            在无返回数据时是否重新连接
             </summary>
         </member>
         <member name="P:ScanUtilityLibrary.Core.Tianhe.StreamTcpClient.UserName">

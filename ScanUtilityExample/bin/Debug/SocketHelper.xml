@@ -126,7 +126,12 @@
         </member>
         <member name="P:SocketHelper.Event.ReceivedEventArgs.Socket">
             <summary>
-            发送所接收数据的套接字
+            连接的客户端的套接字
+            </summary>
+        </member>
+        <member name="P:SocketHelper.Event.ReceivedEventArgs.ClientModel">
+            <summary>
+            连接的客户端
             </summary>
         </member>
         <member name="M:SocketHelper.Event.ReceivedEventArgs.#ctor">
@@ -363,15 +368,24 @@
         <member name="M:SocketHelper.Tasks.DataTransTask.Init">
             <inheritdoc/>
         </member>
+        <member name="M:SocketHelper.Tasks.DataTransTask.LoopContent">
+            <inheritdoc/>
+        </member>
+        <member name="M:SocketHelper.Tasks.DataTransTask.GetNewInstance">
+            <inheritdoc/>
+        </member>
+        <member name="M:SocketHelper.Tasks.DataTransTask.SendOutHexString(System.String)">
+            <summary>
+            向外发送接收到的数据
+            </summary>
+            <param name="hex"></param>
+        </member>
         <member name="M:SocketHelper.Tasks.DataTransTask.Socket_OnReceive(System.Object,SocketHelper.Event.ReceivedEventArgs)">
             <summary>
             接收端接收到数据的事件
             </summary>
             <param name="sender"></param>
             <param name="args"></param>
-        </member>
-        <member name="M:SocketHelper.Tasks.DataTransTask.LoopContent">
-            <inheritdoc/>
         </member>
         <member name="T:SocketHelper.Tasks.DataTransParamModel">
             <summary>
@@ -418,12 +432,12 @@
         </member>
         <member name="P:SocketHelper.Tasks.DataTransSocketModel.IpAddress">
             <summary>
-            IP地址（或网段），TCP客户端代表连接的远程IP，TCP服务端代表监听的本地IP
+            IP地址（或网段），TCP/UDP客户端代表连接（推送）的远程IP，TCP/UDP服务端代表监听的本地IP
             </summary>
         </member>
         <member name="P:SocketHelper.Tasks.DataTransSocketModel.Port">
             <summary>
-            端口号，TCP客户端代表连接的远程端口，TCP服务端代表监听的本地端口
+            端口号，TCP/UDP客户端代表连接（推送）的远程端口，TCP/UDP服务端代表监听的本地端口
             </summary>
         </member>
         <member name="M:SocketHelper.Tasks.DataTransSocketModel.#ctor(System.Boolean,SocketHelper.SocketConnType,System.String,System.Int32)">
@@ -614,10 +628,18 @@
         </member>
         <member name="M:SocketHelper.SocketTcpClient.SendData(System.String,SocketHelper.StringType)">
             <summary>
-            发送字符串，同时指定待发送字符串的类型
+            发送字符串（使用Default编码方式），同时指定待发送字符串的类型
             </summary>
             <param name="cmdstr">待发送字符串</param>
             <param name="type">字符串类型，普通字符串或16进制字符串</param>
+        </member>
+        <member name="M:SocketHelper.SocketTcpClient.SendData(System.String,SocketHelper.StringType,System.Text.Encoding)">
+            <summary>
+            发送字符串，同时指定待发送字符串的类型和编码方式
+            </summary>
+            <param name="cmdstr">待发送字符串</param>
+            <param name="type">字符串类型，普通字符串或16进制字符串</param>
+            <param name="encoding">将字符串编码为字节流的编码类型，默认为Default（比如为null时）</param>
         </member>
         <member name="M:SocketHelper.SocketTcpClient.SendData(System.String)">
             <summary>
