@@ -41,7 +41,7 @@ namespace ScanUtilityLibrary.Model.SICK.Dx
         public uint OperatingHours { get; set; }
 
         /// <summary>
-        /// 设备状态字
+        /// 设备状态字，具体说明见用户手册或解决方案根目录“测距仪状态字定义.xlsx”文档
         /// </summary>
         public DeviceStatusWord StatusWord { get; set; }
 

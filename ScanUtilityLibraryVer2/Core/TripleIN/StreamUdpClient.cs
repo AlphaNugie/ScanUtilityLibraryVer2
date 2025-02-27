@@ -17,7 +17,7 @@ using static CommonLib.Function.TimerEventRaiser;
 namespace ScanUtilityLibrary.Core.TripleIN
 {
     /// <summary>
-    /// 天河Lidar扫描仪TCP通讯类
+    /// 天河Lidar扫描仪UDP通讯类
     /// </summary>
     public class StreamUdpClient
     {

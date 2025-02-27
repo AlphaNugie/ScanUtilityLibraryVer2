@@ -1,0 +1,2510 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ScanUtilityLibraryVer2.LivoxSdk2AnyCpu</name>
+    </assembly>
+    <members>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.DllLoader">
+            <summary>
+            DLL加载器
+            <para/>在Windows平台下通过调用系统API的方式设置DLL路径
+            <para/>在跨平台框架下（.NET Core 3.0 或 .NET 5+ 环境）需使用NativeLibrary.SetDllImportResolver方法
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibraryVer2.LivoxSdk2.DllLoader.DllDirSet">
+            <summary>
+            是否执行过ConfigureDllPath方法
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.DllLoader.ConfigureDllPath">
+            <summary>
+            调用系统API，根据程序架构，设置优先搜索并加载DLL的路径，程序启动时需调用此方法
+            <para/>调用后，在DllImport中可直接使用DLL名称而无需完整路径，系统会根据设置好的路径查找DLL
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarPointCloudCallBack">
+            <summary>
+            接收点云数据的回调函数
+            </summary>
+            <param name="handle">设备句柄。</param>
+            <param name="dev_type">设备类型。</param>
+            <param name="data">点云数据指针。</param>
+            <param name="client_data">用户数据。</param>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCmdObserverCallBack">
+            <summary>
+            接收命令数据的回调函数
+            </summary>
+            <param name="handle">设备句柄。</param>
+            <param name="data">命令数据指针。</param>
+            <param name="client_data">用户数据。</param>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarPointCloudObserver">
+            <summary>
+            点云观察者回调函数
+            </summary>
+            <param name="handle">设备句柄。</param>
+            <param name="dev_type">设备类型。</param>
+            <param name="data">点云数据指针。</param>
+            <param name="client_data">用户数据。</param>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarImuDataCallback">
+            <summary>
+            接收IMU数据的回调函数
+            </summary>
+            <param name="handle">设备句柄。</param>
+            <param name="dev_type">设备类型。</param>
+            <param name="data">IMU数据指针。</param>
+            <param name="client_data">用户数据。</param>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInfoCallback">
+            <summary>
+            接收状态信息的回调函数
+            </summary>
+            <param name="handle">设备句柄。</param>
+            <param name="dev_type">设备类型。</param>
+            <param name="info">状态信息字符串。</param>
+            <param name="client_data">用户数据。</param>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInfoChangeCallback">
+            <summary>
+            接收状态信息变化的回调函数
+            </summary>
+            <param name="handle">设备句柄。</param>
+            <param name="info">状态信息指针。</param>
+            <param name="client_data">用户数据。</param>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.QueryLivoxLidarInternalInfoCallback">
+            <summary>
+            查询LiDAR内部信息的回调函数
+            </summary>
+            <param name="status">操作状态。</param>
+            <param name="handle">设备句柄。</param>
+            <param name="response">响应数据指针。</param>
+            <param name="client_data">用户数据。</param>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback">
+            <summary>
+            接收异步控制响应的回调函数
+            </summary>
+            <param name="status">操作状态。</param>
+            <param name="handle">设备句柄。</param>
+            <param name="response">响应数据指针。</param>
+            <param name="client_data">用户数据。</param>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarResetCallback">
+            <summary>
+            接收重置设置响应的回调函数
+            </summary>
+            <param name="status">操作状态。</param>
+            <param name="handle">设备句柄。</param>
+            <param name="response">响应数据指针。</param>
+            <param name="client_data">用户数据。</param>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLoggerCallback">
+            <summary>
+            接收日志设置响应的回调函数
+            </summary>
+            <param name="status">操作状态。</param>
+            <param name="handle">设备句柄。</param>
+            <param name="response">响应数据指针。</param>
+            <param name="client_data">用户数据。</param>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarRebootCallback">
+            <summary>
+            接收重启设置响应的回调函数
+            </summary>
+            <param name="status">操作状态。</param>
+            <param name="handle">设备句柄。</param>
+            <param name="response">响应数据指针。</param>
+            <param name="client_data">用户数据。</param>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.OnLivoxLidarUpgradeProgressCallback">
+            <summary>
+            接收LiDAR升级进度的回调函数
+            </summary>
+            <param name="handle">设备句柄。</param>
+            <param name="state">升级状态。</param>
+            <param name="client_data">用户数据。</param>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarRmcSyncTimeCallBack">
+            <summary>
+            接收RMC时间同步响应的回调函数
+            </summary>
+            <param name="status">操作状态。</param>
+            <param name="handle">设备句柄。</param>
+            <param name="data">同步时间数据指针。</param>
+            <param name="client_data">用户数据。</param>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDef">
+            <summary>
+            定义了一些常量、枚举和基础数据结构，用于描述LiDAR设备的各种参数和状态，并在SDK的其他部分中广泛使用
+            <para/>例如，定义了设备的状态码、数据类型、错误码等。这些定义有助于确保SDK中的参数和状态的一致性
+            <para/>这里定义的数据结构和回调函数类型与C++相同，以便在C#中使用
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDef.livox_status">
+            <summary>
+            函数返回值定义
+            <para/>参见https://github.com/Livox-SDK/Livox-SDK2/wiki/Livox-SDK-Communication-Protocol-HAP(English)#return-code
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.ReturnCode">
+            <summary>
+            向设备发送各项指令的返回码
+            <para/>参见https://github.com/Livox-SDK/Livox-SDK2/wiki/Livox-SDK-Communication-Protocol-HAP(English)#return-code
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ReturnCode.LVX_RET_SUCCESS">
+            <summary>
+            执行成功
+            Execution succeed
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ReturnCode.LVX_RET_FAILURE">
+            <summary>
+            执行失败
+            Execution failed
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ReturnCode.LVX_RET_NOT_PERMIT_NOW">
+            <summary>
+            当前状态不支持
+            Current state does not support
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ReturnCode.LVX_RET_OUT_OF_RANGE">
+            <summary>
+            设置值超出范围
+            Setting value out of range
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ReturnCode.LVX_RET_PARAM_NOTSUPPORT">
+            <summary>
+            参数不支持
+            The parameter is not supported
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ReturnCode.LVX_RET_PARAM_REBOOT_EFFECT">
+            <summary>
+            参数需要重启才能生效
+            Parameters need to reboot to take effect
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ReturnCode.LVX_RET_PARAM_RD_ONLY">
+            <summary>
+            参数是只读的，不能写入
+            The parameter is read-only and cannot be written
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ReturnCode.LVX_RET_PARAM_INVALID_LEN">
+            <summary>
+            请求参数长度错误，或者确认包超过最大长度
+            The request parameter length is wrong, or the ack packet exceeds the maximum length
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ReturnCode.LVX_RET_PARAM_KEY_NUM_ERR">
+            <summary>
+            参数键数量和键列表不匹配
+            Parameter key number and key list mismatch
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ReturnCode.LVX_RET_UPGRADE_PUB_KEY_ERROR">
+            <summary>
+            公钥签名验证错误
+            Public key signature verification error
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ReturnCode.LVX_RET_UPGRADE_DIGEST_ERROR">
+            <summary>
+            摘要检查错误
+            Digest check error
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ReturnCode.LVX_RET_UPGRADE_FW_TYPE_ERROR">
+            <summary>
+            固件类型不匹配
+            Firmware type mismatch
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ReturnCode.LVX_RET_UPGRADE_FW_OUT_OF_RANGE">
+            <summary>
+            固件长度超出范围
+            Firmware length out of range
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDeviceType">
+            <summary>
+            设备类型枚举
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDeviceType.kLivoxLidarTypeHub">
+            <summary>
+            Hub设备
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDeviceType.kLivoxLidarTypeMid40">
+            <summary>
+            Mid40设备
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDeviceType.kLivoxLidarTypeTele">
+            <summary>
+            Tele设备
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDeviceType.kLivoxLidarTypeHorizon">
+            <summary>
+            Horizon设备
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDeviceType.kLivoxLidarTypeMid70">
+            <summary>
+            Mid70设备
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDeviceType.kLivoxLidarTypeAvia">
+            <summary>
+            Avia设备
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDeviceType.kLivoxLidarTypeMid360">
+            <summary>
+            Mid360设备
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDeviceType.kLivoxLidarTypeIndustrialHAP">
+            <summary>
+            工业HAP设备
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDeviceType.kLivoxLidarTypeHAP">
+            <summary>
+            HAP设备
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDeviceType.kLivoxLidarTypePA">
+            <summary>
+            PA设备
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName">
+            <summary>
+            参数键名枚举
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyPclDataType">
+            <summary>
+            点云数据类型键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyPatternMode">
+            <summary>
+            模式键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyDualEmitEn">
+            <summary>
+            双发射使能键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyPointSendEn">
+            <summary>
+            点发送使能键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyLidarIpCfg">
+            <summary>
+            LiDAR IP配置键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyStateInfoHostIpCfg">
+            <summary>
+            状态信息主机IP配置键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyLidarPointDataHostIpCfg">
+            <summary>
+            点云数据主机IP配置键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyLidarImuHostIpCfg">
+            <summary>
+            IMU数据主机IP配置键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyCtlHostIpCfg">
+            <summary>
+            控制主机IP配置键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyLogHostIpCfg">
+            <summary>
+            日志主机IP配置键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyVehicleSpeed">
+            <summary>
+            车辆速度键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyEnvironmentTemp">
+            <summary>
+            环境温度键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyInstallAttitude">
+            <summary>
+            安装姿态键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyBlindSpotSet">
+            <summary>
+            盲区设置键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyFrameRate">
+            <summary>
+            帧率键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyFovCfg0">
+            <summary>
+            视场配置0键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyFovCfg1">
+            <summary>
+            视场配置1键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyFovCfgEn">
+            <summary>
+            视场配置使能键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyDetectMode">
+            <summary>
+            检测模式键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyFuncIoCfg">
+            <summary>
+            功能IO配置键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyWorkModeAfterBoot">
+            <summary>
+            启动后工作模式键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyWorkMode">
+            <summary>
+            工作模式键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyGlassHeat">
+            <summary>
+            玻璃加热键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyImuDataEn">
+            <summary>
+            IMU数据使能键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyFusaEn">
+            <summary>
+            FUSA使能键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyForceHeatEn">
+            <summary>
+            强制加热使能键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyLogParamSet">
+            <summary>
+            日志参数设置键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeySn">
+            <summary>
+            序列号键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyProductInfo">
+            <summary>
+            产品信息键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyVersionApp">
+            <summary>
+            应用版本键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyVersionLoader">
+            <summary>
+            加载器版本键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyVersionHardware">
+            <summary>
+            硬件版本键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyMac">
+            <summary>
+            MAC地址键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyCurWorkState">
+            <summary>
+            当前工作状态键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyCoreTemp">
+            <summary>
+            核心温度键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyPowerUpCnt">
+            <summary>
+            上电次数键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyLocalTimeNow">
+            <summary>
+            当前本地时间键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyLastSyncTime">
+            <summary>
+            上次同步时间键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyTimeOffset">
+            <summary>
+            时间偏移键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyTimeSyncType">
+            <summary>
+            时间同步类型键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyStatusCode">
+            <summary>
+            状态码键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyLidarDiagStatus">
+            <summary>
+            LiDAR诊断状态键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyLidarFlashStatus">
+            <summary>
+            LiDAR闪存状态键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyFwType">
+            <summary>
+            固件类型键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyHmsCode">
+            <summary>
+            HMS代码键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyCurGlassHeatState">
+            <summary>
+            当前玻璃加热状态键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyRoiMode">
+            <summary>
+            ROI模式键
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.ParamKeyName.kKeyLidarDiagInfoQuery">
+            <summary>
+            LiDAR诊断信息查询键
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarPointDataType">
+            <summary>
+            点数据类型枚举
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarPointDataType.kLivoxLidarImuData">
+            <summary>
+            IMU数据类型
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarPointDataType.kLivoxLidarCartesianCoordinateHighData">
+            <summary>
+            高精度笛卡尔坐标数据类型
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarPointDataType.kLivoxLidarCartesianCoordinateLowData">
+            <summary>
+            低精度笛卡尔坐标数据类型
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarPointDataType.kLivoxLidarSphericalCoordinateData">
+            <summary>
+            球坐标数据类型
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLogType">
+            <summary>
+            日志类型枚举
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLogType.kLivoxLidarRealTimeLog">
+            <summary>
+            实时日志类型
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLogType.kLivoxLidarExceptionLog">
+            <summary>
+            异常日志类型
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus">
+            <summary>
+            状态枚举
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus.kLivoxLidarStatusSendFailed">
+            <summary>
+            命令发送失败
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus.kLivoxLidarStatusHandlerImplNotExist">
+            <summary>
+            处理程序实现不存在
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus.kLivoxLidarStatusInvalidHandle">
+            <summary>
+            设备句柄无效
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus.kLivoxLidarStatusChannelNotExist">
+            <summary>
+            命令通道不存在
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus.kLivoxLidarStatusNotEnoughMemory">
+            <summary>
+            内存不足
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus.kLivoxLidarStatusTimeout">
+            <summary>
+            操作超时
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus.kLivoxLidarStatusNotSupported">
+            <summary>
+            设备不支持的操作
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus.kLivoxLidarStatusNotConnected">
+            <summary>
+            请求的设备未连接
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus.kLivoxLidarStatusFailure">
+            <summary>
+            失败
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus.kLivoxLidarStatusSuccess">
+            <summary>
+            成功
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarScanPattern">
+            <summary>
+            扫描模式枚举
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarScanPattern.kLivoxLidarScanPatternNoneRepetive">
+            <summary>
+            非重复扫描模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarScanPattern.kLivoxLidarScanPatternRepetive">
+            <summary>
+            重复扫描模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarScanPattern.kLivoxLidarScanPatternRepetiveLowFrameRate">
+            <summary>
+            低帧率重复扫描模式
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarPointFrameRate">
+            <summary>
+            帧率枚举
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarPointFrameRate.kLivoxLidarFrameRate10Hz">
+            <summary>
+            10Hz帧率
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarPointFrameRate.kLivoxLidarFrameRate15Hz">
+            <summary>
+            15Hz帧率
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarPointFrameRate.kLivoxLidarFrameRate20Hz">
+            <summary>
+            20Hz帧率
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarPointFrameRate.kLivoxLidarFrameRate25Hz">
+            <summary>
+            25Hz帧率
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarWorkMode">
+            <summary>
+            工作模式枚举
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarWorkMode.kLivoxLidarNormal">
+            <summary>
+            正常模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarWorkMode.kLivoxLidarWakeUp">
+            <summary>
+            唤醒模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarWorkMode.kLivoxLidarSleep">
+            <summary>
+            休眠模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarWorkMode.kLivoxLidarError">
+            <summary>
+            错误模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarWorkMode.kLivoxLidarPowerOnSelfTest">
+            <summary>
+            上电自检模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarWorkMode.kLivoxLidarMotorStarting">
+            <summary>
+            电机启动模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarWorkMode.kLivoxLidarMotorStoping">
+            <summary>
+            电机停止模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarWorkMode.kLivoxLidarUpgrade">
+            <summary>
+            升级模式
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarWorkModeAfterBoot">
+            <summary>
+            启动后的工作模式枚举
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarWorkModeAfterBoot.kLivoxLidarWorkModeAfterBootDefault">
+            <summary>
+            默认工作模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarWorkModeAfterBoot.kLivoxLidarWorkModeAfterBootNormal">
+            <summary>
+            正常工作模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarWorkModeAfterBoot.kLivoxLidarWorkModeAfterBootWakeUp">
+            <summary>
+            唤醒工作模式
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDetectMode">
+            <summary>
+            检测模式枚举
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDetectMode.kLivoxLidarDetectNormal">
+            <summary>
+            检测模式：正常
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDetectMode.kLivoxLidarDetectSensitive">
+            <summary>
+            检测模式：敏感
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarGlassHeat">
+            <summary>
+            玻璃加热枚举
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarGlassHeat.kLivoxLidarStopPowerOnHeatingOrDiagnosticHeating">
+            <summary>
+            停止加热或诊断加热
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarGlassHeat.kLivoxLidarTurnOnHeating">
+            <summary>
+            开启加热
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarGlassHeat.kLivoxLidarDiagnosticHeating">
+            <summary>
+            诊断加热
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarGlassHeat.kLivoxLidarStopSelfHeating">
+            <summary>
+            停止自加热
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmState">
+            <summary>
+            LiDAR状态机状态枚举
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmState.kLivoxLidarUpgradeIdle">
+            <summary>
+            升级空闲状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmState.kLivoxLidarUpgradeRequest">
+            <summary>
+            升级请求状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmState.kLivoxLidarUpgradeXferFirmware">
+            <summary>
+            传输固件状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmState.kLivoxLidarUpgradeCompleteXferFirmware">
+            <summary>
+            完成固件传输状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmState.kLivoxLidarUpgradeGetUpgradeProgress">
+            <summary>
+            获取升级进度状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmState.kLivoxLidarUpgradeComplete">
+            <summary>
+            升级完成状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmState.kLivoxLidarUpgradeTimeout">
+            <summary>
+            升级超时状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmState.kLivoxLidarUpgradeErr">
+            <summary>
+            升级错误状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmState.kLivoxLidarUpgradeUndef">
+            <summary>
+            未定义状态
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmEvent">
+            <summary>
+            LiDAR状态机事件枚举
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmEvent.kLivoxLidarEventRequestUpgrade">
+            <summary>
+            请求升级事件
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmEvent.kLivoxLidarEventXferFirmware">
+            <summary>
+            传输固件事件
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmEvent.kLivoxLidarEventCompleteXferFirmware">
+            <summary>
+            完成固件传输事件
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmEvent.kLivoxLidarEventGetUpgradeProgress">
+            <summary>
+            获取升级进度事件
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmEvent.kLivoxLidarEventComplete">
+            <summary>
+            升级完成事件
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmEvent.kLivoxLidarEventReinit">
+            <summary>
+            重新初始化事件
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmEvent.kLivoxLidarEventTimeout">
+            <summary>
+            超时事件
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmEvent.kLivoxLidarEventErr">
+            <summary>
+            错误事件
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarFsmEvent.kLivoxLidarEventUndef">
+            <summary>
+            未定义事件
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarSdkVer">
+            <summary>
+            数字版本信息结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarSdkVer.major">
+            <summary>
+            主版本号
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarSdkVer.minor">
+            <summary>
+            次版本号
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarSdkVer.patch">
+            <summary>
+            修订版本号
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInfo">
+            <summary>
+            LiDAR设备信息结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInfo.dev_type">
+            <summary>
+            设备类型
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInfo.sn">
+            <summary>
+            序列号
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInfo.lidar_ip">
+            <summary>
+            LiDAR IP地址
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarEthernetPacket">
+            <summary>
+            LiDAR以太网数据包结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarEthernetPacket.version">
+            <summary>
+            包协议版本：当前为0
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarEthernetPacket.length">
+            <summary>
+            数据包长度：从version开始的整个UDP数据段长度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarEthernetPacket.time_interval">
+            <summary>
+            帧内点云采样时间(单位0.1us)
+            <para/>这帧点云数据中最后一个点减去第一个点时间
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarEthernetPacket.dot_num">
+            <summary>
+            当前UDP包data字段包含点数目：
+            <para/>点云数据为96，IMU数据为1
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarEthernetPacket.udp_cnt">
+            <summary>
+            点云UDP包计数，用来区分发送的顺序，从0开始，每个UDP包依次加1，最大值为ushort.MaxValue(65535)
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarEthernetPacket.frame_cnt">
+            <summary>
+            帧计数（HAP该字段为0）
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarEthernetPacket.data_type">
+            <summary>
+            数据类型：0-IMU Data；1-Point Cloud Data1；2-Point Cloud Data2
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarEthernetPacket.time_type">
+            <summary>
+            时间戳类型：
+            <para/>0 无同步源，时间戳为雷达开机时间
+            <para/>1 gPTP同步，时间戳为master时钟源时间
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarEthernetPacket.pack_info">
+            <summary>
+            bit0-1: 功能安全safety_info
+            0x0：整包可信;
+            0x1：整包不可信;
+            0x2：非0点可信;
+            <para/>bit2-3: tag_type, HAP 固定为0
+            <para/>bit4-7: rsvd
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarEthernetPacket.rsvd">
+            <summary>
+            预留
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarEthernetPacket.crc32">
+            <summary>
+            CRC32校验码，校验timestamp+data段
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarEthernetPacket.timestamp">
+            <summary>
+            点云时间戳（微秒），类型由time_type决定
+            <para/>每个数据包中的时间戳代表第一个点云的时间，每个数据包中有n个点云，这n个点云的时间是等间隔的，总间隔时间为time_interval的值
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarEthernetPacket.data">
+            <summary>
+            点云数据或IMU数据（由data_type决定）
+            <para/>IMU：24字节 * 数量1
+            <para/>Point Cloud Data1：14字节 * 数量96
+            <para/>Point Cloud Data2：8字节  * 数量96
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCmdPacket">
+            <summary>
+            LiDAR命令数据包结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCmdPacket.sof">
+            <summary>
+            帧起始标志
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCmdPacket.version">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCmdPacket.length">
+            <summary>
+            数据包长度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCmdPacket.seq_num">
+            <summary>
+            序列号
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCmdPacket.cmd_id">
+            <summary>
+            命令ID
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCmdPacket.cmd_type">
+            <summary>
+            命令类型
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCmdPacket.sender_type">
+            <summary>
+            发送方类型
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCmdPacket.rsvd">
+            <summary>
+            预留
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCmdPacket.crc16_h">
+            <summary>
+            高位CRC16校验码
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCmdPacket.crc32_d">
+            <summary>
+            数据CRC32校验码
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCmdPacket.data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarImuRawPoint">
+            <summary>
+            LiDAR IMU原始点数据结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarImuRawPoint.gyro_x">
+            <summary>
+            陀螺仪X轴数据
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarImuRawPoint.gyro_y">
+            <summary>
+            陀螺仪Y轴数据
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarImuRawPoint.gyro_z">
+            <summary>
+            陀螺仪Z轴数据
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarImuRawPoint.acc_x">
+            <summary>
+            加速度计X轴数据
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarImuRawPoint.acc_y">
+            <summary>
+            加速度计Y轴数据
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarImuRawPoint.acc_z">
+            <summary>
+            加速度计Z轴数据
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCartesianHighRawPoint">
+            <summary>
+            LiDAR高精度笛卡尔坐标系点数据结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCartesianHighRawPoint.x">
+            <summary>
+            X轴坐标，单位：毫米
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCartesianHighRawPoint.y">
+            <summary>
+            Y轴坐标，单位：毫米
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCartesianHighRawPoint.z">
+            <summary>
+            Z轴坐标，单位：毫米
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCartesianHighRawPoint.reflectivity">
+            <summary>
+            反射率
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCartesianHighRawPoint.tag">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCartesianLowRawPoint">
+            <summary>
+            LiDAR低精度笛卡尔坐标系点数据结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCartesianLowRawPoint.x">
+            <summary>
+            X轴坐标，单位：厘米
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCartesianLowRawPoint.y">
+            <summary>
+            Y轴坐标，单位：厘米
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCartesianLowRawPoint.z">
+            <summary>
+            Z轴坐标，单位：厘米
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCartesianLowRawPoint.reflectivity">
+            <summary>
+            反射率
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCartesianLowRawPoint.tag">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarSpherPoint">
+            <summary>
+            LiDAR球坐标系点数据结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarSpherPoint.depth">
+            <summary>
+            深度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarSpherPoint.theta">
+            <summary>
+            横向角度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarSpherPoint.phi">
+            <summary>
+            纵向角度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarSpherPoint.reflectivity">
+            <summary>
+            反射率
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarSpherPoint.tag">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarKeyValueParam">
+            <summary>
+            LiDAR键值对参数结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarKeyValueParam.key">
+            <summary>
+            键名
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarKeyValueParam.length">
+            <summary>
+            值的长度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarKeyValueParam.value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlResponse">
+            <summary>
+            LiDAR异步控制响应结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlResponse.ret_code">
+            <summary>
+            返回代码
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlResponse.error_key">
+            <summary>
+            错误键
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInfoResponse">
+            <summary>
+            LiDAR信息响应结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInfoResponse.ret_code">
+            <summary>
+            返回代码
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInfoResponse.lidar_info">
+            <summary>
+            LiDAR信息
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDiagInternalInfoResponse">
+            <summary>
+            LiDAR内部诊断信息响应结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDiagInternalInfoResponse.ret_code">
+            <summary>
+            返回代码
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDiagInternalInfoResponse.param_num">
+            <summary>
+            参数数量
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDiagInternalInfoResponse.data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInstallAttitude">
+            <summary>
+            LiDAR安装姿态结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInstallAttitude.roll_deg">
+            <summary>
+            滚转角度，单位：度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInstallAttitude.pitch_deg">
+            <summary>
+            俯仰角度，单位：度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInstallAttitude.yaw_deg">
+            <summary>
+            偏航角度，单位：度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInstallAttitude.x">
+            <summary>
+            X轴坐标，单位：毫米
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInstallAttitude.y">
+            <summary>
+            Y轴坐标，单位：毫米
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInstallAttitude.z">
+            <summary>
+            Z轴坐标，单位：毫米
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.FovCfg">
+            <summary>
+            视场配置结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.FovCfg.yaw_start">
+            <summary>
+            横向视场起始角度，单位：度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.FovCfg.yaw_stop">
+            <summary>
+            横向视场终止角度，单位：度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.FovCfg.pitch_start">
+            <summary>
+            纵向视场起始角度，单位：度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.FovCfg.pitch_stop">
+            <summary>
+            纵向视场终止角度，单位：度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.FovCfg.rsvd">
+            <summary>
+            保留字段
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.FuncIOCfg">
+            <summary>
+            功能IO配置结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.FuncIOCfg.in0">
+            <summary>
+            输入0
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.FuncIOCfg.int1">
+            <summary>
+            输入1
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.FuncIOCfg.out0">
+            <summary>
+            输出0
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.FuncIOCfg.out1">
+            <summary>
+            输出1
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLoggerCfgInfo">
+            <summary>
+            LiDAR日志配置结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLoggerCfgInfo.lidar_log_enable">
+            <summary>
+            是否启用LiDAR日志
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLoggerCfgInfo.lidar_log_cache_size">
+            <summary>
+            LiDAR日志缓存大小
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLoggerCfgInfo.lidar_log_path">
+            <summary>
+            LiDAR日志路径
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarIpInfo">
+            <summary>
+            LiDAR IP信息结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarIpInfo.ip_addr">
+            <summary>
+            IP地址
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarIpInfo.net_mask">
+            <summary>
+            子网掩码
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarIpInfo.gw_addr">
+            <summary>
+            网关地址
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.HostStateInfoIpInfo">
+            <summary>
+            主机状态信息IP配置结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.HostStateInfoIpInfo.host_ip_addr">
+            <summary>
+            主机IP地址
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.HostStateInfoIpInfo.host_state_info_port">
+            <summary>
+            主机状态信息端口
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.HostStateInfoIpInfo.lidar_state_info_port">
+            <summary>
+            LiDAR状态信息端口
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.HostPointIPInfo">
+            <summary>
+            主机点云数据IP配置结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.HostPointIPInfo.host_ip_addr">
+            <summary>
+            主机IP地址
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.HostPointIPInfo.host_point_data_port">
+            <summary>
+            主机点云数据端口
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.HostPointIPInfo.lidar_point_data_port">
+            <summary>
+            LiDAR点云数据端口
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.HostImuDataIPInfo">
+            <summary>
+            主机IMU数据IP配置结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.HostImuDataIPInfo.host_ip_addr">
+            <summary>
+            主机IP地址
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.HostImuDataIPInfo.host_imu_data_port">
+            <summary>
+            主机IMU数据端口（保留）
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.HostImuDataIPInfo.lidar_imu_data_port">
+            <summary>
+            LiDAR IMU数据端口（保留）
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxIpCfg">
+            <summary>
+            LiDAR IP配置结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxIpCfg.ip_addr">
+            <summary>
+            IP地址
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxIpCfg.dst_port">
+            <summary>
+            目标端口
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxIpCfg.src_port">
+            <summary>
+            源端口
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo">
+            <summary>
+            LiDAR状态信息结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.pcl_data_type">
+            <summary>
+            点云数据类型
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.pattern_mode">
+            <summary>
+            扫描模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.dual_emit_en">
+            <summary>
+            双发射使能
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.point_send_en">
+            <summary>
+            点发送使能
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.lidar_ip_info">
+            <summary>
+            LiDAR IP信息
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.host_point_ip_info">
+            <summary>
+            主机点云数据IP信息
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.host_imu_ip_info">
+            <summary>
+            主机IMU数据IP信息
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.install_attitude">
+            <summary>
+            安装姿态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.blind_spot_set">
+            <summary>
+            盲区设置
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.work_mode">
+            <summary>
+            工作模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.glass_heat">
+            <summary>
+            玻璃加热
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.imu_data_en">
+            <summary>
+            IMU数据使能
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.fusa_en">
+            <summary>
+            FUSA使能
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.sn">
+            <summary>
+            序列号
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.product_info">
+            <summary>
+            产品信息
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.version_app">
+            <summary>
+            应用版本
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.version_loader">
+            <summary>
+            加载器版本
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.version_hardware">
+            <summary>
+            硬件版本
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.mac">
+            <summary>
+            MAC地址
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.cur_work_state">
+            <summary>
+            当前工作状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStateInfo.status_code">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo">
+            <summary>
+            LiDAR直接状态信息结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.pcl_data_type">
+            <summary>
+            点云数据类型
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.pattern_mode">
+            <summary>
+            扫描模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.dual_emit_en">
+            <summary>
+            双发射使能
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.point_send_en">
+            <summary>
+            点发送使能
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.lidar_ipcfg">
+            <summary>
+            LiDAR IP配置
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.host_state_info">
+            <summary>
+            主机状态信息IP配置
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.pointcloud_host_ipcfg">
+            <summary>
+            主机点云数据IP配置
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.imu_host_ipcfg">
+            <summary>
+            主机IMU数据IP配置
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.ctl_host_ipcfg">
+            <summary>
+            控制主机IP配置
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.log_host_ipcfg">
+            <summary>
+            日志主机IP配置
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.vehicle_speed">
+            <summary>
+            车辆速度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.environment_temp">
+            <summary>
+            环境温度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.install_attitude">
+            <summary>
+            安装姿态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.blind_spot_set">
+            <summary>
+            盲区设置
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.frame_rate">
+            <summary>
+            帧率
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.fov_cfg0">
+            <summary>
+            视场配置0
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.fov_cfg1">
+            <summary>
+            视场配置1
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.fov_cfg_en">
+            <summary>
+            视场配置使能
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.detect_mode">
+            <summary>
+            检测模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.func_io_cfg">
+            <summary>
+            功能IO配置
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.work_tgt_mode">
+            <summary>
+            工作目标模式
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.glass_heat">
+            <summary>
+            玻璃加热
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.imu_data_en">
+            <summary>
+            IMU数据使能
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.fusa_en">
+            <summary>
+            FUSA使能
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.sn">
+            <summary>
+            序列号
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.product_info">
+            <summary>
+            产品信息
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.version_app">
+            <summary>
+            应用版本
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.version_loader">
+            <summary>
+            加载器版本
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.version_hardware">
+            <summary>
+            硬件版本
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.mac">
+            <summary>
+            MAC地址
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.cur_work_state">
+            <summary>
+            当前工作状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.core_temp">
+            <summary>
+            核心温度
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.powerup_cnt">
+            <summary>
+            上电次数
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.local_time_now">
+            <summary>
+            当前本地时间
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.last_sync_time">
+            <summary>
+            上次同步时间
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.time_offset">
+            <summary>
+            时间偏移
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.time_sync_type">
+            <summary>
+            时间同步类型
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.status_code">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.lidar_diag_status">
+            <summary>
+            LiDAR诊断状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.lidar_flash_status">
+            <summary>
+            LiDAR闪存状态
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.fw_type">
+            <summary>
+            固件类型
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.hms_code">
+            <summary>
+            HMS代码
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.DirectLidarStateInfo.ROI_Mode">
+            <summary>
+            ROI模式
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarQueryInternalInfoResponse">
+            <summary>
+            LiDAR查询内部信息响应结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarQueryInternalInfoResponse.ret_code">
+            <summary>
+            返回代码
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarQueryInternalInfoResponse.livox_lidar_state_info">
+            <summary>
+            LiDAR状态信息
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLogParam">
+            <summary>
+            LiDAR日志参数结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLogParam.log_send_method">
+            <summary>
+            日志发送方法
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLogParam.log_id">
+            <summary>
+            日志ID
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLogParam.log_frequency">
+            <summary>
+            日志频率
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLogParam.is_save_setting">
+            <summary>
+            是否保存设置
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLogParam.check_code">
+            <summary>
+            校验码
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLoggerResponse">
+            <summary>
+            LiDAR日志响应结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLoggerResponse.ret_code">
+            <summary>
+            返回代码
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarRebootRequest">
+            <summary>
+            LiDAR重启请求结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarRebootRequest.timeout">
+            <summary>
+            重启延迟时间
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarRebootResponse">
+            <summary>
+            LiDAR重启响应结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarRebootResponse.ret_code">
+            <summary>
+            返回代码
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarResetRequest">
+            <summary>
+            LiDAR复位请求结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarResetRequest.data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarResetResponse">
+            <summary>
+            LiDAR复位响应结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarResetResponse.ret_code">
+            <summary>
+            返回代码
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarUpgradeState">
+            <summary>
+            LiDAR升级状态结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarUpgradeState.state">
+            <summary>
+            状态机事件
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarUpgradeState.progress">
+            <summary>
+            升级进度
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarRmcSyncTimeResponse">
+            <summary>
+            LiDAR RMC同步时间响应结构体
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarRmcSyncTimeResponse.ret">
+            <summary>
+            成功：0，失败：1
+            </summary>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk">
+            <summary>
+            SDK提供的功能函数（从非托管DLL中导出的静态方法）
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.GetLivoxLidarSdkVer(ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarSdkVer@)">
+            <summary>
+            获取SDK的版本信息
+            </summary>
+            <param name="version">用于存储版本信息的结构体</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.LivoxLidarSdkInit(System.String,System.String,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLoggerCfgInfo@)">
+            <summary>
+            初始化SDK
+            </summary>
+            <param name="path">配置文件路径</param>
+            <param name="host_ip">主机IP地址</param>
+            <param name="log_cfg_info">日志配置信息</param>
+            <returns>返回true表示初始化成功，否则返回false</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.LivoxLidarSdkStart">
+            <summary>
+            启动SDK
+            </summary>
+            <returns>返回true表示启动成功，否则返回false</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.LivoxLidarSdkUninit">
+            <summary>
+            反初始化SDK
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarPointCloudCallBack(ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarPointCloudCallBack,System.IntPtr)">
+            <summary>
+            设置接收点云数据的回调函数
+            </summary>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.LivoxLidarAddCmdObserver(ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarCmdObserverCallBack,System.IntPtr)">
+            <summary>
+            添加LiDAR命令数据观察者
+            </summary>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.LivoxLidarRemoveCmdObserver">
+            <summary>
+            移除LiDAR命令数据观察者
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.LivoxLidarAddPointCloudObserver(ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarPointCloudObserver,System.IntPtr)">
+            <summary>
+            添加点云观察者
+            </summary>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回观察者ID</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.LivoxLidarRemovePointCloudObserver(System.UInt16)">
+            <summary>
+            移除点云观察者
+            </summary>
+            <param name="id">观察者ID</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarImuDataCallback(ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarImuDataCallback,System.IntPtr)">
+            <summary>
+            设置接收IMU数据的回调函数
+            </summary>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarInfoCallback(ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInfoCallback,System.IntPtr)">
+            <summary>
+            设置接收状态信息的回调函数
+            </summary>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.DisableLivoxSdkConsoleLogger">
+            <summary>
+            禁用SDK控制台日志输出
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SaveLivoxLidarSdkLoggerFile">
+            <summary>
+            保存日志文件
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarInfoChangeCallback(ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInfoChangeCallback,System.IntPtr)">
+            <summary>
+            设置接收状态信息变化的回调函数
+            </summary>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.QueryLivoxLidarInternalInfo(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.QueryLivoxLidarInternalInfoCallback,System.IntPtr)">
+            <summary>
+            查询LiDAR内部信息
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.QueryLivoxLidarFwType(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.QueryLivoxLidarInternalInfoCallback,System.IntPtr)">
+            <summary>
+            查询LiDAR固件类型
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.QueryLivoxLidarFirmwareVer(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.QueryLivoxLidarInternalInfoCallback,System.IntPtr)">
+            <summary>
+            查询LiDAR固件版本
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarPclDataType(System.UInt32,System.Int32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR点云数据类型
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="data_type">点云数据类型</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarScanPattern(System.UInt32,System.Int32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR扫描模式
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="scan_pattern">扫描模式</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarDualEmit(System.UInt32,System.Boolean,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR双发射模式
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="enable">是否启用双发射模式</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.EnableLivoxLidarPointSend(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            启用LiDAR点发送
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.DisableLivoxLidarPointSend(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            禁用LiDAR点发送
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarIp(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarIpInfo@,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR IP信息
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="ip_config">IP配置信息</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarStateInfoHostIPCfg(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.HostStateInfoIpInfo@,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR状态信息主机IP配置
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="host_state_info_ipcfg">状态信息主机IP配置</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarPointDataHostIPCfg(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.HostPointIPInfo@,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR点云数据主机IP配置
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="host_point_ipcfg">点云数据主机IP配置</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarImuDataHostIPCfg(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.HostImuDataIPInfo@,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR IMU数据主机IP配置
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="host_imu_ipcfg">IMU数据主机IP配置</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarInstallAttitude(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarInstallAttitude@,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR安装姿态
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="install_attitude">安装姿态</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarFovCfg0(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.FovCfg@,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR视场配置0
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="fov_cfg0">视场配置0</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarFovCfg1(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.FovCfg@,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR视场配置1
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="fov_cfg1">视场配置1</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.EnableLivoxLidarFov(System.UInt32,System.Byte,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            启用LiDAR视场
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="fov_en">是否启用视场</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.DisableLivoxLidarFov(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            禁用LiDAR视场
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarDetectMode(System.UInt32,System.Int32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR检测模式
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="mode">检测模式</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarFuncIOCfg(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.FuncIOCfg@,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR功能IO配置
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="func_io_cfg">功能IO配置</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarBlindSpot(System.UInt32,System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR盲区配置
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="blind_spot">盲区配置</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarWorkMode(System.UInt32,System.Int32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR工作模式
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="work_mode">工作模式</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.EnableLivoxLidarGlassHeat(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            启用LiDAR玻璃加热功能
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.DisableLivoxLidarGlassHeat(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            禁用LiDAR玻璃加热功能
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.StartForcedHeating(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            启用LiDAR强制加热功能
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.StopForcedHeating(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            禁用LiDAR强制加热功能
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.EnableLivoxLidarImuData(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            启用LiDAR IMU数据
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.DisableLivoxLidarImuData(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            禁用LiDAR IMU数据
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.EnableLivoxLidarFusaFunciont(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            启用LiDAR FUSA功能
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.DisableLivoxLidarFusaFunciont(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            禁用LiDAR FUSA功能
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.LivoxLidarRequestReset(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarResetCallback,System.IntPtr)">
+            <summary>
+            请求重置LiDAR
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.LivoxLidarStartLogger(System.UInt32,System.Int32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLoggerCallback,System.IntPtr)">
+            <summary>
+            启动日志记录当前仅支持设置实时日志
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="log_type">日志类型</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.LivoxLidarStopLogger(System.UInt32,System.Int32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLoggerCallback,System.IntPtr)">
+            <summary>
+            停止日志记录当前仅支持设置实时日志
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="log_type">日志类型</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarDebugPointCloud(System.UInt32,System.Boolean,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarLoggerCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR调试点云开关
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="enable">是否启用调试点云</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarRmcSyncTime(System.UInt32,System.String,System.UInt16,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarRmcSyncTimeCallBack,System.IntPtr)">
+            <summary>
+            设置LiDAR GPS "GPRMC" 字符串同步时间
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="rmc">GPS "GPRMC" 字符串</param>
+            <param name="rmc_length">GPS "GPRMC" 字符串长度</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarWorkModeAfterBoot(System.UInt32,System.Int32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarAsyncControlCallback,System.IntPtr)">
+            <summary>
+            设置LiDAR启动后的工作模式
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="work_mode">启动后的工作模式</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.LivoxLidarRequestReboot(System.UInt32,ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarRebootCallback,System.IntPtr)">
+            <summary>
+            请求重启LiDAR
+            </summary>
+            <param name="handle">设备句柄</param>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+            <returns>返回状态码</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarUpgradeFirmwarePath(System.String)">
+            <summary>
+            设置LiDAR升级固件路径
+            </summary>
+            <param name="firmware_path">固件路径</param>
+            <returns>返回true表示成功，否则返回false</returns>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.SetLivoxLidarUpgradeProgressCallback(ScanUtilityLibraryVer2.LivoxSdk2.Include.OnLivoxLidarUpgradeProgressCallback,System.IntPtr)">
+            <summary>
+            设置升级进度回调函数
+            </summary>
+            <param name="cb">回调函数</param>
+            <param name="client_data">用户数据</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.LivoxLidarSdk.UpgradeLivoxLidars(System.IntPtr,System.Byte)">
+            <summary>
+            升级多个LiDAR设备
+            </summary>
+            <param name="handle">设备句柄数组指针</param>
+            <param name="lidar_num">设备数量</param>
+        </member>
+        <member name="T:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart">
+            <summary>
+            Livox激光扫描仪QuickStart测试
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.FrameTime">
+            <summary>
+            帧速率（毫秒），因为HAP雷达使用非重复扫描，因此帧速率时间越长，扫描图像细节越丰富
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.PkgsPerFrame">
+            <summary>
+            每帧的包数，HAP雷达使用非重复扫描，因此包数越多，扫描细节越丰富
+            <para/>每包含96个点，HAP雷达点发送速率为452KHZ，因此当帧速率为1ms时，每帧包数为452K/1K/96=4，当帧速率为1000ms时，每帧包数为4000
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.PointsPerFrame">
+            <summary>
+            每帧的点数，每包含96个点，因此每帧点数 = 96 * 每帧包数
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.DataType">
+            <summary>
+            返回的点的数据类型
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.CartesianHighRawPoints">
+            <summary>
+            笛卡尔坐标系高精度坐标点的缓存序列（1mm）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.CartesianLowRawPoints">
+            <summary>
+            笛卡尔坐标系低精度坐标点的缓存序列（10mm）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.SpherPoints">
+            <summary>
+            球坐标系坐标点的缓存序列
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.PointCloudCallback(System.UInt32,System.Byte,System.IntPtr,System.IntPtr)">
+            <summary>
+            点云数据回调函数
+            </summary>
+            <param name="handle">LiDAR 设备句柄</param>
+            <param name="dev_type">设备类型</param>
+            <param name="data">点云数据指针</param>
+            <param name="client_data">客户端数据指针</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.ImuDataCallback(System.UInt32,System.Byte,System.IntPtr,System.IntPtr)">
+            <summary>
+            IMU 数据回调函数
+            </summary>
+            <param name="handle">LiDAR 设备句柄</param>
+            <param name="dev_type">设备类型</param>
+            <param name="data">IMU 数据指针</param>
+            <param name="client_data">客户端数据指针</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.WorkModeCallback(ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus,System.UInt32,System.IntPtr,System.IntPtr)">
+            <summary>
+            工作模式回调函数
+            </summary>
+            <param name="status">操作状态</param>
+            <param name="handle">LiDAR 设备句柄</param>
+            <param name="response">响应数据指针</param>
+            <param name="client_data">客户端数据指针</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.RebootCallback(ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus,System.UInt32,System.IntPtr,System.IntPtr)">
+            <summary>
+            重启回调函数
+            </summary>
+            <param name="status">操作状态</param>
+            <param name="handle">LiDAR 设备句柄</param>
+            <param name="response">响应数据指针</param>
+            <param name="client_data">客户端数据指针</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.SetIpInfoCallback(ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus,System.UInt32,System.IntPtr,System.IntPtr)">
+            <summary>
+            设置 IP 信息回调函数
+            </summary>
+            <param name="status">操作状态</param>
+            <param name="handle">LiDAR 设备句柄</param>
+            <param name="response">响应数据指针</param>
+            <param name="client_data">客户端数据指针</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.QueryInternalInfoCallback(ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarStatus,System.UInt32,System.IntPtr,System.IntPtr)">
+            <summary>
+            查询内部信息回调函数
+            </summary>
+            <param name="status">操作状态</param>
+            <param name="handle">LiDAR 设备句柄</param>
+            <param name="response">响应数据指针</param>
+            <param name="client_data">客户端数据指针</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.LidarInfoChangeCallback(System.UInt32,System.IntPtr,System.IntPtr)">
+            <summary>
+            LiDAR 信息变化回调函数
+            </summary>
+            <param name="handle">LiDAR 设备句柄</param>
+            <param name="info">设备信息指针</param>
+            <param name="client_data">客户端数据指针</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.LivoxLidarPushMsgCallback(System.UInt32,System.Byte,System.String,System.IntPtr)">
+            <summary>
+            LiDAR 推送消息回调函数
+            </summary>
+            <param name="handle">LiDAR 设备句柄</param>
+            <param name="dev_type">设备类型</param>
+            <param name="info">消息信息</param>
+            <param name="client_data">客户端数据指针</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.Start(System.String)">
+            <summary>
+            以配置文件启动并获取点云数据
+            </summary>
+            <param name="configFile">配置文件名称</param>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.Stop">
+            <summary>
+            结束并停止获取点云
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibraryVer2.LivoxSdk2.Samples.LivoxLidarQuickStart.MonitorAndTrimCacheAsync(System.Threading.CancellationToken)">
+            <summary>
+            检测缓存列表的长度，当超过PkgsPerFrame后，在缓存列表末尾移除超出的部分，并把原始列表内的所有元素替换为缓存列表内的所有剩余元素
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -9,3 +9,4 @@
 /ScanUtilityLibraryVer2/bin/Debug/CommonLib.pdb
 /ScanUtilityLibraryVer2/obj
 *.pdb
+/ScanUtilityLibraryVer2.LivoxSdk2/obj

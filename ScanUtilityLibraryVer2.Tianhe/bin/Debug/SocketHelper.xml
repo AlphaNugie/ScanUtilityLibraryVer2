@@ -2454,6 +2454,12 @@
             设置Tcp连接名称，格式：本地端口->服务端IP:端口
             </summary>
         </member>
+        <member name="M:SocketHelper.SocketTcpServer.ShutdownClient(SocketHelper.ClientModel)">
+            <summary>
+            关闭某个指定客户端（会从ClientSocketList中移除客户端对象，注意枚举的使用）
+            </summary>
+            <param name="client"></param>
+        </member>
         <member name="M:SocketHelper.SocketTcpServer.ShutdownAllClients">
             <summary>
             关闭所有连接的TCP客户端

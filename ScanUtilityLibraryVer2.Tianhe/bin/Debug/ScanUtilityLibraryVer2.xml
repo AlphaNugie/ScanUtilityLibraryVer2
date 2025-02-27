@@ -39,6 +39,209 @@
             Triple-IN PSXXX(-90/-270)系列雷达
             </summary>
         </member>
+        <member name="T:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient">
+            <summary>
+            Livox Lidar扫描仪UDP通讯类
+            </summary>
+        </member>
+        <member name="E:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.OnNoneReceived">
+            <summary>
+            持续一段时间未接收到任何数据的事件
+            </summary>
+        </member>
+        <member name="E:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.Connected">
+            <summary>
+            UDP连接事件
+            </summary>
+        </member>
+        <member name="E:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.Disconnected">
+            <summary>
+            UDP断开事件
+            </summary>
+        </member>
+        <member name="E:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.DataReceived">
+            <summary>
+            数据接收事件
+            </summary>
+        </member>
+        <member name="F:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient._watchdogTask">
+            <summary>
+            执行看门狗行为的任务，周期性发送心跳
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.SocketCloseCommand">
+            <summary>
+            是否在发送关闭命令的状态下
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.ServerIp">
+            <summary>
+            Udp服务端的IP
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.ServerPort">
+            <summary>
+            Udp服务端的端口号，默认为56000
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.LocalIp">
+            <summary>
+            Udp本地端的IP，自动检测为与服务端IP同网段地址
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.LocalPort">
+            <summary>
+            Udp本地端的端口号，默认为57000
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.Client">
+            <summary>
+            UdpClient对象
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.IsConnected">
+            <summary>
+            是否连接（假如为true则发送报文时不包含服务端IP地址、端口号，否则发送时需指定）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.IsConnected_Socket">
+            <summary>
+            Udp Socket的真实连接状态
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.ErrorMsg_UdpConnections">
+            <summary>
+            连接的错误信息
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.ErrorMsg_Resolving">
+            <summary>
+            报文解析的错误信息
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.NoneReceivedThreshold">
+            <summary>
+            超时未接收到数据的计时阈值，计时达到此值时触发事件，单位毫秒，默认5000
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.FirmwareVersion">
+            <summary>
+            扫描仪固件版本描述
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.NumOfPoints">
+            <summary>
+            报文中数据点个数
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.AlbedoOn">
+            <summary>
+            报文中是否输出反射率
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.AngularIncrement">
+            <summary>
+            实际角分辨率（°）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.StartAngle">
+            <summary>
+            扫描起始角度（°）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.StopAngle">
+            <summary>
+            扫描结束角度（°）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.ScanPoints">
+            <summary>
+            扫描点数组
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.GVERCommand">
+            <summary>
+            固件版本报文（向设备发送以及从设备接收）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.SCANCommand">
+            <summary>
+            SCAN开启或关闭扫描报文（向设备发送）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.GSCNCommand">
+            <summary>
+            GSCN数据输出报文（向设备发送以及从设备接收）
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.LastErrors">
+            <summary>
+            最后的若干个错误
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.#ctor(System.String,System.Int32)">
+            <summary>
+            使用服务端IP地址、端口号初始化StreamUdpClient
+            </summary>
+            <param name="serverIp">服务端（扫描仪）IP地址，本地端IP地址自动检测为同网段地址</param>
+            <param name="serverPort">服务端（扫描仪）端口号</param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.Connect">
+            <summary>
+            使用当前设定的IP、端口、用户名和密码与TCP服务端连接
+            </summary>
+            <returns>假如成功，返回0，否则返回1</returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.Connect(System.String,System.Int32)">
+            <summary>
+            利用特定的IP、端口与TCP服务端连接<para/>
+            假如连接则发送报文时不包含服务端IP地址、端口号，否则发送时需指定
+            </summary>
+            <param name="server">TCP服务端IP</param>
+            <param name="port">端口号</param>
+            <returns>假如成功，返回0，否则返回1</returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.Close">
+            <summary>
+            关闭TCP连接
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.ResolveCommands(System.String)">
+            <summary>
+            根据16进制字符串解析报文数据
+            </summary>
+            <param name="hexString"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.ResolveCommands(System.Byte[])">
+            <summary>
+            根据byte数组解析TIP数据
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.RecDataStream">
+            <summary>
+            刷新扫描点信息
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.GetUdpHeader">
+            <summary>
+            获取TCP信息抬头
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.GetScanDataString">
+            <summary>
+            获取扫描点信息（前36个坐标点）的字符串形式
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.LivoxSdk2.StreamUdpClient.GetScanDataString(System.Int32)">
+            <summary>
+            获取扫描点信息（从指定索引处开始的36个坐标点）的字符串形式
+            </summary>
+            <param name="startValue">起始坐标点索引</param>
+            <returns></returns>
+        </member>
         <member name="T:ScanUtilityLibrary.Core.SICK.BaseTcpClient">
             <summary>
             西克（SICK）设备基础TCP通讯类
@@ -57,6 +260,11 @@
         <member name="P:ScanUtilityLibrary.Core.SICK.BaseTcpClient.ResetEvent">
             <summary>
             线程启动器
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.SICK.BaseTcpClient.NoRcvrRaiser">
+            <summary>
+            超时未接收触发器
             </summary>
         </member>
         <member name="P:ScanUtilityLibrary.Core.SICK.BaseTcpClient.ReceivedData">
@@ -137,6 +345,16 @@
         <member name="P:ScanUtilityLibrary.Core.SICK.BaseTcpClient.ReconnectWhenReceiveNone">
             <summary>
             在无返回数据时是否重新连接
+            </summary>
+        </member>
+        <member name="P:ScanUtilityLibrary.Core.SICK.BaseTcpClient.ReconnCounter">
+            <summary>
+            重新连接计数
+            </summary>
+        </member>
+        <member name="M:ScanUtilityLibrary.Core.SICK.BaseTcpClient.Finalize">
+            <summary>
+            析构函数
             </summary>
         </member>
         <member name="M:ScanUtilityLibrary.Core.SICK.BaseTcpClient.#ctor">
@@ -667,7 +885,7 @@
         </member>
         <member name="F:ScanUtilityLibrary.Core.SICK.Scanner.ScanConst.SampleMaxCount">
             <summary>
-            样本可能出现的最大数目(LMS511扫描角度为-45°至225°、角分辨率为0.1667°时为1621个)
+            样本可能出现的最大数目(LMS511扫描角度为-45°至225°、角分辨率为0.1667°时为1621个，LRS3601/3611角分辨率为0.125°时有2401个点)
             </summary>
         </member>
         <member name="F:ScanUtilityLibrary.Core.SICK.Scanner.ScanConst.ScanFrequencies_1xx">
@@ -959,7 +1177,7 @@
         </member>
         <member name="T:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient">
             <summary>
-            天河Lidar扫描仪TCP通讯类
+            天河Lidar扫描仪UDP通讯类
             </summary>
         </member>
         <member name="E:ScanUtilityLibrary.Core.TripleIN.StreamUdpClient.OnNoneReceived">
@@ -2497,7 +2715,7 @@
         </member>
         <member name="P:ScanUtilityLibrary.Model.SICK.Dx.SensorData.StatusWord">
             <summary>
-            设备状态字
+            设备状态字，具体说明见用户手册或解决方案根目录“测距仪状态字定义.xlsx”文档
             </summary>
         </member>
         <member name="M:ScanUtilityLibrary.Model.SICK.Dx.SensorData.#ctor">
@@ -2805,7 +3023,7 @@
             扫描点对象构造器
             </summary>
             <param name="type">扫描仪类型</param>
-            <param name="dist">距离</param>
+            <param name="dist">距离（毫米）</param>
             <param name="echo"></param>
             <param name="angle">角度</param>
             <param name="z">Z轴方向坐标</param>
@@ -2815,16 +3033,16 @@
             构造器
             </summary>
             <param name="type">扫描仪类型</param>
-            <param name="x">X坐标</param>
-            <param name="y">Y坐标</param>
-            <param name="z">Z坐标</param>
+            <param name="x">X坐标（毫米）</param>
+            <param name="y">Y坐标（毫米）</param>
+            <param name="z">Z坐标（毫米）</param>
         </member>
         <member name="M:ScanUtilityLibrary.Model.ScanPoint.ToString(System.Double,System.Nullable{System.Double})">
             <summary>
             转换为字符串，XY坐标向下取整，Z坐标向上取整
             </summary>
             <param name="scale">保存时对各坐标进行缩放的比例</param>
-            <param name="z">保存时给定的Z坐标，假如不为null则覆盖原本对象的Z值</param>
+            <param name="z">保存时给定的Z坐标（毫米），假如不为null则覆盖原本对象的Z值</param>
             <returns></returns>
         </member>
         <member name="M:ScanUtilityLibrary.Model.ScanPoint.RefreshCoordinates">

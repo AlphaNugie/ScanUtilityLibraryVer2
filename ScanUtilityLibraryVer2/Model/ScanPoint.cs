@@ -114,11 +114,11 @@ namespace ScanUtilityLibrary.Model
         /// 扫描点对象构造器
         /// </summary>
         /// <param name="type">扫描仪类型</param>
-        /// <param name="dist">距离</param>
+        /// <param name="dist">距离（毫米）</param>
         /// <param name="echo"></param>
         /// <param name="angle">角度</param>
         /// <param name="z">Z轴方向坐标</param>
-        public ScanPoint(ScanDeviceType type, uint dist, uint echo, double angle, double z)
+        public ScanPoint(ScanDeviceType type, uint dist, uint echo = 0, double angle = 0, double z = 0)
         {
             this.type = type;
             h_distance = dist;
@@ -132,25 +132,22 @@ namespace ScanUtilityLibrary.Model
         /// 构造器
         /// </summary>
         /// <param name="type">扫描仪类型</param>
-        /// <param name="x">X坐标</param>
-        /// <param name="y">Y坐标</param>
-        /// <param name="z">Z坐标</param>
+        /// <param name="x">X坐标（毫米）</param>
+        /// <param name="y">Y坐标（毫米）</param>
+        /// <param name="z">Z坐标（毫米）</param>
         public ScanPoint(ScanDeviceType type, double x, double y, double z)
         {
             this.type = type;
-            //h_x = x;
-            //h_y = y;
             X = x;
             Y = y;
             Z = z;
-            //RefreshDistanceAngle();
         }
 
         /// <summary>
         /// 转换为字符串，XY坐标向下取整，Z坐标向上取整
         /// </summary>
         /// <param name="scale">保存时对各坐标进行缩放的比例</param>
-        /// <param name="z">保存时给定的Z坐标，假如不为null则覆盖原本对象的Z值</param>
+        /// <param name="z">保存时给定的Z坐标（毫米），假如不为null则覆盖原本对象的Z值</param>
         /// <returns></returns>
         public string ToString(double scale = 1, double? z = null)
         {

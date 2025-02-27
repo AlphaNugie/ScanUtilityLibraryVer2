@@ -30,6 +30,7 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.button_LivoxHap = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -50,11 +51,22 @@
             this.button2.Text = "DL1000";
             this.button2.UseVisualStyleBackColor = true;
             // 
+            // button_LivoxHap
+            // 
+            this.button_LivoxHap.Location = new System.Drawing.Point(360, 22);
+            this.button_LivoxHap.Name = "button_LivoxHap";
+            this.button_LivoxHap.Size = new System.Drawing.Size(118, 74);
+            this.button_LivoxHap.TabIndex = 0;
+            this.button_LivoxHap.Text = "HAP";
+            this.button_LivoxHap.UseVisualStyleBackColor = true;
+            this.button_LivoxHap.Click += new System.EventHandler(this.Button_LivoxHap_Click);
+            // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(906, 545);
+            this.Controls.Add(this.button_LivoxHap);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -69,6 +81,7 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button_LivoxHap;
     }
 }
 

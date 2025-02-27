@@ -174,7 +174,12 @@
         </member>
         <member name="P:CommonLib.Clients.CustomBitConverter`1.Bits">
             <summary>
-            比特位的数组，从低位开始排列
+            比特位（布尔）的数组，从低位开始排列，赋值时会修改对应的比特位（数值）数组的元素
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.CustomBitConverter`1.BitNums">
+            <summary>
+            比特位（数值0/1）的数组，从低位开始排列
             </summary>
         </member>
         <member name="P:CommonLib.Clients.CustomBitConverter`1.Binary">
@@ -202,10 +207,10 @@
         </member>
         <member name="M:CommonLib.Clients.CustomBitConverter`1.SetBit(System.Boolean,System.Int32)">
             <summary>
-            设置对应索引位置比特位的值，低位索引位置为0，假如索引位置不存在则不进行任何操作
+            设置对应索引位置比特位的值（低位索引位置为0），假如索引位置不存在则不进行任何操作
             </summary>
-            <param name="value">设置的比特位的值</param>
-            <param name="index">比特位的索引，从低位开始</param>
+            <param name="value">设置的比特位的值，true或false</param>
+            <param name="index">比特位的索引，从低位开始（低位索引位置为0）</param>
         </member>
         <member name="M:CommonLib.Clients.CustomBitConverter`1.GetValue">
             <summary>
@@ -215,10 +220,9 @@
         </member>
         <member name="M:CommonLib.Clients.CustomBitConverter`1.GetValue(System.Int32,System.Int32)">
             <summary>
-            获取从比特转来的整型值
-            获取从比特序列中任意索引处开始、长度若干的子比特序列转换而来的整型值
+            获取从比特序列中任意索引处开始（低位索引位置为0）、长度若干的子比特序列转换而来的整型值
             </summary>
-            <param name="index">子比特序列开始的索引位置</param>
+            <param name="index">子比特序列开始的索引位置，从低位开始（低位索引位置为0）</param>
             <param name="length">子比特序列的长度</param>
             <returns></returns>
         </member>
@@ -389,6 +393,11 @@
             上一个不为空的关联进程主窗口的窗口句柄
             </summary>
         </member>
+        <member name="P:CommonLib.Clients.CustomProcessInfo.StandardErrorReader">
+            <summary>
+            用于读取应用程序错误输出的流
+            </summary>
+        </member>
         <member name="M:CommonLib.Clients.CustomProcessInfo.#ctor(System.Data.DataRow)">
             <summary>
             根据数据行对象进程初始化
@@ -448,12 +457,14 @@
             </summary>
             <param name="arguments">启动该进程时传递的命令行参数</param>
             <param name="killOthers">启动时是否关闭进程的其它实例</param>
+            <returns>假如启动成功，则返回true，否则返回false</returns>
         </member>
         <member name="M:CommonLib.Clients.CustomProcessInfo.Startup(System.Boolean)">
             <summary>
             启动进程
             </summary>
             <param name="killOthers">启动时是否关闭进程的其它实例</param>
+            <returns>假如启动成功，则返回true，否则返回false</returns>
         </member>
         <member name="M:CommonLib.Clients.CustomProcessInfo.Shutdown">
             <summary>
@@ -660,7 +671,7 @@
         </member>
         <member name="P:CommonLib.Clients.DerivedHttpListener.WebExplorerMessage">
             <summary>
-            网页浏览器访问的返回信息
+            网页浏览器访问（POST之外方式，比如GET）的返回信息
             </summary>
         </member>
         <member name="P:CommonLib.Clients.DerivedHttpListener.LastErrorMessage">
@@ -678,13 +689,20 @@
             以默认端口号初始化HTTP监听服务端
             </summary>
         </member>
-        <member name="M:CommonLib.Clients.DerivedHttpListener.#ctor(System.String,System.Int32,System.String)">
+        <member name="M:CommonLib.Clients.DerivedHttpListener.#ctor(System.Text.Encoding)">
             <summary>
-            以指定端口号初始化HTTP监听服务端
+            以默认端口号初始化HTTP监听服务端，同时指定数据流与字符串之间的解码、编码方式
+            </summary>
+            <param name="encoding">数据流与字符串之间的解码、编码方式</param>
+        </member>
+        <member name="M:CommonLib.Clients.DerivedHttpListener.#ctor(System.String,System.Int32,System.String,System.Text.Encoding)">
+            <summary>
+            以指定端口号初始化HTTP监听服务端，同时指定数据流与字符串之间的解码、编码方式
             </summary>
             <param name="ip">监听服务的地址</param>
             <param name="port">假如端口号不大于0，以默认端口号启动</param>
             <param name="suffix">地址后缀</param>
+            <param name="encoding">数据流与字符串之间的解码、编码方式</param>
         </member>
         <member name="M:CommonLib.Clients.DerivedHttpListener.Start">
             <summary>
@@ -892,11 +910,34 @@
             <param name="samples">样本</param>
             <returns></returns>
         </member>
+        <member name="M:CommonLib.Clients.DataFilterClient.GetGaussianValue(System.Collections.Generic.Dictionary{System.Double,System.Double})">
+            <summary>
+            根据高斯分布（中心样本为中心点）求各位置样本系数并加权平均
+            </summary>
+            <param name="samples">键值对样本，Key为X坐标（位置），Value为Y坐标（该位置上的值）</param>
+            <returns></returns>
+        </member>
         <member name="M:CommonLib.Clients.DataFilterClient.GetGaussianValue(System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.List{System.Double}@)">
             <summary>
             根据高斯分布（中心样本为中心点）求各位置样本系数并加权平均
             </summary>
             <param name="samples">样本</param>
+            <param name="ratios">计算结束后返回的每个样本根据高斯分布得出的系数</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.DataFilterClient.GetGaussianValue(System.Collections.Generic.Dictionary{System.Double,System.Double},System.Collections.Generic.List{System.Double}@)">
+            <summary>
+            根据高斯分布（中心样本为中心点）求各位置样本系数并加权平均
+            </summary>
+            <param name="samples">键值对样本，Key为X坐标（位置），Value为Y坐标（该位置上的值）</param>
+            <param name="ratios">计算结束后返回的每个样本根据高斯分布得出的系数</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.DataFilterClient.GetGaussianValue(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Double,System.Double}},System.Collections.Generic.List{System.Double}@)">
+            <summary>
+            根据高斯分布（中心样本为中心点）求各位置样本系数并加权平均
+            </summary>
+            <param name="samples">键值对样本，Key为X坐标（位置），Value为Y坐标（该位置上的值）</param>
             <param name="ratios">计算结束后返回的每个样本根据高斯分布得出的系数</param>
             <returns></returns>
         </member>
@@ -1356,9 +1397,19 @@
             数据尖刺（突变）过滤器
             </summary>
         </member>
+        <member name="P:CommonLib.Clients.GlitchFilter.UUID">
+            <summary>
+            8位UUID
+            </summary>
+        </member>
         <member name="P:CommonLib.Clients.GlitchFilter.Enabled">
             <summary>
             是否启用过滤器
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.GlitchFilter.Storage">
+            <summary>
+            储存历史数据的容器
             </summary>
         </member>
         <member name="P:CommonLib.Clients.GlitchFilter.ObsVal">
@@ -1374,51 +1425,6 @@
         <member name="P:CommonLib.Clients.GlitchFilter.CurrVal">
             <summary>
             当前有效值
-            </summary>
-        </member>
-        <member name="P:CommonLib.Clients.GlitchFilter.LongDistAvoidEnabled">
-            <summary>
-            是否避免达到远距值
-            </summary>
-        </member>
-        <member name="P:CommonLib.Clients.GlitchFilter.LongDist2Avoid">
-            <summary>
-            应避免达到的远距值（假如达到此值则用上一个输出值代替当前值）
-            </summary>
-        </member>
-        <member name="P:CommonLib.Clients.GlitchFilter.LongDistCountLimit">
-            <summary>
-            测距达到远距值检定次数限定值（超过此次数则以默认值替代当前值）
-            </summary>
-        </member>
-        <member name="P:CommonLib.Clients.GlitchFilter.AverageGapEnabled">
-            <summary>
-            变化差距平均值过滤是否启用
-            </summary>
-        </member>
-        <member name="P:CommonLib.Clients.GlitchFilter.StepLength">
-            <summary>
-            存储的历史数值数量，最小长度为2，小于2则自动补正
-            </summary>
-        </member>
-        <member name="P:CommonLib.Clients.GlitchFilter.StepWidth">
-            <summary>
-            过滤时允许的差异倍数，越小越严格，默认为5
-            </summary>
-        </member>
-        <member name="P:CommonLib.Clients.GlitchFilter.FixedGapEnabled">
-            <summary>
-            是否启用固定差距过滤，启用后与上一次相比差异不超过固定差距阈值的将保留
-            </summary>
-        </member>
-        <member name="P:CommonLib.Clients.GlitchFilter.FixedGapThres">
-            <summary>
-            固定差距过滤阈值
-            </summary>
-        </member>
-        <member name="P:CommonLib.Clients.GlitchFilter.FixedGapCountLimit">
-            <summary>
-            达到固定差距检定次数限定值（超过此次数则以初步处理值替代当前值）
             </summary>
         </member>
         <member name="M:CommonLib.Clients.GlitchFilter.#ctor(System.Boolean,System.Int32)">
@@ -1447,6 +1453,129 @@
             将新值向队列内压入，假如过滤器未启用，用新值作当前值，否则进行尖刺过滤判断
             </summary>
             <param name="value">新值</param>
+        </member>
+        <member name="T:CommonLib.Clients.GlitchFilterParamModel">
+            <summary>
+            数据尖刺（突变）过滤器的参数实体类
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.GlitchFilterParamModel.Enabled">
+            <summary>
+            是否启用突变过滤器
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.GlitchFilterParamModel.Storage">
+            <summary>
+            储存历史数据的容器
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.GlitchFilterParamModel.StorageCapacity">
+            <summary>
+            存储的历史数值容量，最小长度为2，小于2则自动补正（默认为5）
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.GlitchFilterParamModel.LongDistAvoidParams">
+            <summary>
+            远距值（较大值）过滤参数
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.GlitchFilterParamModel.AverageGapParams">
+            <summary>
+            变化平均值过滤参数
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.GlitchFilterParamModel.FixedGapParams">
+            <summary>
+            固定差距过滤参数
+            </summary>
+        </member>
+        <member name="M:CommonLib.Clients.GlitchFilterParamModel.#ctor(System.Boolean,System.Int32,CommonLib.Clients.LongDistAvoidParamModel,CommonLib.Clients.AverageGapParamModel,CommonLib.Clients.FixedGapParamModel)">
+            <summary>
+            用给定参数初始化
+            </summary>
+            <param name="enabled">是否启用突变过滤器</param>
+            <param name="capacity">存储的历史数值容量，最小长度为2</param>
+            <param name="longDistAvoidParams">远距值（较大值）过滤参数的实体类对象</param>
+            <param name="averageGapParams">变化平均值过滤参数的实体类对象</param>
+            <param name="fixedGapParams">固定差距过滤参数的实体类对象</param>
+        </member>
+        <member name="T:CommonLib.Clients.LongDistAvoidParamModel">
+            <summary>
+            避免输入值（的绝对值）达到远距值（较大值）的配置参数实体类，用于设置被赋予较大值时的更新方式
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.LongDistAvoidParamModel.Enabled">
+            <summary>
+            是否避免达到远距值（较大值）<para/>假如启用，将在输入值（的绝对值）达到此远距值时忽略并沿用之前的有效值，除非达到远距值的次数超过了检定限值（CountLimit），在这种情况下新值将被应用
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.LongDistAvoidParamModel.Threshold">
+            <summary>
+            应避免输入值（的绝对值）达到的远距值（较大值）<para/>假如启用避免达到远距（Enabled）且达到此值，则用上一个输出值代替当前值，除非达到远距值的次数超过了检定限值（CountLimit），在这种情况下新值将被应用
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.LongDistAvoidParamModel.CountLimit">
+            <summary>
+            测距达到远距值（较大值）的检定次数限定值，超过此次数时新的测距值将被应用
+            </summary>
+        </member>
+        <member name="M:CommonLib.Clients.LongDistAvoidParamModel.#ctor(System.Boolean,System.Double,System.Int32)">
+            <summary>
+            用给定参数初始化
+            </summary>
+            <param name="enabled">是否避免达到远距值（较大值）<para/>假如启用，将在达到此远距值时忽略并沿用之前的有效值，除非达到远距值的次数超过了检定限值（CountLimit），在这种情况下新值将被应用</param>
+            <param name="threshold">应避免达到的远距值（较大值）<para/>假如启用避免达到远距（Enabled）且达到此值，则用上一个输出值代替当前值，除非达到远距值的次数超过了检定限值（CountLimit），在这种情况下新值将被应用</param>
+            <param name="countLimit">测距达到远距值（较大值）的检定次数限定值（超过此次数时新的测距值将被应用）</param>
+        </member>
+        <member name="T:CommonLib.Clients.AverageGapParamModel">
+            <summary>
+            变化平均值检定的配置参数实体类，用于设置当新值变化量大于历史值变化量时的更新方式
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.AverageGapParamModel.Enabled">
+            <summary>
+            变化差距平均值过滤是否启用<para/>启用后当新值减最新输出值的变化量大于历史变化量时，新值的变化量将被抑制到历史变化量的范围内
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.AverageGapParamModel.StepWidth">
+            <summary>
+            过滤时允许的差异倍数，越小越严格，默认为5<para/>计算历史数据内每2个相邻值的差（绝对值）并求均值，假如新值与最新输出值相减取绝对值后的结果大于差异倍数乘以此均值，则用均值代替新值的变化量，否则新值将被应用
+            </summary>
+        </member>
+        <member name="M:CommonLib.Clients.AverageGapParamModel.#ctor(System.Boolean,System.Double)">
+            <summary>
+            用给定参数初始化
+            </summary>
+            <param name="enabled">变化差距平均值过滤是否启用，启用后当新值减最新输出值的变化量大于历史变化量时，新值的变化量将被抑制到历史变化量的范围内</param>
+            <param name="stepWidth">过滤时允许的差异倍数，越小越严格，默认为5<para/>计算历史数据内每2个相邻值的差（绝对值）并求均值，假如新值与最新输出值相减取绝对值后的结果大于差异倍数乘以此均值，则用均值代替新值的变化量，否则新值将被应用</param>
+        </member>
+        <member name="T:CommonLib.Clients.FixedGapParamModel">
+            <summary>
+            固定差距检定的配置参数实体类，用于设置当新值变化量大于某固定值时的更新方式
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.FixedGapParamModel.Enabled">
+            <summary>
+            是否启用固定差距过滤<para/>启用后与上一次相比差异不超过固定差距阈值的将保留
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.FixedGapParamModel.Threshold">
+            <summary>
+            固定差距过滤阈值<para/>假如新值变化量超过此阈值并达到一定次数，则新值将被应用，否则将用最新输出值加上阈值作为新一轮的输出值
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.FixedGapParamModel.CountLimit">
+            <summary>
+            达到固定差距检定次数限定值<para/>超过此次数则以初步处理值（新值）替代当前值，否则将用最新输出值加上阈值作为新一轮的输出值
+            </summary>
+        </member>
+        <member name="M:CommonLib.Clients.FixedGapParamModel.#ctor(System.Boolean,System.Double,System.Int32)">
+            <summary>
+            用给定参数初始化
+            </summary>
+            <param name="enabled">是否启用固定差距过滤<para/>启用后与上一次相比差异不超过固定差距阈值的将保留</param>
+            <param name="threshold">固定差距过滤阈值<para/>假如新值变化量超过此阈值并达到一定次数，则新值将被应用，否则将用最新输出值加上阈值作为新一轮的输出值</param>
+            <param name="countLimit">达到固定差距检定次数限定值<para/>超过此次数则以初步处理值（新值）替代当前值，否则将用最新输出值加上阈值作为新一轮的输出值</param>
         </member>
         <member name="T:CommonLib.Clients.KalmanFilter">
             <summary>
@@ -1581,9 +1710,14 @@
             文件名
             </summary>
         </member>
+        <member name="P:CommonLib.Clients.FileClient.DateTimeFormatInFileName">
+            <summary>
+            文件名内日期时间格式化的格式字符串，默认为“yyyyMMdd”
+            </summary>
+        </member>
         <member name="P:CommonLib.Clients.FileClient.FileName_WithDate">
             <summary>
-            文件名
+            带日期时间的文件名
             </summary>
         </member>
         <member name="P:CommonLib.Clients.FileClient.FilePath">
@@ -1593,7 +1727,7 @@
         </member>
         <member name="P:CommonLib.Clients.FileClient.FilePath_WithDate">
             <summary>
-            文件完整路径（包含文件名）
+            文件完整路径（包含文件名，文件名内包含日期时间）
             </summary>
         </member>
         <member name="P:CommonLib.Clients.FileClient.Extension">
@@ -1626,12 +1760,13 @@
             <param name="path">文件路径</param>
             <param name="fileName">文件名（包含后缀）</param>
         </member>
-        <member name="M:CommonLib.Clients.FileClient.UpdateFilePath(System.String,System.String)">
+        <member name="M:CommonLib.Clients.FileClient.UpdateFilePath(System.String,System.String,System.String)">
             <summary>
             更新文件完整路径
             </summary>
             <param name="path"></param>
             <param name="fileName">文件名称</param>
+            <param name="dateFormatInFileName">将文件名内的日期时间格式化的格式字符串，默认为yyyyMMdd</param>
         </member>
         <member name="M:CommonLib.Clients.FileClient.WriteLinesToFile(System.Collections.Generic.IEnumerable{System.String},System.Boolean)">
             <summary>
@@ -1794,6 +1929,11 @@
             记录是否添加时间
             </summary>
         </member>
+        <member name="P:CommonLib.Clients.LogClient.DateTimeFormatInContent">
+            <summary>
+            每条记录内将时间格式化的格式字符串，默认为"yyyy-MM-dd HH:mm:ss"
+            </summary>
+        </member>
         <member name="M:CommonLib.Clients.LogClient.#ctor(System.String,System.String,System.String,System.Boolean,System.Boolean)">
             <summary>
             构造器
@@ -1858,7 +1998,7 @@
             Z轴坐标，毫米
             </summary>
         </member>
-        <member name="P:CommonLib.Clients.Object.PlyDotObject.CustomedInfo">
+        <member name="P:CommonLib.Clients.Object.PlyDotObject.CustomProperties">
             <summary>
             定制化信息
             </summary>
@@ -1936,11 +2076,6 @@
             保存文件是否包含RGB颜色数据
             </summary>
         </member>
-        <member name="P:CommonLib.Clients.Object.PlyFileClient.CustomedHeaderInfo">
-            <summary>
-            定制化顶点头部信息
-            </summary>
-        </member>
         <member name="P:CommonLib.Clients.Object.PlyFileClient.Path">
             <summary>
             待保存文件的路径（完整或相对路径）
@@ -1961,37 +2096,44 @@
             设置完整文件路径
             </summary>
         </member>
-        <member name="P:CommonLib.Clients.Object.PlyFileClient.Overriding">
-            <summary>
-            每次执行数据写入方法，是否覆盖原有文件内容
-            </summary>
-        </member>
         <member name="P:CommonLib.Clients.Object.PlyFileClient.DotList">
             <summary>
             待保存的订点列表
             </summary>
         </member>
-        <member name="M:CommonLib.Clients.Object.PlyFileClient.#ctor(System.String,System.String,System.Boolean,System.Boolean)">
+        <member name="M:CommonLib.Clients.Object.PlyFileClient.#ctor(System.String,System.String,System.Boolean)">
             <summary>
             构造器
             </summary>
             <param name="version">格式版本</param>
             <param name="comment">注释</param>
             <param name="colored">是否保存RGB颜色</param>
-            <param name="overriding">每次写入是否覆盖</param>
-        </member>
-        <member name="M:CommonLib.Clients.Object.PlyFileClient.#ctor(System.Boolean,System.Boolean)">
-            <summary>
-            构造器，格式版本默认为1.0
-            </summary>
-            <param name="colored">是否保存RGB颜色</param>
-            <param name="overriding">每次写入是否覆盖</param>
         </member>
         <member name="M:CommonLib.Clients.Object.PlyFileClient.#ctor(System.Boolean)">
             <summary>
             构造器，格式版本默认为1.0，每次写入均覆盖
             </summary>
             <param name="colored">是否保存RGB颜色</param>
+        </member>
+        <member name="M:CommonLib.Clients.Object.PlyFileClient.RegisterCustomProperty(System.String,System.Type)">
+            <summary>
+            注册自定义属性
+            </summary>
+            <param name="name"></param>
+            <param name="dataType"></param>
+        </member>
+        <member name="M:CommonLib.Clients.Object.PlyFileClient.GenerateCustomPropertyHeader">
+            <summary>
+            生成头部信息中的自定义属性部分
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Clients.Object.PlyFileClient.GetPlyTypeName(System.Type)">
+            <summary>
+            类型映射方法
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
         </member>
         <member name="M:CommonLib.Clients.Object.PlyFileClient.SaveVertexes">
             <summary>
@@ -2015,6 +2157,11 @@
             </summary>
             <param name="dotlist">待保存对象列表</param>
             <returns></returns>
+        </member>
+        <member name="T:CommonLib.Clients.Object.CustomProperty">
+            <summary>
+            自定义属性描述类
+            </summary>
         </member>
         <member name="T:CommonLib.Clients.SampleAnalyzer">
             <summary>
@@ -2042,6 +2189,18 @@
             获取样本区间内的极值
             </summary>
             <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CommonLib.Clients.ShortUuidGenerator">
+            <summary>
+            短UUID生成器
+            </summary>
+        </member>
+        <member name="M:CommonLib.Clients.ShortUuidGenerator.GenerateShortUuid(System.UInt32)">
+            <summary>
+            生成指定位数的UUID，每一位在数字以及大小写ABCDEF中随机挑选
+            </summary>
+            <param name="len"></param>
             <returns></returns>
         </member>
         <member name="T:CommonLib.Clients.Tasks.BlankTask">
@@ -2093,6 +2252,11 @@
             任务循环线程
             </summary>
         </member>
+        <member name="P:CommonLib.Clients.Tasks.Task.State">
+            <summary>
+            任务的当前状态
+            </summary>
+        </member>
         <member name="P:CommonLib.Clients.Tasks.Task.ErrorMessage">
             <summary>
             错误消息
@@ -2130,12 +2294,17 @@
         </member>
         <member name="P:CommonLib.Clients.Tasks.Task.AutoRestart">
             <summary>
-            是否在循环的过程中每隔一段时间自动重新启动
+            是否在循环的过程中自动重新启动，假如设置为true，则任务将在以下情况下重启：<para/>设置的“任务重新启动时间间隔”（RestartInterval）大于“循环执行时间间隔”（Interval）<para/>设置“是否在任务失去响应后重新启动”（RestartWhileFrozen）为true
             </summary>
         </member>
         <member name="P:CommonLib.Clients.Tasks.Task.RestartInterval">
             <summary>
-            任务重新启动的时间间隔（毫秒），仅在任务开始运行后计量，假如不大于任务循环执行的时间间隔则不启用自动重启
+            任务重新启动的时间间隔（毫秒），仅在任务开始运行后计量，假如未启用自动重启（AutoRestart）或不大于任务循环执行的时间间隔（Interval）则不启用自动重启
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.Tasks.Task.RestartWhileFrozen">
+            <summary>
+            是否在任务失去响应后（循环执行停止并持续打到一段时间长度）重新启动，仅在启用自动重启（AutoRestart）时生效<para/>设置后即时任务不运行依然将重启
             </summary>
         </member>
         <member name="P:CommonLib.Clients.Tasks.Task.RestartCounter">
@@ -2150,11 +2319,28 @@
         </member>
         <member name="M:CommonLib.Clients.Tasks.Task.#ctor(System.Int32,System.Boolean,System.Int64)">
             <summary>
-            初始化Task类，使用给定的任务执行间隔、是否自动重启、重启时间间隔的设置，初始状态为暂停
+            初始化Task类，使用给定的任务执行间隔、是否自动重启、重启时间间隔的设置，失去响应后不重启，初始状态为暂停
             </summary>
-            <param name="interval"></param>
-            <param name="autoRestart"></param>
-            <param name="restartInterval"></param>
+            <param name="interval">任务循环执行间隔（毫秒），需大于0，默认为1000</param>
+            <param name="autoRestart">是否自动重启，启用后将在达到条件后重启（重启时间间隔与失去响应后重启）</param>
+            <param name="restartInterval">重新启动的时间间隔（毫秒）</param>
+        </member>
+        <member name="M:CommonLib.Clients.Tasks.Task.#ctor(System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            初始化Task类，使用给定的任务执行间隔、是否自动重启、是否在失去响应后重启的设置，重启时间间隔禁用，初始状态为暂停
+            </summary>
+            <param name="interval">任务循环执行间隔（毫秒），需大于0，默认为1000</param>
+            <param name="autoRestart">是否自动重启，启用后将在达到条件后重启（重启时间间隔与失去响应后重启）</param>
+            <param name="restartWhileFrozen">是否在失去响应后重启</param>
+        </member>
+        <member name="M:CommonLib.Clients.Tasks.Task.#ctor(System.Int32,System.Boolean,System.Int64,System.Boolean)">
+            <summary>
+            初始化Task类，使用给定的任务执行间隔、是否自动重启、重启时间间隔、是否在失去响应后重启的设置，初始状态为暂停
+            </summary>
+            <param name="interval">任务循环执行间隔（毫秒），需大于0，默认为1000</param>
+            <param name="autoRestart">是否自动重启，启用后将在达到条件后重启（重启时间间隔与失去响应后重启）</param>
+            <param name="restartInterval">重新启动的时间间隔（毫秒）</param>
+            <param name="restartWhileFrozen">是否在失去响应后重启</param>
         </member>
         <member name="M:CommonLib.Clients.Tasks.Task.Dispose">
             <summary>
@@ -2183,8 +2369,20 @@
         </member>
         <member name="M:CommonLib.Clients.Tasks.Task.Stop">
             <summary>
-            任务停止
+            任务停止——温和的停止方法，设置停止信号，等待循环进程自己结束，但假如循环阻塞则无能为力:(
             </summary>
+        </member>
+        <member name="M:CommonLib.Clients.Tasks.Task.StopWithForce(System.Boolean)">
+            <summary>
+            任务停止——强制的停止方法，设置停止信号，但不等待循环结束而直接终结线程，并手动触发循环停止后的事件
+            </summary>
+            <param name="restarting">是否设置了重新启动</param>
+        </member>
+        <member name="M:CommonLib.Clients.Tasks.Task.TriggerEventsAfterBeingStopped(System.Boolean)">
+            <summary>
+            触发循环线程停止后才会使用的事件
+            </summary>
+            <param name="restarting">是否设置了重新启动</param>
         </member>
         <member name="M:CommonLib.Clients.Tasks.Task.GetNewInstance">
             <summary>
@@ -2234,6 +2432,12 @@
             <summary>
             打印任务日志
             </summary>
+        </member>
+        <member name="M:CommonLib.Clients.Tasks.Task.GetTaskLogs">
+            <summary>
+            获取所有任务日志
+            </summary>
+            <returns>以字符串数字形式返回，假如没有日志将返回空数组</returns>
         </member>
         <member name="M:CommonLib.Clients.Tasks.Task.PrintErrorMessage">
             <summary>
@@ -2307,7 +2511,7 @@
             </summary>
             <typeparam name="T">数值的类型（只能是可比较类型）</typeparam>
         </member>
-        <member name="E:CommonLib.Clients.ValueDiffStorage`1.ValueTrendTickerReached">
+        <member name="E:CommonLib.Clients.ValueDiffStorage`1.ValueTrendChanged">
             <summary>
             变化趋势改变事件
             </summary>
@@ -2317,11 +2521,6 @@
             值改变事件
             </summary>
         </member>
-        <member name="P:CommonLib.Clients.ValueDiffStorage`1.Code">
-            <summary>
-            代码
-            </summary>
-        </member>
         <member name="P:CommonLib.Clients.ValueDiffStorage`1.DiffTicker">
             <summary>
             差异值计数器，差异值符号改变时重置，否则每次数值改变都自增一次
@@ -2329,12 +2528,12 @@
         </member>
         <member name="P:CommonLib.Clients.ValueDiffStorage`1.DiffTickerThreshold">
             <summary>
-            差异计数器阈值，当差异计数等于这个值时触发事件（大于0）
+            差异计数器阈值，当差异计数等于这个值时触发事件（默认为0）
             </summary>
         </member>
         <member name="P:CommonLib.Clients.ValueDiffStorage`1.PrevValue">
             <summary>
-            上一个不同的值
+            上一个值
             </summary>
         </member>
         <member name="P:CommonLib.Clients.ValueDiffStorage`1.CurrentValue">
@@ -2352,6 +2551,16 @@
             上一个不同的变化趋势
             </summary>
         </member>
+        <member name="P:CommonLib.Clients.ValueDiffStorage`1.CurrentSpeed">
+            <summary>
+            当前速度值（值的变化速度，只有当泛型为数值类型或为可比较类型时有效，单位为xxx每秒）<para/>当速度变化的绝对值不超过阈值时趋势为0，变化绝对值超过阈值且为正值时趋势为1，否则为-1
+            </summary>
+        </member>
+        <member name="P:CommonLib.Clients.ValueDiffStorage`1.SpeedThreshold">
+            <summary>
+            速度值（值的变化速度）的阈值（绝对值），默认为0，当为非正数时将不对速度值进行任何筛选或限制<para/>当速度变化量的绝对值不超过此值时趋势为0，变化量绝对值超过此值且为正值时趋势为1，否则为-1
+            </summary>
+        </member>
         <member name="P:CommonLib.Clients.ValueDiffStorage`1.CurrentTrend">
             <summary>
             当前变化趋势（-1,0,1）
@@ -2359,14 +2568,21 @@
         </member>
         <member name="M:CommonLib.Clients.ValueDiffStorage`1.#ctor">
             <summary>
-            初始化而不指定代码
+            使用默认的参数初始化，差异计数器阈值为4，速度阈值为0
             </summary>
         </member>
-        <member name="M:CommonLib.Clients.ValueDiffStorage`1.#ctor(System.String)">
+        <member name="M:CommonLib.Clients.ValueDiffStorage`1.#ctor(System.UInt32,System.Double)">
             <summary>
-            用指定代码初始化
+            使用给定的差异计数器阈值和速度阈值初始化
             </summary>
-            <param name="code">代码</param>
+            <param name="diffTickerThreshold"></param>
+            <param name="speedThreshold"></param>
+        </member>
+        <member name="M:CommonLib.Clients.ValueDiffStorage`1.SetValue(`0)">
+            <summary>
+            设置当前值
+            </summary>
+            <param name="value"></param>
         </member>
         <member name="T:CommonLib.Clients.ConnClient">
             <summary>
@@ -3063,11 +3279,6 @@
             属性改变事件
             </summary>
         </member>
-        <member name="F:CommonLib.DataUtil.BaseModel._id">
-            <summary>
-            记录的唯一编号
-            </summary>
-        </member>
         <member name="P:CommonLib.DataUtil.BaseModel.Id">
             <summary>
             记录的唯一编号
@@ -3091,6 +3302,11 @@
         <member name="P:CommonLib.DataUtil.BaseModel.UpdateTime">
             <summary>
             更新时间
+            </summary>
+        </member>
+        <member name="P:CommonLib.DataUtil.BaseModel.Rownumber">
+            <summary>
+            查询后的记录排序<para/>在底层方法BatisLike.ConvertObjectListByDataTable方法中赋值
             </summary>
         </member>
         <member name="P:CommonLib.DataUtil.BaseModel.ViewName">
@@ -3576,6 +3792,73 @@
             <param name="parameters">存储过程输入参数</param>
             <returns>返回Command对象</returns>
         </member>
+        <member name="T:CommonLib.DataUtil.OracleColumnMapping">
+            <summary>
+            对应Oracle数据库字段的类
+            </summary>
+        </member>
+        <member name="P:CommonLib.DataUtil.OracleColumnMapping.ColumnName">
+            <summary>
+            字段名称
+            </summary>
+        </member>
+        <member name="P:CommonLib.DataUtil.OracleColumnMapping.SqlType">
+            <summary>
+            字段类型
+            </summary>
+        </member>
+        <member name="P:CommonLib.DataUtil.OracleColumnMapping.Size">
+            <summary>
+            字段长度
+            </summary>
+        </member>
+        <member name="P:CommonLib.DataUtil.OracleColumnMapping.NotNull">
+            <summary>
+            是否受非空约束
+            </summary>
+        </member>
+        <member name="P:CommonLib.DataUtil.OracleColumnMapping.DefaultValue">
+            <summary>
+            默认值
+            </summary>
+        </member>
+        <member name="P:CommonLib.DataUtil.OracleColumnMapping.Comment">
+            <summary>
+            注释
+            </summary>
+        </member>
+        <member name="P:CommonLib.DataUtil.OracleColumnMapping.Structure">
+            <summary>
+            字段架构
+            </summary>
+        </member>
+        <member name="M:CommonLib.DataUtil.OracleColumnMapping.#ctor(System.String,CommonLib.Enums.DbSqlType,System.String,System.Nullable{System.Int32},System.Boolean,System.Nullable{System.Double})">
+            <summary>
+            构造器
+            </summary>
+            <param name="columnName">字段名称</param>
+            <param name="sqlType">字段类型</param>
+            <param name="comment">字段注释</param>
+            <param name="size">字段长度</param>
+            <param name="notNull">是否非空</param>
+            <param name="defaultValue">默认值</param>
+        </member>
+        <member name="M:CommonLib.DataUtil.OracleColumnMapping.#ctor(System.Data.DataRow)">
+            <summary>
+            根据表结构查询结果初始化，查询语句：
+            <para/>SELECT utc.column_name, utc.data_type, utc.data_length, utc.nullable, utc.data_default, ucc.comments
+            <para/>FROM user_tab_columns utc
+            <para/>JOIN user_col_comments ucc ON utc.table_name = ucc.table_name AND utc.column_name = ucc.column_name
+            <para/>WHERE utc.table_name = 'T_RCMS_MACHINEPOSTURE_TIME';
+            </summary>
+            <param name="dataRow">pragma命令的每一个数据行</param>
+        </member>
+        <member name="M:CommonLib.DataUtil.OracleColumnMapping.GetStructure">
+            <summary>
+            获取当前字段对象的架构语句
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:CommonLib.DataUtil.Record">
             <summary>
             数据记录基础类
@@ -3712,6 +3995,41 @@
             MySQL数据库
             </summary>
         </member>
+        <member name="T:CommonLib.Enums.DbSqlType">
+            <summary>
+            数据库内字段类型
+            </summary>
+        </member>
+        <member name="F:CommonLib.Enums.DbSqlType.NONE">
+            <summary>
+            无类型
+            </summary>
+        </member>
+        <member name="F:CommonLib.Enums.DbSqlType.NUMBER">
+            <summary>
+            数值类型
+            </summary>
+        </member>
+        <member name="F:CommonLib.Enums.DbSqlType.VARCHAR2">
+            <summary>
+            字符串类型2
+            </summary>
+        </member>
+        <member name="T:CommonLib.Enums.Endianness">
+            <summary>
+            字节序的类型
+            </summary>
+        </member>
+        <member name="F:CommonLib.Enums.Endianness.BigEndian">
+            <summary>
+            大字节/最高有效字节(Most Significant Byte)靠前
+            </summary>
+        </member>
+        <member name="F:CommonLib.Enums.Endianness.LittleEndian">
+            <summary>
+            小字节/最低有效字节(Least Significant Byte)靠前
+            </summary>
+        </member>
         <member name="T:CommonLib.Enums.IntFlag">
             <summary>
             整型类型的标志
@@ -3722,6 +4040,11 @@
             服务状态
             </summary>
         </member>
+        <member name="F:CommonLib.Enums.ServiceState.Idle">
+            <summary>
+            空闲
+            </summary>
+        </member>
         <member name="F:CommonLib.Enums.ServiceState.Stopped">
             <summary>
             已停止
@@ -3730,6 +4053,16 @@
         <member name="F:CommonLib.Enums.ServiceState.Started">
             <summary>
             已启动
+            </summary>
+        </member>
+        <member name="F:CommonLib.Enums.ServiceState.Restarting">
+            <summary>
+            重新启动中
+            </summary>
+        </member>
+        <member name="F:CommonLib.Enums.ServiceState.Restarted">
+            <summary>
+            重新启动完成
             </summary>
         </member>
         <member name="T:CommonLib.Enums.ShapeEnum">
@@ -3963,32 +4296,45 @@
             <param name="prev">改变之前的值</param>
             <param name="curr">改变之后的当前值</param>
         </member>
-        <member name="T:CommonLib.Events.ValueTrendTickerReachedEventArgs">
+        <member name="T:CommonLib.Events.ValueTrendChangedEventArgs`1">
             <summary>
-            值变化趋势累积事件的事件参数
+            值变化趋势累积然后改变的事件的参数
             </summary>
         </member>
-        <member name="P:CommonLib.Events.ValueTrendTickerReachedEventArgs.PrevComparison">
+        <member name="P:CommonLib.Events.ValueTrendChangedEventArgs`1.PrevValue">
             <summary>
-            之前的比较
+            上一个值
             </summary>
         </member>
-        <member name="P:CommonLib.Events.ValueTrendTickerReachedEventArgs.CurrComparison">
+        <member name="P:CommonLib.Events.ValueTrendChangedEventArgs`1.CurrentValue">
             <summary>
-            当前的比较
+            当前值
             </summary>
         </member>
-        <member name="P:CommonLib.Events.ValueTrendTickerReachedEventArgs.Trend">
+        <member name="P:CommonLib.Events.ValueTrendChangedEventArgs`1.CurrentSpeed">
+            <summary>
+            当前速度值（值的变化速度，只有当泛型为数值类型或为可比较类型时有效，单位为xxx每秒）
+            </summary>
+        </member>
+        <member name="P:CommonLib.Events.ValueTrendChangedEventArgs`1.CurrentTrend">
             <summary>
             当前趋势
             </summary>
         </member>
-        <member name="M:CommonLib.Events.ValueTrendTickerReachedEventArgs.#ctor(System.Int32,System.Int32)">
+        <member name="P:CommonLib.Events.ValueTrendChangedEventArgs`1.PrevTrend">
             <summary>
-            用给定比较值初始化
+            之前的趋势
             </summary>
-            <param name="prev">之前的比较值</param>
-            <param name="curr">当前的的比较值</param>
+        </member>
+        <member name="M:CommonLib.Events.ValueTrendChangedEventArgs`1.#ctor(`0,`0,System.Double,CommonLib.Enums.ValueTrend,CommonLib.Enums.ValueTrend)">
+            <summary>
+            用给定的值初始化
+            </summary>
+            <param name="prevValue">之前的值</param>
+            <param name="currValue">当前值</param>
+            <param name="currSpeed">值变化速度</param>
+            <param name="currTrend">当前变化趋势</param>
+            <param name="prevTrend">之前变化趋势</param>
         </member>
         <member name="T:CommonLib.Events.DataReceivedEventArgs">
             <summary>
@@ -4017,9 +4363,16 @@
         </member>
         <member name="M:CommonLib.Events.DataReceivedEventArgs.#ctor(System.Byte[])">
             <summary>
-            用byte数组初始化
+            用byte数组初始化，byte数组的解码方式使用默认编码
             </summary>
             <param name="data">接收到的byte[]数组</param>
+        </member>
+        <member name="M:CommonLib.Events.DataReceivedEventArgs.#ctor(System.Byte[],System.Text.Encoding)">
+            <summary>
+            用byte数组初始化，同时指定将byte数组解码为字符串的解码方式
+            </summary>
+            <param name="data">接收到的byte[]数组</param>
+            <param name="encoding">将byte数组解码为字符串的解码方式</param>
         </member>
         <member name="T:CommonLib.Events.DataSendEventArgs">
             <summary>
@@ -4120,9 +4473,9 @@
             <param name="sender">触发事件的对象</param>
             <param name="eventArgs">事件数据类对象</param>
         </member>
-        <member name="T:CommonLib.Events.ValueTrendTickerReachedEventHandler">
+        <member name="T:CommonLib.Events.ValueTrendChangedEventHandler`1">
             <summary>
-            值变化趋势累积事件的委托
+            值变化趋势累积然后改变的事件的委托
             </summary>
             <param name="sender">触发事件的对象</param>
             <param name="eventArgs">事件数据类对象</param>
@@ -4319,7 +4672,7 @@
             以指定Mapper名称初始化特性
             </summary>
             <param name="mapper">目标属性的名称，可由'.'符号指定子属性</param>
-            <param name="nullValueHandling">当目标属性值为空时的处理方法</param>
+            <param name="nullValueHandling">当目标属性不存在、目标属性不可读或目标属性值为空时的处理方法</param>
         </member>
         <member name="M:CommonLib.Extensions.Property.PropertyMapperFromAttribute.#ctor(System.String)">
             <summary>
@@ -4334,12 +4687,12 @@
         </member>
         <member name="P:CommonLib.Extensions.Property.PropertyMapperFromAttribute.NullValueHandling">
             <summary>
-            从目标属性复制时假如目标属性为空（找不到或超出索引）的操作选项
+            从目标属性复制时假如目标属性不存在（找不到或超出索引）、目标属性不可读或目标属性值为空的操作选项
             </summary>
         </member>
         <member name="T:CommonLib.Extensions.Property.NullValueHandling">
             <summary>
-            从目标属性复制/向目标属性粘贴时假如目标属性为空（找不到或超出索引）的处理方法
+            从目标属性复制/向目标属性粘贴时假如目标属性不存在（找不到或超出索引）、目标属性不可读或目标属性值为空的处理方法
             </summary>
         </member>
         <member name="F:CommonLib.Extensions.Property.NullValueHandling.Ignore">
@@ -4356,6 +4709,16 @@
             <summary>
             反射相关的拓展类
             </summary>
+        </member>
+        <member name="M:CommonLib.Extensions.Reflection.ReflectionExtension.Clone``1(``0)">
+            <summary>
+            克隆一个新的对象出来，完全复制所有属性值（属性需同时支持读写）
+            <para/>注意：引用类型将只复制引用
+            </summary>
+            <typeparam name="T">待克隆对象的类型</typeparam>
+            <param name="obj">待克隆对象</param>
+            <returns></returns>
+            <exception cref="T:System.MissingMethodException">克隆对象的目标类型缺少无参构造器</exception>
         </member>
         <member name="M:CommonLib.Extensions.Reflection.ReflectionExtension.CreateDefValue(System.Type)">
             <summary>
@@ -4379,6 +4742,15 @@
             <summary>
             类功能扩展类
             </summary>
+        </member>
+        <member name="M:CommonLib.Extensions.ExtensionClass.Copy``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            将源集合进行拷贝并返回拷贝后的List，假如谓词不为空，则将先以谓词进行筛选
+            </summary>
+            <typeparam name="T">元素的类型</typeparam>
+            <param name="values">用于拷贝的源集合</param>
+            <param name="predicate">用于测试每个元素是否满足条件的函数</param>
+            <returns></returns>
         </member>
         <member name="M:CommonLib.Extensions.ExtensionClass.Take4AfterSkip``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
             <summary>
@@ -4417,6 +4789,15 @@
             <param name="list">待缩减的列表</param>
             <param name="prop">比例或数量，小于1则缩减到此比例，否则为需要缩减的元素的数量（不可为负数）</param>
             <param name="both_end">是否从两侧缩减，假如为false，则仅从起始处缩减</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.ExtensionClass.GetUnicodeEncodedString(System.String)">
+            <summary>
+            获取转换后的Unicode编码字符串
+            <para/>假如源字符串为空引用或空白字符串，则返回string.Empty
+            <para/>假如不存在Unicode编码则返回源字符串，否则返回将Unicode转义字符转换后的字符串
+            </summary>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:CommonLib.Extensions.ExtensionClass.Reverse(System.String)">
@@ -4473,32 +4854,27 @@
             计算功能类
             </summary>
         </member>
-        <member name="M:CommonLib.Extensions.MathExtension.GetAveragedCircleNumbers(System.Collections.Generic.IEnumerable{System.Collections.Generic.IEnumerable{System.Double}},System.Double@,System.Double@,System.Double@)">
+        <member name="M:CommonLib.Extensions.MathExtension.GetAveragedCircleNumbers(System.Collections.Generic.IEnumerable{CommonLib.Function.MathUtils.Point3D},CommonLib.Function.MathUtils.Dimensions)">
             <summary>
-            在给出的若干对XY坐标集合的集合中，找出14对XY坐标，排除收尾2对（剔除异常点），在剩下12个点中，找出相邻的3个点，根据XY坐标确定圆心的XY坐标和半径长度 <para/>如此按顺序执行10次，计算这10次测到的圆心XY坐标和半径长度的平均值并输出
+            在给出的点对象集合中，以3个点为一组，每组确定一个二维或三维空间中圆的圆心XYZ坐标（二维空间中Z为0）和半径长度 <para/>如此按顺序执行若干次（等于点数量除以3并向下取整），计算圆心XYZ坐标（二维空间中Z为0）和半径长度的平均值并返回圆形对象
             </summary>
-            <param name="pairsOfCoors">提供圆上3点XY坐标的数值集合的集合</param>
-            <param name="centrex">圆心X坐标</param>
-            <param name="centrey">圆心Y坐标</param>
-            <param name="radius">圆周半径长度，单位与坐标轴单位相同</param>
+            <param name="points">圆上每点的点对象的集合</param>
+            <param name="dimension">要解出圆形信息的空间维度类型</param>
+            <returns></returns>
         </member>
-        <member name="M:CommonLib.Extensions.MathExtension.GetCircleNumbers(System.Collections.Generic.IEnumerable{System.Double},System.Double@,System.Double@,System.Double@)">
+        <member name="M:CommonLib.Extensions.MathExtension.GetAveragedCircleNumbers3D(System.Collections.Generic.IEnumerable{CommonLib.Function.MathUtils.Point3D})">
             <summary>
-            根据圆上3个点的XY坐标确定圆心的XY坐标和半径长度，其中圆上3点的坐标由一个包含6个double数值的集合提供，按顺序分别为3个点的XY坐标
+            在给出的点对象集合中，以3个点为一组，每组确定一个三维空间中圆的圆心XYZ坐标和半径长度 <para/>如此按顺序执行若干次（等于点数量除以3并向下取整），计算圆心XYZ坐标和半径长度的平均值并返回圆形对象
             </summary>
-            <param name="pairsOfCoors">提供圆上3点XY坐标的数值集合</param>
-            <param name="centrex">圆心X坐标</param>
-            <param name="centrey">圆心Y坐标</param>
-            <param name="radius">圆周半径长度，单位与坐标轴单位相同</param>
+            <param name="points">圆上每点的点对象的集合</param>
+            <returns></returns>
         </member>
-        <member name="M:CommonLib.Extensions.MathExtension.GetCircleNumbers(System.Collections.Generic.IEnumerable{System.Collections.Generic.IEnumerable{System.Double}},System.Double@,System.Double@,System.Double@)">
+        <member name="M:CommonLib.Extensions.MathExtension.GetAveragedCircleNumbers2D(System.Collections.Generic.IEnumerable{CommonLib.Function.MathUtils.Point3D})">
             <summary>
-            根据圆上3个点的XY坐标确定圆心的XY坐标和半径长度，其中圆上3点的坐标由一个包含3对double数值集合的集合提供，按顺序分别为3个点的XY坐标
+            在给出的点对象集合中，以3个点为一组，每组确定一个二维空间中圆的圆心XY坐标和半径长度 <para/>如此按顺序执行若干次（等于点数量除以3并向下取整），计算圆心XY坐标和半径长度的平均值并返回圆形对象
             </summary>
-            <param name="pairsOfCoors">提供圆上3点XY坐标的数值集合的集合</param>
-            <param name="centrex">圆心X坐标</param>
-            <param name="centrey">圆心Y坐标</param>
-            <param name="radius">圆周半径长度，单位与坐标轴单位相同</param>
+            <param name="points">圆上每点的点对象的集合</param>
+            <returns></returns>
         </member>
         <member name="M:CommonLib.Extensions.MathExtension.NormalDistribution(System.Double,System.Double,System.Double)">
             <summary>
@@ -4525,27 +4901,73 @@
             <param name="input">输入角度</param>
             <returns></returns>
         </member>
-        <member name="M:CommonLib.Extensions.MathExtension.Variance(System.Collections.Generic.IEnumerable{System.Double})">
-            <summary>
-            根据样本计算方差
-            </summary>
-            <param name="numbers">样本</param>
-            <returns></returns>
-        </member>
         <member name="M:CommonLib.Extensions.MathExtension.Variance(System.Collections.Generic.IEnumerable{System.Double},System.Double)">
             <summary>
-            根据样本与平均值计算方差
+            根据样本集与平均值计算方差，假如样本集不包含任何元素，则默认方差为0
             </summary>
             <param name="numbers">样本</param>
             <param name="average">平均值</param>
+            <returns>返回计算的方差，假如样本集不包含任何元素，则默认返回0</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.Variance(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            根据样本集计算方差，假如样本集不包含任何元素，则默认方差为0
+            </summary>
+            <param name="numbers">样本</param>
+            <returns>返回计算的方差，假如样本集不包含任何元素，则默认返回0</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.Variance``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Double})">
+            <summary>
+            根据样本计算方差，计算方差的值可以通过给定的转换函数从样本元素中投影出来
+            </summary>
+            <param name="sources">样本，样本中的每个元素可以通过提供的转换函数投影到最终计算方差的数值上</param>
+            <param name="selector">应用于每个元素的转换函数</param>
             <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
         </member>
         <member name="M:CommonLib.Extensions.MathExtension.Standard(System.Collections.Generic.IEnumerable{System.Double})">
             <summary>
             计算标准差
             </summary>
-            <param name="numbers"></param>
+            <param name="numbers">样本</param>
             <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.Standard``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Double})">
+            <summary>
+            根据样本计算标准差，计算标准差的值可以通过给定的转换函数从样本元素中投影出来
+            </summary>
+            <param name="sources">样本，样本中的每个元素可以通过提供的转换函数投影到最终计标准差的数值上</param>
+            <param name="selector">应用于每个元素的转换函数</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.Volatility(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            计算波动率，将输入的数值序列在每两个相邻数值之间作差并形成一个新的序列，计算这个新序列的标准差并作为波动率
+            </summary>
+            <param name="numbers">样本</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.Volatility``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Double})">
+            <summary>
+            根据样本计算波动率，计算波动率的值可以通过给定的转换函数从样本元素中投影出来
+            <para/>将投影出来的值序列在每两个相邻数值之间作差并形成一个新的序列，计算这个新序列的标准差并作为波动率
+            </summary>
+            <param name="sources">样本，样本中的每个元素可以通过提供的转换函数投影到最终计标准差的数值上</param>
+            <param name="selector">应用于每个元素的转换函数</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
         </member>
         <member name="M:CommonLib.Extensions.MathExtension.ToBytes(System.UInt32,System.Boolean)">
             <summary>
@@ -4599,45 +5021,23 @@
             <param name="isBigEndian">是否大字节在前</param>
             <returns></returns>
         </member>
-        <member name="M:CommonLib.Extensions.MathExtension.GetAzimuthThatsInRange(System.Double)">
+        <member name="M:CommonLib.Extensions.MathExtension.Between(System.Double,System.Collections.Generic.IEnumerable{System.Collections.Generic.IEnumerable{System.Double}},System.Boolean)">
             <summary>
-            根据输入的方位角计算出保持在合理的范围之内（-180°到180°之间）的方位角的值并返回，假如超过180°则减360°，小于-180°则加360°，循环计算直到进入范围为止
+            判断一个双精度浮点数是否落在给定的若干个区间范围中的任意一个（包括等于），假如区间范围为空（不存在任何有效的区间范围），则返回默认值
             </summary>
-            <param name="angle">待进行计算的输入方位角</param>
-            <returns></returns>
+            <param name="input">待判断的数字</param>
+            <param name="ranges">给定的若干个区间范围</param>
+            <param name="def">当区间范围为空时返回的默认值</param>
+            <returns>假如在数值之间，返回true，否则返回false</returns>
         </member>
-        <member name="M:CommonLib.Extensions.MathExtension.GetAngleByCoordinates(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:CommonLib.Extensions.MathExtension.Between(System.Double,System.Collections.Generic.IEnumerable{System.Double},System.Boolean)">
             <summary>
-            根据给定的顶端以及回转处坐标计算（初步的）回转角度（y轴正向为回转0°方位）
+            判断一个双精度浮点数是否落在给定的若干个区间范围中的任意一个（包括等于），假如区间范围为空（不存在任何有效的区间范围），则返回默认值
             </summary>
-            <param name="x1">顶端X坐标</param>
-            <param name="y1">顶端Y坐标</param>
-            <param name="xa">回转处X坐标</param>
-            <param name="ya">回转处Y坐标</param>
-            <returns></returns>
-        </member>
-        <member name="M:CommonLib.Extensions.MathExtension.Exchange``1(``0@,``0@)">
-            <summary>
-            对两个值类型的值进行交换
-            </summary>
-            <typeparam name="T">要交换的值的类型</typeparam>
-            <param name="t1">值1</param>
-            <param name="t2">值2</param>
-        </member>
-        <member name="M:CommonLib.Extensions.MathExtension.Swap``1(``0@,``0@)">
-            <summary>
-            对两个值类型的值进行交换
-            </summary>
-            <typeparam name="T">要交换的值的类型</typeparam>
-            <param name="t1">值1</param>
-            <param name="t2">值2</param>
-        </member>
-        <member name="M:CommonLib.Extensions.MathExtension.GetDecimalPlaces(System.Object)">
-            <summary>
-            尝试获取值小数点后的数值位数
-            </summary>
-            <param name="value"></param>
-            <returns></returns>
+            <param name="input">待判断的数字</param>
+            <param name="range">单个区间范围</param>
+            <param name="def">当区间范围为空时返回的默认值</param>
+            <returns>假如在数值之间，返回true，否则返回false</returns>
         </member>
         <member name="M:CommonLib.Extensions.MathExtension.Between(System.Double,System.Double,System.Double)">
             <summary>
@@ -4674,6 +5074,58 @@
             <param name="number1">数值1</param>
             <param name="number2">数值2</param>
             <returns>假如在数值之间，返回true，否则返回false</returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.GetAverageDistance(System.Collections.Generic.IEnumerable{System.Double[]},System.Int32,System.Double,System.Collections.Generic.Dictionary{System.Int32,System.Double}@)">
+            <summary>
+            在给定的一些点的集合中，计算各点间的平均距离，判断依据是距其它点的平均距离，点的坐标以double数组的形式给出，同时需给定采样的比例（或数量）
+            </summary>
+            <param name="points">待处理的点集合</param>
+            <param name="dimension">点所在空间的维度，至少为1</param>
+            <param name="dist_ex_count">计算每个点距其它所有点的平均距离时，所保留的样本点的数量，假如大于0小于1，则为比例（假如小于等于0则强制设置数量为1）</param>
+            <param name="dict">键值对，储存点在集合内索引与点距其它点平均距离的对应关系</param>
+            <returns>返回计算出的各点间平均距离</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.GetAzimuthThatsInRange(System.Double)">
+            <summary>
+            根据输入的方位角计算出保持在合理的范围之内（-180°到180°之间）的方位角的值并返回，假如超过180°则减360°，小于-180°则加360°，循环计算直到进入范围为止
+            </summary>
+            <param name="angle">待进行计算的输入方位角</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.GetAngleByCoordinates(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            （使用MathUtil版本）根据给定的顶端以及回转处坐标计算（初步的）回转角度（y轴正向为回转0°方位）
+            </summary>
+            <param name="x1">顶端X坐标</param>
+            <param name="y1">顶端Y坐标</param>
+            <param name="xa">回转处X坐标</param>
+            <param name="ya">回转处Y坐标</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.Exchange``1(``0@,``0@)">
+            <summary>
+            （使用Swap）对两个值类型的值进行交换
+            </summary>
+            <typeparam name="T">要交换的值的类型</typeparam>
+            <param name="t1">值1</param>
+            <param name="t2">值2</param>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.Swap``1(``0@,``0@)">
+            <summary>
+            对两个值类型的值进行交换
+            </summary>
+            <typeparam name="T">要交换的值的类型</typeparam>
+            <param name="t1">值1</param>
+            <param name="t2">值2</param>
+        </member>
+        <member name="M:CommonLib.Extensions.MathExtension.GetDecimalPlaces(System.Object)">
+            <summary>
+            尝试获取值小数点后的数值位数
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
         </member>
         <member name="M:CommonLib.Extensions.MathExtension.MinExceptZero(System.Collections.Generic.IEnumerable{System.Double},System.Double)">
             <summary>
@@ -4712,30 +5164,700 @@
             <param name="peak_offset">原始数据在数值上的位移</param>
             <returns></returns>
         </member>
+        <member name="T:CommonLib.Function.MathUtils.Circle">
+            <summary>
+            三维空间中二维圆形实体类
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Circle.X">
+            <summary>
+            圆心X坐标
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Circle.Y">
+            <summary>
+            圆心Y坐标
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Circle.Z">
+            <summary>
+            圆心Z坐标
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Circle.Radius">
+            <summary>
+            半径长度
+            </summary>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Circle.#ctor">
+            <summary>
+            默认构造器
+            </summary>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Circle.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            用给定的圆心XYZ坐标以及半径长度初始化
+            </summary>
+            <param name="x">圆心X坐标</param>
+            <param name="y">圆心Y坐标</param>
+            <param name="z">圆心Z坐标</param>
+            <param name="radius">半径长度</param>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Circle.ToString">
+            <summary>
+            转换为字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:CommonLib.Function.MathUtils.CircleExtension">
+            <summary>
+            圆形扩展类
+            </summary>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.CircleExtension.Average(System.Collections.Generic.IEnumerable{CommonLib.Function.MathUtils.Circle})">
+            <summary>
+            计算多个圆形对象的XYZ坐标以及半径平均值
+            </summary>
+            <param name="circles">圆形对象集合</param>
+            <returns></returns>
+        </member>
+        <member name="T:CommonLib.Function.MathUtils.CircleCalculator">
+            <summary>
+            圆形计算工具
+            </summary>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.CircleCalculator.Get3DCircle(System.Collections.Generic.IEnumerable{CommonLib.Function.MathUtils.Point3D})">
+            <summary>
+            三维空间中，由给定的点对象集合内圆上3点的XYZ坐标计算圆心坐标与半径长度
+            </summary>
+            <param name="points">给定的点对象集合</param>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.CircleCalculator.Get3DCircle(CommonLib.Function.MathUtils.Point3D,CommonLib.Function.MathUtils.Point3D,CommonLib.Function.MathUtils.Point3D)">
+            <summary>
+            三维空间中，由圆上3点的XYZ坐标计算圆心坐标与半径长度
+            </summary>
+            <param name="p1">点1</param>
+            <param name="p2">点2</param>
+            <param name="p3">点3</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.CircleCalculator.Get2DCircle(System.Collections.Generic.IEnumerable{CommonLib.Function.MathUtils.Point3D})">
+            <summary>
+            二维空间中，由给定的点对象集合内圆上3点的XY坐标计算圆心坐标与半径长度
+            </summary>
+            <param name="points">给定的点对象集合</param>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.CircleCalculator.Get2DCircle(CommonLib.Function.MathUtils.Point3D,CommonLib.Function.MathUtils.Point3D,CommonLib.Function.MathUtils.Point3D)">
+            <summary>
+            二维空间中，由圆上3点的XY坐标计算圆心坐标与半径长度
+            </summary>
+            <param name="p1">点1</param>
+            <param name="p2">点2</param>
+            <param name="p3">点3</param>
+        </member>
+        <member name="T:CommonLib.Function.MathUtils.Dimensions">
+            <summary>
+            维度数量
+            </summary>
+        </member>
+        <member name="F:CommonLib.Function.MathUtils.Dimensions.Two">
+            <summary>
+            二维空间
+            </summary>
+        </member>
+        <member name="F:CommonLib.Function.MathUtils.Dimensions.Three">
+            <summary>
+            三维空间
+            </summary>
+        </member>
+        <member name="T:CommonLib.Function.MathUtils.Spatial.GridCube">
+            <summary>
+            空间中网格状排列的立方体对象，每个立方体中储存一些三维空间坐标点对象（数量有固定上限），提供计算平均点的方法
+            </summary>
+        </member>
+        <member name="F:CommonLib.Function.MathUtils.Spatial.GridCube.MaxPoints">
+            <summary>
+            立方体内储存的点的数量上限
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Spatial.GridCube.Points">
+            <summary>
+            储存空间点对象的列表，存在储存上限，假如超过上限则先将旧点排出
+            </summary>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Spatial.GridCube.Clear">
+            <summary>
+            清除内部所有坐标点
+            </summary>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Spatial.GridCube.AddPoint(CommonLib.Function.MathUtils.Point3D)">
+            <summary>
+            添加新点，假如已包含此点则不继续进行（各属性相同），否则继续；假如超过上限则先将旧点排出
+            </summary>
+            <param name="point"></param>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Spatial.GridCube.GetAveragePoint">
+            <summary>
+            用所有点的坐标均值返回一个新坐标对象
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:CommonLib.Function.MathUtils.Spatial.SpaceGrid">
+            <summary>
+            管理所有立方块的立方块综合信息对象，提供添加点、获取某立方块的平均点、更新某立方块的点等功能
+            </summary>
+        </member>
+        <member name="F:CommonLib.Function.MathUtils.Spatial.SpaceGrid.UnitSize">
+            <summary>
+            立方体的边长（米）
+            </summary>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Spatial.SpaceGrid.#ctor(System.Collections.Generic.IEnumerable{CommonLib.Function.MathUtils.Point3D})">
+            <summary>
+            用给定的Point3D序列初始化立方块综合信息对象
+            </summary>
+            <param name="points2Add"></param>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Spatial.SpaceGrid.#ctor(CommonLib.Function.MathUtils.Point3D[])">
+            <summary>
+            用给定的Point3D数组初始化立方块综合信息对象
+            </summary>
+            <param name="points"></param>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Spatial.SpaceGrid.Clear">
+            <summary>
+            清除所有的立方块及其内部包含的所有坐标点
+            </summary>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Spatial.SpaceGrid.AddPoint(CommonLib.Function.MathUtils.Point3D)">
+            <summary>
+            添加空间中的坐标点，按坐标值计算索引以划分到正确的立方体内
+            </summary>
+            <param name="point"></param>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Spatial.SpaceGrid.AddPoints(System.Collections.Generic.IEnumerable{CommonLib.Function.MathUtils.Point3D})">
+            <summary>
+            批量添加坐标点
+            </summary>
+            <param name="points"></param>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Spatial.SpaceGrid.GetAveragePoint(CommonLib.Function.MathUtils.Spatial.SpaceIndex)">
+            <summary>
+            按索引找出对应位置立方体的坐标点（内部所有点取均值，没有任何点返回null）
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Spatial.SpaceGrid.GetGridKey(CommonLib.Function.MathUtils.Point3D)">
+            <summary>
+            给定一个空间中坐标点，计算这个坐标点所应划分到的立方块的位置索引
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Spatial.SpaceGrid.GetAllAveragePoints(System.Boolean)">
+            <summary>
+            列出所有立方块的均值坐标点，可提供额外的bool参数用于判断是否仅保留最上层的点（默认为false）
+            </summary>
+            <param name="upperPoints">只要最上层的点</param>
+            <returns></returns>
+        </member>
+        <member name="T:CommonLib.Function.MathUtils.Spatial.SpaceIndex">
+            <summary>
+            空间中网格立方体(GridCube)所在位置的索引
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Spatial.SpaceIndex.XIndex">
+            <summary>
+            X坐标索引
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Spatial.SpaceIndex.YIndex">
+            <summary>
+            Y坐标索引
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Spatial.SpaceIndex.ZIndex">
+            <summary>
+            Z坐标索引
+            </summary>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Spatial.SpaceIndex.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            用给定的XYZ坐标轴索引初始化
+            </summary>
+            <param name="xi"></param>
+            <param name="yi"></param>
+            <param name="zi"></param>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Spatial.SpaceIndex.ToString">
+            <summary>
+            转换为字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Spatial.SpaceIndex.CompareTo(CommonLib.Function.MathUtils.Spatial.SpaceIndex)">
+            <summary>
+            将当前实例与另一实例相比较，并返回比较结果符号：-1 小于，0 相等，1 大于
+            </summary>
+            <param name="other">与当前实例比较的另一实例</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:CommonLib.Function.MathUtils.Point3D">
+            <summary>
+            三维空间中坐标点对象
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Point3D.X">
+            <summary>
+            X坐标
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Point3D.Y">
+            <summary>
+            Y坐标
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Point3D.Z">
+            <summary>
+            Z坐标
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Point3D.Reflectivity">
+            <summary>
+            反射率，默认为0
+            <para/>对于激光雷达为反射率，对于毫米波雷达为RCS值
+            </summary>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Point3D.#ctor">
+            <summary>
+            默认构造器
+            </summary>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Point3D.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            用给定的XYZ坐标初始化
+            </summary>
+            <param name="x">X坐标</param>
+            <param name="y">Y坐标</param>
+            <param name="z">Z坐标</param>
+            <param name="ri">反射率（或者对于毫米波雷达是RCS值）</param>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Point3D.#ctor(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            用给定数值集合初始化，集合内元素分别为XYZ坐标，假如数量不足则赋值优先顺序为X/Y/Z
+            </summary>
+            <param name="coors">给定XYZ坐标的数值集合</param>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Point3D.op_Subtraction(CommonLib.Function.MathUtils.Point3D,CommonLib.Function.MathUtils.Point3D)">
+            <summary>
+            两点相减，得到从一点开始、另一点结束的向量
+            </summary>
+            <param name="p2"></param>
+            <param name="p1"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Point3D.op_Subtraction(CommonLib.Function.MathUtils.Point3D,CommonLib.Function.MathUtils.Vector3D)">
+            <summary>
+            一点减去向量，得到另一点，后者在向量起点，前者在向量终点
+            </summary>
+            <param name="p2"></param>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Point3D.op_Addition(CommonLib.Function.MathUtils.Point3D,CommonLib.Function.MathUtils.Vector3D)">
+            <summary>
+            一点与向量相加，得到另一点，后者在向量终点，前者在向量起点
+            </summary>
+            <param name="p1"></param>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Point3D.op_Addition(CommonLib.Function.MathUtils.Vector3D,CommonLib.Function.MathUtils.Point3D)">
+            <summary>
+            一点与向量相加，得到另一点，后者在向量终点，前者在向量起点
+            </summary>
+            <param name="p1"></param>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Point3D.ToString">
+            <summary>
+            转换为字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Point3D.DistTo(CommonLib.Function.MathUtils.Point3D,System.Boolean)">
+            <summary>
+            计算距离另一个坐标对象的距离
+            </summary>
+            <param name="other"></param>
+            <param name="project2Surface">是否投影到水平面，假如为true，则仅计算水平面投影的距离（忽略Z轴坐标）<para/>默认为false</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Point3D.AngleTo(CommonLib.Function.MathUtils.Point3D)">
+            <summary>
+            计算相对于另一个坐标对象的方位（角度，仅考虑XY平面，以另一个坐标对象为中心）
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Point3D.GetPointsInFileContent(System.String)">
+            <summary>
+            读取给定文件路径的文件内容，每行转换为包含XYZ坐标信息的点对象（数字间用tab制表符、半角逗号或空格分隔）、每个点对象再作为一个集合并返回
+            <para/>假如某行除分隔符外有非数字，则该行将被忽略
+            </summary>
+            <param name="filePath">读取坐标信息的文件的完整文件路径</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Point3D.GetPointsInFileContent(System.String,System.Collections.Generic.List{System.Double[]}@)">
+            <summary>
+            读取给定文件路径的文件内容，每行转换为包含XYZ坐标信息的点对象（数字间用tab制表符、半角逗号或空格分隔）、每个点对象再作为一个集合并返回
+            <para/>假如某行除分隔符外有非数字，则该行将被忽略
+            </summary>
+            <param name="filePath">读取坐标信息的文件的完整文件路径</param>
+            <param name="groupsOfNumbers">从文件内容中转换的XY坐标数组的列表</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Point3D.op_Equality(CommonLib.Function.MathUtils.Point3D,CommonLib.Function.MathUtils.Point3D)">
+            <summary>
+            重新定义的相等符号
+            </summary>
+            <param name="left">左侧实例</param>
+            <param name="right">右侧实例</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Point3D.op_Inequality(CommonLib.Function.MathUtils.Point3D,CommonLib.Function.MathUtils.Point3D)">
+            <summary>
+            重新定义的不等符号
+            </summary>
+            <param name="left">左侧实例</param>
+            <param name="right">右侧实例</param>
+            <returns></returns>
+        </member>
+        <member name="T:CommonLib.Function.MathUtils.Vector3D">
+            <summary>
+            三维空间中向量实体类
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Vector3D.X">
+            <summary>
+            X方向分量
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Vector3D.Y">
+            <summary>
+            Y方向分量
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Vector3D.Z">
+            <summary>
+            Z方向分量
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Vector3D.Length">
+            <summary>
+            向量的模（长度）
+            </summary>
+        </member>
+        <member name="P:CommonLib.Function.MathUtils.Vector3D.LengthSquared">
+            <summary>
+            向量模（长度）的平方
+            </summary>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Vector3D.#ctor">
+            <summary>
+            默认构造器
+            </summary>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Vector3D.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            用给定XYZ方向分量值初始化
+            </summary>
+            <param name="x">X方向分量</param>
+            <param name="y">Y方向分量</param>
+            <param name="z">Z方向分量</param>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Vector3D.op_Multiply(System.Double,CommonLib.Function.MathUtils.Vector3D)">
+            <summary>
+            常数与向量相乘
+            </summary>
+            <param name="scalar">与向量相乘的常数（标量）</param>
+            <param name="vector">与常数（标量）相乘的向量</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Vector3D.op_Multiply(CommonLib.Function.MathUtils.Vector3D,System.Double)">
+            <summary>
+            向量与常数相乘
+            </summary>
+            <param name="scalar">与向量相乘的常数（标量）</param>
+            <param name="vector">与常数（标量）相乘的向量</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Vector3D.op_Division(CommonLib.Function.MathUtils.Vector3D,System.Double)">
+            <summary>
+            将向量用常数去除
+            </summary>
+            <param name="scalar">与向量相乘的常数（标量）</param>
+            <param name="vector">与常数（标量）相乘的向量</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Vector3D.op_Subtraction(CommonLib.Function.MathUtils.Vector3D,CommonLib.Function.MathUtils.Vector3D)">
+            <summary>
+            向量之间相减
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Vector3D.op_Multiply(CommonLib.Function.MathUtils.Vector3D,CommonLib.Function.MathUtils.Vector3D)">
+            <summary>
+            向量之间叉乘（交换位置会影响计算结果）
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtils.Vector3D.ToString">
+            <summary>
+            转换为字符串
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:CommonLib.Function.MathUtil">
             <summary>
             数学计算功能类
             </summary>
         </member>
-        <member name="M:CommonLib.Function.MathUtil.GetCircleNumbers(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double@,System.Double@,System.Double@)">
+        <member name="M:CommonLib.Function.MathUtil.GetAveragedCircleNumbers(System.String,CommonLib.Function.MathUtils.Dimensions)">
             <summary>
-            根据圆上3个点的XY坐标确定圆心的XY坐标和半径长度
+            读取给定文件路径的文件内容，每行转换为一组XY坐标的数组（数字间用tab制表符、半角逗号或空格分隔）、每个数组再作一个集合，用这些集合中的坐标计算圆心XY坐标和半径长度的平均值并输出
+            <para/>假如某行除分隔符外有非数字，则该行将被忽略，同时假设这些坐标都在某个圆上或附近
             </summary>
-            <param name="x1">第1点的X坐标</param>
-            <param name="y1">第1点的Y坐标</param>
-            <param name="x2">第2点的X坐标</param>
-            <param name="y2">第2点的Y坐标</param>
-            <param name="x3">第3点的X坐标</param>
-            <param name="y3">第3点的Y坐标</param>
-            <param name="centrex">圆心X坐标</param>
-            <param name="centrey">圆心Y坐标</param>
-            <param name="radius">圆周半径长度，单位与坐标轴单位相同</param>
+            <param name="filePath">读取XY坐标内容的文件的完整文件路径</param>
+            <param name="dimension">要解出圆形信息的空间维度类型</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.GetAveragedCircleNumbers(System.String,CommonLib.Function.MathUtils.Dimensions,System.Collections.Generic.List{System.Double[]}@)">
+            <summary>
+            读取给定文件路径的文件内容，每行转换为一组XY坐标的数组（数字间用tab制表符、半角逗号或空格分隔）、每个数组再作一个集合，用这些集合中的坐标计算圆心XY坐标和半径长度的平均值并输出
+            <para/>假如某行除分隔符外有非数字，则该行将被忽略，同时假设这些坐标都在某个圆上或附近
+            </summary>
+            <param name="filePath">读取XY坐标内容的文件的完整文件路径</param>
+            <param name="dimension">要解出圆形信息的空间维度类型</param>
+            <param name="groupsOfCoors">从文件内容中转换的XY坐标数组的列表</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.GetAveragedCircleNumbers3d(System.String)">
+            <summary>
+            读取给定文件路径的文件内容，每行转换为一组XY坐标的数组（数字间用tab制表符、半角逗号或空格分隔）、每个数组再作一个集合，用这些集合中的坐标计算圆心XY坐标和半径长度的平均值并输出
+            <para/>假如某行除分隔符外有非数字，则该行将被忽略，同时假设这些坐标都在某个圆上或附近
+            </summary>
+            <param name="filePath">读取XY坐标内容的文件的完整文件路径</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.GetAveragedCircleNumbers3d(System.String,System.Collections.Generic.List{System.Double[]}@)">
+            <summary>
+            读取给定文件路径的文件内容，每行转换为一组XY坐标的数组（数字间用tab制表符、半角逗号或空格分隔）、每个数组再作一个集合，用这些集合中的坐标计算圆心XY坐标和半径长度的平均值并输出
+            <para/>假如某行除分隔符外有非数字，则该行将被忽略，同时假设这些坐标都在某个圆上或附近
+            </summary>
+            <param name="filePath">读取XY坐标内容的文件的完整文件路径</param>
+            <param name="groupsOfCoors">从文件内容中转换的XY坐标数组的列表</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.GetAveragedCircleNumbers(System.String)">
+            <summary>
+            读取给定文件路径的文件内容，每行转换为一组XY坐标的数组（数字间用tab制表符、半角逗号或空格分隔）、每个数组再作一个集合，用这些集合中的坐标计算圆心XY坐标和半径长度的平均值并输出
+            <para/>假如某行除分隔符外有非数字，则该行将被忽略，同时假设这些坐标都在某个圆上或附近
+            </summary>
+            <param name="filePath">读取XY坐标内容的文件的完整文件路径</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.GetAveragedCircleNumbers(System.String,System.Collections.Generic.List{System.Double[]}@)">
+            <summary>
+            读取给定文件路径的文件内容，每行转换为一组XY坐标的数组（数字间用tab制表符、半角逗号或空格分隔）、每个数组再作一个集合，用这些集合中的坐标计算圆心XY坐标和半径长度的平均值并输出
+            <para/>假如某行除分隔符外有非数字，则该行将被忽略，同时假设这些坐标都在某个圆上或附近
+            </summary>
+            <param name="filePath">读取XY坐标内容的文件的完整文件路径</param>
+            <param name="groupsOfCoors">从文件内容中转换的XY坐标数组的列表</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.GetNumberPairsByString(System.String,System.Char,System.Char)">
+            <summary>
+            根据给定的数值区间范围描述字符串（形如“-3.4~-1.2, 6.772~10.838”）输出成对的区间范围
+            </summary>
+            <param name="descp">数值区间范围的描述字符串（形如“-3.4~-1.2, 6.772~10.838”）</param>
+            <param name="splitChar">描述数字分隔关系的字符，默认为“,”</param>
+            <param name="intervalChar">描述区间起始结束关系的连接字符，默认为~（为避免负数不要使用-）</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.GetIntegerListByString(System.String,System.Char,System.Char)">
+            <summary>
+            根据给定的整数序列描述字符串（形如“-5, -3~-1, 3, 6~10”）输出整数序列
+            </summary>
+            <param name="descp">整数序列的描述字符串（形如“-5, -3~-1, 3, 6~10”）</param>
+            <param name="splitChar">描述数字分隔关系的字符，默认为“,”</param>
+            <param name="intervalChar">描述区间起始结束关系的字符，默认为~（为避免负数不要使用-）</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.GetNumbersInFileContent(System.String)">
+            <summary>
+            读取给定文件路径的文件内容，每行转换为包含若干数字的数组（数字间用tab制表符、半角逗号或空格分隔）、每个数组再作为一个集合并返回
+            <para/>假如某行除分隔符外有非数字，则该行将被忽略
+            </summary>
+            <param name="filePath">读取数值内容的文件的完整文件路径</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.GetNumberArraysInFileContent(System.String)">
+            <summary>
+            读取给定文件路径的文件内容，每行转换为包含若干数字的数组（数字间用tab制表符、半角逗号或空格分隔）、每个数组再作为一个集合并返回
+            <para/>假如某行除分隔符外有非数字，则该行将被忽略
+            </summary>
+            <param name="filePath">读取数值内容的文件的完整文件路径</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.GetNumberArraysInString(System.String)">
+            <summary>
+            读取给定的字符串，每行转换为包含若干数字的数组（数字间用tab制表符、半角逗号或空格分隔）、每个数组再作为一个集合并返回
+            <para/>假如某行除分隔符外有非数字，则该行将被忽略
+            </summary>
+            <param name="content">读取数值内容的字符串</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.GetNumberArraysInStringArray(System.String[])">
+            <summary>
+            读取给定的字符串数组，每行转换为包含若干数字的数组（数字间用tab制表符、半角逗号或空格分隔）、每个数组再作为一个集合并返回
+            <para/>假如某行除分隔符外有非数字，则该行将被忽略
+            </summary>
+            <param name="lines">读取数值内容的字符串数组</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.GetStringByNumberPairs(System.Collections.Generic.List{System.Double[]},System.Char,System.Char)">
+            <summary>
+            根据给定的成对的区间范围，输出数值区间范围描述字符串（形如“-3.4~-1.2, 6.772~10.838”）
+            </summary>
+            <param name="list">数值区间范围的描述字符串（形如“-3.4~-1.2, 6.772~10.838”）</param>
+            <param name="splitChar">描述数字分隔关系的字符，默认为“,”</param>
+            <param name="intervalChar">描述区间起始结束关系的连接字符，默认为~（为避免负数不要使用-）</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.RemoveDistantPoints(System.Collections.Generic.List{System.Double}@,System.Collections.Generic.List{System.Double}@,System.Double,System.Double)">
+            <summary>
+            从双精度浮点数(double)的集合中排除与其它值相差太大的值，同时需给定采样的比例（或数量）以及离群值的过滤系数
+            </summary>
+            <param name="points">待处理的双精度浮点数(double)集合</param>
+            <param name="discarded">存放被过滤掉的双精度浮点数(double)的集合</param>
+            <param name="dist_ex_count">计算每个值距其它值的平均差距时，所保留的值数量，假如大于0小于1，则为比例（假如小于等于0则强制设置数量为1）</param>
+            <param name="removalCoeff">离群值的过滤系数，标准值为1，越小越严格，小于等于0将过滤掉所有点</param>
+            <returns>返回计算出的各点间平均距离</returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.RemoveDistantPoints``1(System.Collections.Generic.List{``0}@,System.Collections.Generic.List{``0}@,System.Func{``0,System.Double[]},System.Int32,System.Double,System.Double)">
+            <summary>
+            从一些样本的集合中排除离散的样本，判断依据是距其它样本的平均距离，用于计算此距离的坐标（以double数组的形式）可以通过给定的转换函数从样本元素中投影出来，同时需给定采样的比例（或数量）以及离群点的过滤系数
+            </summary>
+            <param name="points">待处理的样本集合，样本中的每个元素可以通过提供的转换函数投影到最终计算平均距离的数值坐标上（以double数组的形式）</param>
+            <param name="discarded">存放被过滤掉的样本的集合</param>
+            <param name="selector">应用于每个元素的转换函数</param>
+            <param name="dimension">点所在空间的维度，至少为1</param>
+            <param name="dist_ex_count">计算每个点距其它所有点的平均距离时，所保留的样本点的数量，假如大于0小于1，则为比例（假如小于等于0则强制设置数量为1）</param>
+            <param name="removalCoeff">离群点过滤系数，标准值为1，越小越严格，小于等于0将过滤掉所有点</param>
+            <returns>返回计算出的各点间平均距离</returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.RemoveDistantPoints(System.Collections.Generic.List{System.Double[]}@,System.Int32,System.Double,System.Double)">
+            <summary>
+            从一些点的集合中排除离散的点，判断依据是距其它点的平均距离，点的坐标以double数组的形式给出，同时需给定采样的比例（或数量）以及离群点的过滤系数
+            </summary>
+            <param name="points">待处理的点集合，每个元素代表点的坐标，以double数组的形式给出</param>
+            <param name="dimension">点所在空间的维度，至少为1</param>
+            <param name="dist_ex_count">计算每个点距其它所有点的平均距离时，所保留的样本点的数量，假如大于0小于1，则为比例（假如小于等于0则强制设置数量为1）</param>
+            <param name="removalCoeff">离群点过滤系数，标准值为1，越小越严格，小于等于0将过滤掉所有点</param>
+            <returns>返回计算出的各点间平均距离</returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.RemoveDistantPoints(System.Collections.Generic.List{System.Double[]}@,System.Collections.Generic.List{System.Double[]}@,System.Int32,System.Double,System.Double)">
+            <summary>
+            从一些点的集合中排除离散的点，判断依据是距其它点的平均距离，点的坐标以double数组的形式给出，同时需给定采样的比例（或数量）以及离群点的过滤系数
+            </summary>
+            <param name="points">待处理的点集合，每个元素代表点的坐标，以double数组的形式给出</param>
+            <param name="discarded">存放被过滤掉的点的集合</param>
+            <param name="dimension">点所在空间的维度，至少为1</param>
+            <param name="dist_ex_count">计算每个点距其它所有点的平均距离时，所保留的样本点的数量，假如大于0小于1，则为比例（假如小于等于0则强制设置数量为1）</param>
+            <param name="removalCoeff">离群点过滤系数，标准值为1，越小越严格，小于等于0将过滤掉所有点</param>
+            <returns>返回计算出的各点间平均距离</returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.GetTriangleArea(System.Double,System.Double,System.Double)">
+            <summary>
+            计算三角形面积：通过给定的两边长度和这两边的夹角（以角度提供）计算
+            </summary>
+            <param name="side1">边1长度</param>
+            <param name="side2">边2长度</param>
+            <param name="inclAngle">两边的夹角（角度）</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.ToDegree(System.Double)">
+            <summary>
+            将弧度值转换为角度值
+            </summary>
+            <param name="rad"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.ToRad(System.Double)">
+            <summary>
+            将角度值转换为弧度值
+            </summary>
+            <param name="angle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.AngleReshapedByPitchAngle(System.Double,System.Double)">
+            <summary>
+            水平平面内的某角度随此平面做俯仰运动后在水平面上投影的角度大小
+            <para/>参考公式为λ=arctan(tanθ/cosφ)，λ为运动后的投影角度，θ为初始角度、φ为俯仰角度
+            <para/>参见D:\GPS\文档\坐标系与计算\平面内某角度随俯仰角度的变化.txt
+            </summary>
+            <param name="angle">输入的初始角度值，单位为角度（°）</param>
+            <param name="pitchAngle">俯仰角度值，单位为角度（°）</param>
+            <returns>返回计算后的水平面投影角度，单位为角度（°）</returns>
         </member>
         <member name="M:CommonLib.Function.MathUtil.KeepAzimuthInRange(System.Double@)">
             <summary>
             使输入的方位角保持在合理的范围之内（-180°到180°之间，包含-180°，不包含180°），假如超过180°则减360°，小于-180°则加360°，循环计算直到进入范围为止
             </summary>
             <param name="angle">待修改的输入方位角</param>
+        </member>
+        <member name="M:CommonLib.Function.MathUtil.GetAngleByCoordinates(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            根据给定的顶端以及回转处坐标计算（初步的）回转角度（y轴正向为回转0°方位）
+            </summary>
+            <param name="x1">顶端X坐标</param>
+            <param name="y1">顶端Y坐标</param>
+            <param name="xa">回转处X坐标</param>
+            <param name="ya">回转处Y坐标</param>
+            <returns></returns>
         </member>
         <member name="T:CommonLib.Function.ReflectionUtil">
             <summary>
@@ -4889,11 +6011,12 @@
             <param name="appPath"></param>
             <param name="allUsers"></param>
         </member>
-        <member name="M:CommonLib.Function.Functions.AddTimeToMessage(System.Object)">
+        <member name="M:CommonLib.Function.Functions.AddTimeToMessage(System.Object,System.String)">
             <summary>
             将当前时间添加到信息中
             </summary>
-            <param name="obj"></param>
+            <param name="obj">在其中添加时间的信息</param>
+            <param name="format">将时间格式化的字符串，默认为"yyyy-MM-dd HH:mm:ss"</param>
             <returns></returns>
         </member>
         <member name="M:CommonLib.Function.Functions.IsXpOr2003">
@@ -4942,6 +6065,19 @@
             转换类
             </summary>
         </member>
+        <member name="M:CommonLib.Function.Converter.Convert(System.Type,System.Object,System.Object)">
+            <summary>
+            泛型类型转换
+            </summary>
+            <param name="type">要转换的基础类型</param>
+            <param name="source">要转换的值</param>
+            <param name="def"></param>
+            <returns>返回转换后的实体类对象</returns>
+            <exception cref="T:System.ArgumentNullException">类型type可能为空</exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
         <member name="M:CommonLib.Function.Converter.Convert(System.Type,System.Object)">
             <summary>
             泛型类型转换
@@ -4949,6 +6085,10 @@
             <param name="type">要转换的基础类型</param>
             <param name="source">要转换的值</param>
             <returns>返回转换后的实体类对象</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
         </member>
         <member name="P:CommonLib.Function.Converter.ConvertTypeMethod">
             <summary>
@@ -4962,6 +6102,9 @@
             <typeparam name="T">要转换的基础类型</typeparam>
             <param name="source">要转换的值</param>
             <returns>返回转换后的实体类对象</returns>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
         </member>
         <member name="M:CommonLib.Function.Converter.ConvertType``1(System.Object,``0)">
             <summary>
@@ -4971,6 +6114,9 @@
             <param name="source">要转换的值</param>
             <param name="def">假如值为空的默认值</param>
             <returns>返回转换后的实体类对象</returns>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
         </member>
         <member name="M:CommonLib.Function.Converter.Convert``1(System.Data.DataRow,System.String)">
             <summary>
@@ -4980,6 +6126,9 @@
             <param name="row">DataRow对象</param>
             <param name="column">列名称</param>
             <returns></returns>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
         </member>
         <member name="M:CommonLib.Function.Converter.Convert``1(System.Data.DataRow,System.String,``0)">
             <summary>
@@ -4990,6 +6139,9 @@
             <param name="column">列名称</param>
             <param name="def">默认值</param>
             <returns></returns>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
         </member>
         <member name="M:CommonLib.Function.Converter.ConvertDataRow``1(System.Data.DataRow,System.String,``0)">
             <summary>
@@ -5129,9 +6281,19 @@
         </member>
         <member name="M:CommonLib.Function.HexHelper.NumberArrayToChn_8bit(System.Collections.Generic.IEnumerable{System.Int32},System.Int32,System.Int32)">
             <summary>
-            将一组8位整型数值（无论有无符号）转16进制中文编码再转为中文字符串
+            将一组8位整型数值（无论有无符号）转16进制中文编码再转为中文字符串，使用GB2312编码
             </summary>
             <param name="numbers">输入的8位整型数列（无论有无符号），每2个数值代表一个汉字</param>
+            <param name="offsetBelowZero">为数列中负数元素提供的校正值，假如数值小于0（一般因为值的源类型为8位有符号整型，值域取[-128,127]），则加上此校正值（默认为256）以变为8位无符号整型，方便转为16进制</param>
+            <param name="offset">为数列中每个元素提供的校正值，在为负数元素校正之后操作</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.HexHelper.NumberArrayToChn_8bit(System.Collections.Generic.IEnumerable{System.Int32},System.Text.Encoding,System.Int32,System.Int32)">
+            <summary>
+            将一组8位整型数值（无论有无符号）转16进制中文编码再转为中文字符串，使用给定的编码方式
+            </summary>
+            <param name="numbers">输入的8位整型数列（无论有无符号），每2个数值代表一个汉字</param>
+            <param name="encoding">编码方式，假如为空引用则使用GB2312</param>
             <param name="offsetBelowZero">为数列中负数元素提供的校正值，假如数值小于0（一般因为值的源类型为8位有符号整型，值域取[-128,127]），则加上此校正值（默认为256）以变为8位无符号整型，方便转为16进制</param>
             <param name="offset">为数列中每个元素提供的校正值，在为负数元素校正之后操作</param>
             <returns></returns>
@@ -5362,6 +6524,8 @@
         <member name="T:CommonLib.Function.IniFileHelper">
             <summary>
             INI配置文件操作类
+            <para/>假如泛型T为bool量，则无法满足IFormattable的约束
+            <para/>假如泛型T可为null，则无法满足IComparable, IConvertible, IComparable[T], IEquatable[T]的约束
             </summary>
         </member>
         <member name="P:CommonLib.Function.IniFileHelper.FilePath">
@@ -5392,70 +6556,316 @@
             <param name="filePath">INI文件路径</param>
             <param name="length">INI配置项内容默认长度</param>
         </member>
-        <member name="M:CommonLib.Function.IniFileHelper.ReadData(System.String,System.String,System.String,System.Int32,System.String)">
-            <summary>
-            读取INI文件内容
-            </summary>
-            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
-            <param name="key">每条配置的关键字（形如Key = Value）</param>
-            <param name="noText">没有该项配置的情况所反馈的信息</param>
-            <param name="length">配置项内容最大长度</param>
-            <param name="iniFilePath">INI配置文件路径</param>
-            <returns>返回配置文件内容</returns>
-        </member>
         <member name="M:CommonLib.Function.IniFileHelper.ReadData(System.String,System.String,System.String,System.Int32)">
             <summary>
             读取INI文件内容
             </summary>
             <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
             <param name="key">每条配置的关键字（形如Key = Value）</param>
-            <param name="noText">没有该项配置的情况所反馈的信息</param>
+            <param name="def">没有该项配置的默认值</param>
             <param name="length">配置项内容最大长度</param>
             <returns>返回配置文件内容</returns>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
-        <member name="M:CommonLib.Function.IniFileHelper.ReadData(System.String,System.String)">
+        <member name="M:CommonLib.Function.IniFileHelper.ReadData(System.String,System.String,System.String,System.Int32,System.String)">
             <summary>
             读取INI文件内容
             </summary>
             <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
             <param name="key">每条配置的关键字（形如Key = Value）</param>
-            <returns>返回配置文件内容</returns>
-        </member>
-        <member name="M:CommonLib.Function.IniFileHelper.ReadInt(System.String,System.String,System.Int32,System.String)">
-            <summary>
-            读取INI文件内的整型数据
-            </summary>
-            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
-            <param name="key">每条配置的关键字（形如Key = Value）</param>
             <param name="def">没有该项配置的默认值</param>
+            <param name="length">配置项内容最大长度</param>
             <param name="iniFilePath">INI配置文件路径</param>
             <returns>返回配置文件内容</returns>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
-        <member name="M:CommonLib.Function.IniFileHelper.ReadInt(System.String,System.String,System.Int32)">
+        <member name="M:CommonLib.Function.IniFileHelper.ReadValue``1(System.String,System.String)">
             <summary>
-            读取INI文件内的整型数据
+            读取INI文件内特定类型的数值，当配置项不存在时返回特定类型的默认值
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <returns>返回转换后的特定类型值</returns>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.ReadValue``1(System.String,System.String,``0)">
+            <summary>
+            读取INI文件内特定类型的数值，当配置项不存在时返回给定的默认值
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="def">没有该项配置时的默认值</param>
+            <returns>返回转换后的特定类型值</returns>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.TryReadValue``1(System.String,System.String,``0@)">
+            <summary>
+            读取INI文件的配置项并尝试转换为特定类型的数值，转换结果由以out符号修饰的参数返回
+            <para/>假如配置项存在但无法转为特定类型，则转换失败；假如配置项不存在，视为转换成功，但转换结果为给定类型的默认值
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="parsed">返回的转换结果，只有在转换成功时才可使用</param>
+            <returns>假如配置项存在但转换失败，将返回false；假如配置项不存在，则返回true</returns>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.TryReadValue``1(System.String,System.String,``0,``0@)">
+            <summary>
+            读取INI文件的配置项并尝试转换为特定类型的数值，转换结果由以out符号修饰的参数返回
+            <para/>假如配置项存在但无法转为特定类型，则转换失败；假如配置项不存在，视为转换成功，但转换结果为给定的默认值
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="def">（假如没有找到配置项时的）默认转换结果</param>
+            <param name="parsed">返回的转换结果，只有在转换成功时才可使用</param>
+            <returns>假如配置项存在但转换失败，将返回false；假如配置项不存在，则返回true</returns>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.ReadBool(System.String,System.String)">
+            <summary>
+            读取INI文件内的布尔型变量，当配置项不存在时返回false
             </summary>
             <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
             <param name="key">每条配置的关键字（形如Key = Value）</param>
-            <param name="def">没有该项配置的默认值</param>
-            <returns>返回配置文件内容</returns>
+            <returns>返回转换后的布尔型变量</returns>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.ReadBool(System.String,System.String,System.Boolean)">
+            <summary>
+            读取INI文件内的布尔型变量，当配置项不存在时返回给定的默认值
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="def">没有该项配置时的默认值</param>
+            <returns>返回转换后的布尔型变量</returns>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
         </member>
         <member name="M:CommonLib.Function.IniFileHelper.ReadInt(System.String,System.String)">
             <summary>
-            读取INI文件内的整型数据
+            读取INI文件内的32位有符号整型数据(Int32)，当配置项不存在时返回0
             </summary>
             <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
             <param name="key">每条配置的关键字（形如Key = Value）</param>
-            <returns>返回配置文件内容</returns>
+            <returns>返回转换后的32位有符号整型数据(Int32)</returns>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
         </member>
-        <member name="M:CommonLib.Function.IniFileHelper.WriteData(System.String,System.String,System.String,System.String)">
+        <member name="M:CommonLib.Function.IniFileHelper.ReadInt(System.String,System.String,System.Int32)">
             <summary>
-            写INI配置文件
+            读取INI文件内的32位有符号整型数据(Int32)，当配置项不存在时返回给定的默认值
             </summary>
             <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
             <param name="key">每条配置的关键字（形如Key = Value）</param>
-            <param name="value">配置待写入的值</param>
-            <param name="iniFilePath">INI配置文件路径</param>
+            <param name="def">没有该项配置时的默认值</param>
+            <returns>返回转换后的32位有符号整型数据(Int32)</returns>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.ReadDecimal(System.String,System.String)">
+            <summary>
+            读取INI文件内的10进制浮点数(Decimal)，当配置项不存在时返回0
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <returns>返回转换后的10进制浮点数(Decimal)</returns>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.ReadDecimal(System.String,System.String,System.Decimal)">
+            <summary>
+            读取INI文件内的10进制浮点数(Decimal)，当配置项不存在时返回给定的默认值
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="def">没有该项配置时的默认值</param>
+            <returns>返回转换后的10进制浮点数(Decimal)</returns>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.ReadDouble(System.String,System.String)">
+            <summary>
+            读取INI文件内的双精度浮点数(Double)，当配置项不存在时返回0
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <returns>返回转换后的双精度浮点数(Double)</returns>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.ReadDouble(System.String,System.String,System.Double)">
+            <summary>
+            读取INI文件内的双精度浮点数(Double)，当配置项不存在时返回给定的默认值
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="def">没有该项配置时的默认值</param>
+            <returns>返回转换后的双精度浮点数(Double)</returns>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.TryReadBool(System.String,System.String,System.Boolean@)">
+            <summary>
+            读取INI文件的配置项并尝试转换为bool变量（配置项值为1时为true，为非1的整数时为false），转换结果由以out符号修饰的参数返回
+            <para/>假如配置项存在但无法转为整型数值，则转换失败；假如配置项不存在，视为转换成功，但转换结果默认为false
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="parsed">返回的转换结果，只有在转换成功时才可使用</param>
+            <returns>假如配置项存在但转换失败，将返回false；假如配置项不存在，则返回true</returns>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.TryReadBool(System.String,System.String,System.Boolean,System.Boolean@)">
+            <summary>
+            读取INI文件的配置项并尝试转换为bool变量（配置项值为1时为true，为非1的整数时为false），转换结果由以out符号修饰的参数返回
+            <para/>假如配置项存在但无法转为整型数值，则转换失败；假如配置项不存在，视为转换成功，但转换结果为给定的默认值
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="def">（假如没有找到配置项时的）默认转换结果</param>
+            <param name="parsed">返回的转换结果，只有在转换成功时才可使用</param>
+            <returns>假如配置项存在但转换失败，将返回false；假如配置项不存在，则返回true</returns>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.TryReadInt(System.String,System.String,System.Int32@)">
+            <summary>
+            读取INI文件的配置项并尝试转换为32位有符号整型变量(Int32)，转换结果由以out符号修饰的参数返回
+            <para/>假如配置项存在但无法转为整型数值，则转换失败；假如配置项不存在，视为转换成功，但转换结果默认为0
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="parsed">返回的转换结果，只有在转换成功时才可使用</param>
+            <returns>假如配置项存在但转换失败，将返回false；假如配置项不存在，则返回true</returns>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.TryReadInt(System.String,System.String,System.Int32,System.Int32@)">
+            <summary>
+            读取INI文件的配置项并尝试转换为32位有符号整型变量(Int32)，转换结果由以out符号修饰的参数返回
+            <para/>假如配置项存在但无法转为整型数值，则转换失败；假如配置项不存在，视为转换成功，但转换结果为给定的默认值
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="def">（假如没有找到配置项时的）默认转换结果</param>
+            <param name="parsed">返回的转换结果，只有在转换成功时才可使用</param>
+            <returns>假如配置项存在但转换失败，将返回false；假如配置项不存在，则返回true</returns>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.TryReadDecimal(System.String,System.String,System.Decimal@)">
+            <summary>
+            读取INI文件的配置项并尝试转换为10进制浮点数(Decimal)，转换结果由以out符号修饰的参数返回
+            <para/>假如配置项存在但无法转为整型数值，则转换失败；假如配置项不存在，视为转换成功，但转换结果默认为0
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="parsed">返回的转换结果，只有在转换成功时才可使用</param>
+            <returns>假如配置项存在但转换失败，将返回false；假如配置项不存在，则返回true</returns>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.TryReadDecimal(System.String,System.String,System.Int32,System.Decimal@)">
+            <summary>
+            读取INI文件的配置项并尝试转换为10进制浮点数(Decimal)，转换结果由以out符号修饰的参数返回
+            <para/>假如配置项存在但无法转为整型数值，则转换失败；假如配置项不存在，视为转换成功，但转换结果为给定的默认值
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="def">（假如没有找到配置项时的）默认转换结果</param>
+            <param name="parsed">返回的转换结果，只有在转换成功时才可使用</param>
+            <returns>假如配置项存在但转换失败，将返回false；假如配置项不存在，则返回true</returns>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.TryReadDouble(System.String,System.String,System.Double@)">
+            <summary>
+            读取INI文件的配置项并尝试转换为双精度浮点数(Double)，转换结果由以out符号修饰的参数返回
+            <para/>假如配置项存在但无法转为双精度浮点数，则转换失败；假如配置项不存在，视为转换成功，但转换结果默认为0
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="parsed">返回的转换结果，只有在转换成功时才可使用</param>
+            <returns>假如配置项存在但转换失败，将返回false；假如配置项不存在，则返回true</returns>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.TryReadDouble(System.String,System.String,System.Double,System.Double@)">
+            <summary>
+            读取INI文件的配置项并尝试转换为双精度浮点数(Double)，转换结果由以out符号修饰的参数返回
+            <para/>假如配置项存在但无法转为双精度浮点数，则转换失败；假如配置项不存在，视为转换成功，但转换结果为给定的默认值
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="def">（假如没有找到配置项时的）默认转换结果</param>
+            <param name="parsed">返回的转换结果，只有在转换成功时才可使用</param>
+            <returns>假如配置项存在但转换失败，将返回false；假如配置项不存在，则返回true</returns>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.WriteValue``1(System.String,System.String,``0,System.String)">
+            <summary>
+            按指定的格式将双精度浮点数(Double)写INI配置文件，格式默认为null
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="value">待写入的值</param>
+            <param name="format">写入的格式(仅double有效)，如"0.000"可保留3位小数，假如不需要任何格式则为null</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.WriteDouble(System.String,System.String,System.Double,System.String)">
+            <summary>
+            按指定的格式将双精度浮点数(Double)写INI配置文件，格式默认为null
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="value">待写入的值</param>
+            <param name="format">写入的格式，如"0.000"可保留3位小数，假如不需要任何格式则为null</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.WriteInt(System.String,System.String,System.Int32)">
+            <summary>
+            将32位有符号整型值(Int32)写INI配置文件
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="value">待写入的值</param>
+            <returns>假如操作成功，返回true，否则返回false</returns>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.WriteDecimal(System.String,System.String,System.Decimal)">
+            <summary>
+            将10进制浮点数(Decimal)写INI配置文件
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="value">待写入的值</param>
+            <returns>假如操作成功，返回true，否则返回false</returns>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.WriteBool(System.String,System.String,System.Boolean)">
+            <summary>
+            将布尔值写INI配置文件
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="value">待写入的值</param>
             <returns>假如操作成功，返回true，否则返回false</returns>
         </member>
         <member name="M:CommonLib.Function.IniFileHelper.WriteData(System.String,System.String,System.String)">
@@ -5465,6 +6875,16 @@
             <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
             <param name="key">每条配置的关键字（形如Key = Value）</param>
             <param name="value">配置待写入的值</param>
+            <returns>假如操作成功，返回true，否则返回false</returns>
+        </member>
+        <member name="M:CommonLib.Function.IniFileHelper.WriteData(System.String,System.String,System.String,System.String)">
+            <summary>
+            写INI配置文件
+            </summary>
+            <param name="section">内容区域（用中括号[ ] 括起的部分）</param>
+            <param name="key">每条配置的关键字（形如Key = Value）</param>
+            <param name="value">配置待写入的值</param>
+            <param name="iniFilePath">INI配置文件路径</param>
             <returns>假如操作成功，返回true，否则返回false</returns>
         </member>
         <member name="M:CommonLib.Function.IniFileHelper.WritePrivateProfileString(System.String,System.String,System.String,System.String)">
@@ -5504,7 +6924,7 @@
             MODBUS功能类
             </summary>
         </member>
-        <member name="M:CommonLib.Function.Modbus.ModbusHelper.GetReadCommand(System.Byte,CommonLib.Function.Modbus.FunctionCode,System.UInt16,System.UInt16)">
+        <member name="M:CommonLib.Function.Modbus.ModbusHelper.GetReadCommand(System.Byte,CommonLib.Function.Modbus.FunctionCode,System.UInt16,System.UInt16,CommonLib.Function.Modbus.ModbusType,System.Byte)">
             <summary>
             获取MODBUS读命令
             </summary>
@@ -5512,15 +6932,19 @@
             <param name="functionCode">功能码</param>
             <param name="address">线圈/寄存器地址</param>
             <param name="quantity">地址连续量</param>
+            <param name="type">MODBUS通信协议的类型</param>
+            <param name="counter">MODBUS TCP的通信计数器</param>
             <returns>返回带校验码的MODBUS读命令</returns>
         </member>
-        <member name="M:CommonLib.Function.Modbus.ModbusHelper.GetReceiveRegexPattern(System.Byte,CommonLib.Function.Modbus.FunctionCode,System.UInt16)">
+        <member name="M:CommonLib.Function.Modbus.ModbusHelper.GetReceiveRegexPattern(System.Byte,CommonLib.Function.Modbus.FunctionCode,System.UInt16,CommonLib.Function.Modbus.ModbusType,System.Byte)">
             <summary>
             获取MODBUS返回信息的正则表达式
             </summary>
             <param name="meterAddress">表地址</param>
             <param name="functionCode">功能码</param>
             <param name="quantity">地址连续量</param>
+            <param name="type">MODBUS通信协议的类型</param>
+            <param name="counter">MODBUS TCP的通信计数器</param>
             <returns>返回MODBUS返回消息的正则表达式</returns>
         </member>
         <member name="T:CommonLib.Function.Modbus.CommandResolved">
@@ -5545,7 +6969,7 @@
         </member>
         <member name="P:CommonLib.Function.Modbus.CommandResolved.CheckPassed">
             <summary>
-            校验码验证是否通过
+            校验码验证是否通过（仅RTU有效，TCP始终为true）
             </summary>
         </member>
         <member name="P:CommonLib.Function.Modbus.CommandResolved.DataContentLength">
@@ -5563,29 +6987,48 @@
             数据部分（16进制字符串）
             </summary>
         </member>
-        <member name="M:CommonLib.Function.Modbus.CommandResolved.#ctor(System.String)">
+        <member name="M:CommonLib.Function.Modbus.CommandResolved.#ctor(System.Byte[],CommonLib.Function.Modbus.ModbusType)">
             <summary>
             构造器
             </summary>
             <param name="input">输入数据</param>
+            <param name="type">MODBUS通信协议的类型</param>
         </member>
-        <member name="M:CommonLib.Function.Modbus.CommandResolved.#ctor(System.Byte[])">
+        <member name="M:CommonLib.Function.Modbus.CommandResolved.#ctor(System.String,CommonLib.Function.Modbus.ModbusType)">
             <summary>
             构造器
             </summary>
             <param name="input">输入数据</param>
+            <param name="type">MODBUS通信协议的类型</param>
         </member>
-        <member name="M:CommonLib.Function.Modbus.CommandResolved.ResolveCommand(System.String)">
+        <member name="M:CommonLib.Function.Modbus.CommandResolved.ResolveCommand(System.String,CommonLib.Function.Modbus.ModbusType)">
             <summary>
             解析MODBUS返回信息
             </summary>
             <param name="hex">返回的16进制字符串</param>
+            <param name="type">MODBUS通信协议的类型</param>
         </member>
-        <member name="M:CommonLib.Function.Modbus.CommandResolved.ResolveCommand(System.Byte[])">
+        <member name="M:CommonLib.Function.Modbus.CommandResolved.ResolveCommand(System.Byte[],CommonLib.Function.Modbus.ModbusType)">
             <summary>
             解析MODBUS返回信息
             </summary>
             <param name="array">返回的byte数组</param>
+            <param name="type">MODBUS通信协议的类型</param>
+        </member>
+        <member name="T:CommonLib.Function.Modbus.ModbusType">
+            <summary>
+            MODBUS协议的通信类型
+            </summary>
+        </member>
+        <member name="F:CommonLib.Function.Modbus.ModbusType.RTU">
+            <summary>
+            Modbus RTU
+            </summary>
+        </member>
+        <member name="F:CommonLib.Function.Modbus.ModbusType.TCP">
+            <summary>
+            Modbus TCP
+            </summary>
         </member>
         <member name="T:CommonLib.Function.Modbus.FunctionCode">
             <summary>
@@ -5839,6 +7282,11 @@
             以默认的计时间隔初始化
             </summary>
         </member>
+        <member name="M:CommonLib.Function.TimerEventRaiser.Dispose">
+            <summary>
+            释放当前实例所使用的所有资源
+            </summary>
+        </member>
         <member name="M:CommonLib.Function.TimerEventRaiser.Run">
             <summary>
             开始计时
@@ -6023,6 +7471,25 @@
         <member name="T:CommonLib.Function.RegexMatcher">
             <summary>
             进行正则表达式匹配的类
+            </summary>
+        </member>
+        <member name="F:CommonLib.Function.RegexMatcher.RegexPattern_RealNumber">
+            <summary>
+            匹配任意实数的正则表达式
+            <para/>-? 表示可选的负号。
+            <para/>\d+ 表示至少一个数字，表示整数部分。
+            <para/>(\.\d+)? 是一个可选的组，表示小数点后至少一个数字，表示小数部分。
+            <para/>([eE][-+]?\d+)? 是一个可选的组，表示科学记数法的指数部分，[eE] 表示可选的 'e' 或 'E'，[-+]? 表示可选的正负号，\d+ 表示至少一个数字，表示指数。
+            </summary>
+        </member>
+        <member name="F:CommonLib.Function.RegexMatcher.RegexPattern_UnicodeString">
+            <summary>
+            表示以Unicode编码形式表达的字符的正则表达式（正确形式，转义符\u后面跟随4位16进制数）
+            </summary>
+        </member>
+        <member name="F:CommonLib.Function.RegexMatcher.RegexPattern_UnicodeString_VariableDigits">
+            <summary>
+            表示以Unicode编码形式表达的字符的正则表达式（适应性更强的形式，转义符\u后面仅跟随2到4位16进制数）
             </summary>
         </member>
         <member name="F:CommonLib.Function.RegexMatcher.RegexPattern_65535">
@@ -6346,6 +7813,30 @@
             <param name="error">返回的错误信息</param>
             <returns>假如操作成功则返回true，否则假如有一个操作未成功则返回false</returns>
         </member>
+        <member name="M:CommonLib.Helpers.FileSystemHelper.OpenInExplorer(System.String,System.Boolean)">
+            <summary>
+            在资源管理器中打开指定的文件
+            </summary>
+            <param name="filePath"></param>
+            <param name="ignoreIfNotExist">假如文件不存在，是否忽略并直接显示所在路径</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+        </member>
+        <member name="M:CommonLib.Helpers.FileSystemHelper.CheckForDirectory(System.String,System.Boolean)">
+            <summary>
+            检查给定的路径（或给定的文件所在的路径）是否存在，不存在则创建
+            </summary>
+            <param name="path">路径名称，或包含路径的完整文件名称</param>
+            <param name="isFilePath">是否为文件路径，假如为false则一律按照路径操作</param>
+        </member>
+        <member name="M:CommonLib.Helpers.FileSystemHelper.CheckForStartupPath(System.String,System.Boolean)">
+            <summary>
+            检查路径或包含路径的完整文件名，假如路径中不包含卷分隔符则在前添加启动目录
+            </summary>
+            <param name="path">路径，或包含路径的完整文件名</param>
+            <param name="ignoreEmptyString">是否忽略传入的空白字符串（字符串为null、空、充满空白字符），为true时直接返回空字符串，否则依然添加启动目录（此时与启动目录本身等价）</param>
+            <returns></returns>
+        </member>
         <member name="M:CommonLib.Helpers.FileSystemHelper.AddDateToFileName(System.String,System.String)">
             <summary>
             将日期添加到文件名中（文件名包含后缀）
@@ -6361,7 +7852,7 @@
             <param name="filePath"></param>
             <returns></returns>
         </member>
-        <member name="M:CommonLib.Helpers.FileSystemHelper.UpdateFilePath(System.String@,System.String,System.String@,System.String@,System.String@)">
+        <member name="M:CommonLib.Helpers.FileSystemHelper.UpdateFilePath(System.String@,System.String,System.String@,System.String@,System.String@,System.String)">
             <summary>
             根据路径与文件名称获取补完的路径与文件完整路径，假如文件名称为空则输出全为空字符串
             </summary>
@@ -6370,6 +7861,7 @@
             <param name="fileNameDate">带日期的文件名称</param>
             <param name="filePath">包含文件名称的完整路径</param>
             <param name="filePathDate">包含带日期的文件名称的完整路径</param>
+            <param name="dateFormatInFileName">将文件名内的日期时间格式化的格式字符串，默认为yyyyMMdd</param>
         </member>
         <member name="M:CommonLib.Helpers.FileSystemHelper.UpdateFilePath(System.String@,System.String,System.String@)">
             <summary>
@@ -6398,8 +7890,8 @@
         <member name="T:CommonLib.UIControlUtil.ControlTemplates.FormNotifyBasis">
             <summary>
             带有通知区域图标与隐藏功能的窗体，假如新窗体继承自此窗体，则需要在新窗体的FormClosing事件中（假如有的话）加上如下代码
-            if (e.CloseReason == CloseReason.UserClosing)
-                return;
+            <para/>if (e.CloseReason == CloseReason.UserClosing)
+            <para/>    return;
             </summary>
         </member>
         <member name="M:CommonLib.UIControlUtil.ControlTemplates.FormNotifyBasis.Form_FormClosing(System.Object,System.Windows.Forms.FormClosingEventArgs)">
@@ -6419,9 +7911,15 @@
             显示窗口
             </summary>
         </member>
-        <member name="M:CommonLib.UIControlUtil.ControlTemplates.FormNotifyBasis.Exit">
+        <member name="M:CommonLib.UIControlUtil.ControlTemplates.FormNotifyBasis.Exit(System.Boolean)">
             <summary>
-            退出
+            退出，同时根据给定参数决定是否重新启动
+            </summary>
+            <param name="restart">是否在退出后重新启动</param>
+        </member>
+        <member name="M:CommonLib.UIControlUtil.ControlTemplates.FormNotifyBasis.Restart">
+            <summary>
+            重新启动
             </summary>
         </member>
         <member name="M:CommonLib.UIControlUtil.ControlTemplates.FormNotifyBasis.ToolStripMenu_NotifyExit_Click(System.Object,System.EventArgs)">
@@ -6634,21 +8132,21 @@
             <summary>
             控件线程安全访问（注意：当空间窗体句柄未创建时将不执行任何操作）
             .Net2.0中线程安全访问控件扩展方法，可以获取返回值，可能还有其它问题
-            CrossThreadCalls.SafeInvoke(this.statusStrip1, new CrossThreadCalls.TaskDelegate(delegate()
+            CrossThreadCalls.SafeInvoke(statusStrip1, new CrossThreadCalls.TaskDelegate(delegate()
             {
                tssStatus.Text = "开始任务...";
             }));
-            CrossThreadCalls.SafeInvoke(this.rtxtChat, new CrossThreadCalls.TaskDelegate(delegate()
+            CrossThreadCalls.SafeInvoke(rtxtChat, new CrossThreadCalls.TaskDelegate(delegate()
             {
                 rtxtChat.AppendText("测试中");
             }));
             参考：http://wenku.baidu.com/view/f0b3ac4733687e21af45a9f9.html
             .Net3.5用Lambda简化跨线程访问窗体控件,避免重复的delegate,Invoke
-            this.statusStrip1.SafeInvoke(() =>
+            statusStrip1.SafeInvoke(() =>
             {
                 tsStatus.Text = "开始任务....";
             });
-            this.rtxtChat.SafeInvoke(() =>
+            rtxtChat.SafeInvoke(() =>
             {
                 rtxtChat.AppendText("测试中");
             });
@@ -6726,7 +8224,35 @@
             <summary>
             获取DataGridView的所有选中行，不受SelectionMode影响
             </summary>
-            <param name="gridView"></param>
+            <param name="gridView">当前DataGridView</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.UIControlUtil.DataGridViewExtentionClass.GetRowByIndex(System.Windows.Forms.DataGridView,System.Int32)">
+            <summary>
+            根据给定索引获取DataGridView的某一行，假如超出范围（小于0或大于等于总行数）则返回空
+            </summary>
+            <param name="gridView">当前DataGridView</param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.UIControlUtil.DataGridViewExtentionClass.SetRowSelected(System.Windows.Forms.DataGridView,System.Int32,System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
+            <summary>
+            在当前DataGridView中根据行索引选中给定的行
+            </summary>
+            <param name="gridView">当前DataGridView</param>
+            <param name="index">给定行的索引，假如超出范围（小于0或大于等于总行数）则不继续向下进行任何操作</param>
+            <param name="fullRowSelect">设置SelectionMode为FullRowSelect，假如为null或false则不设置</param>
+            <param name="multiSelect">设置是否允许多选，假如为null则不设置</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommonLib.UIControlUtil.DataGridViewExtentionClass.SetRowSelected(System.Windows.Forms.DataGridView,System.Windows.Forms.DataGridViewRow,System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
+            <summary>
+            在当前DataGridView中选中给定的行
+            </summary>
+            <param name="gridView">当前DataGridView</param>
+            <param name="viewRow">给定行对象，假如为空则不继续向下进行任何操作</param>
+            <param name="fullRowSelect">设置SelectionMode为FullRowSelect，假如为null或false则不设置</param>
+            <param name="multiSelect">设置是否允许多选，假如为null则不设置</param>
             <returns></returns>
         </member>
         <member name="M:CommonLib.UIControlUtil.TabControlUtil.ShowForm(System.Windows.Forms.TabControl,System.Windows.Forms.Form)">

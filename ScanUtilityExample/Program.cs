@@ -1,4 +1,6 @@
-﻿using CommonLib.Extensions.Property;
+﻿using CommonLib.Clients;
+using CommonLib.Clients.Object;
+using CommonLib.Extensions.Property;
 using CommonLib.Function;
 using CommonLib.Helpers;
 using ScanUtilityLibrary.Core.SICK;
@@ -10,17 +12,23 @@ using ScanUtilityLibrary.Model;
 using ScanUtilityLibrary.Model.SICK.Dx;
 using ScanUtilityLibrary.Model.Tianhe;
 using ScanUtilityLibrary.Model.TripleIN;
+using ScanUtilityLibraryVer2.LivoxSdk2;
+using ScanUtilityLibraryVer2.LivoxSdk2.Include;
+using ScanUtilityLibraryVer2.LivoxSdk2.Samples;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static ScanUtilityLibraryVer2.LivoxSdk2.Include.LivoxLidarDef;
 
 namespace ScanUtilityExample
 {
@@ -76,6 +84,34 @@ namespace ScanUtilityExample
             //{
             //    Thread.Sleep(1000);
             //}
+            #endregion
+
+            #region livox sdk2 测试
+            ColorSmoother colorSmoother = new ColorSmoother(byte.MinValue, byte.MaxValue);
+            PlyFileClient plyFile = new PlyFileClient(true) { Path = "D:\\", FileName = "snapshot" };
+            plyFile.RegisterCustomProperty("reflectivity", typeof(byte));
+            DllLoader.ConfigureDllPath();
+            LivoxLidarQuickStart.FrameTime = 500;
+            LivoxLidarQuickStart.Start("hap_config.json");
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            while (stopwatch.ElapsedMilliseconds <= 300000)
+            {
+                Thread.Sleep(10000);
+                var rawPointsCopy = LivoxLidarQuickStart.CartesianHighRawPoints.ToList();
+                //List<PlyDotObject> plyDots = rawPointsCopy.Where(rawPoint => !(rawPoint.x == 0 && rawPoint.y == 0 && rawPoint.z == 0)).Select(rawPoint => new PlyDotObject(rawPoint.x, rawPoint.y, rawPoint.z, colorSmoother.GetColor(rawPoint.reflectivity)) { CustomProperties = new List<object>() { rawPoint.reflectivity } }).ToList();
+                List<PlyDotObject> plyDots = rawPointsCopy
+                    .Where(rawPoint => rawPoint.x != 0 || rawPoint.y != 0 || rawPoint.z != 0)
+                    .Select(rawPoint => new PlyDotObject(rawPoint.x, rawPoint.y, rawPoint.z, colorSmoother.GetColor(rawPoint.reflectivity))
+                    {
+                        CustomProperties = new List<object> { rawPoint.reflectivity }
+                    })
+                    .ToList();
+                plyFile.SaveVertexes(plyDots);
+            }
+            //Thread.Sleep(300000); // 保持程序运行
+            LivoxLidarQuickStart.Stop();
+            return;
             #endregion
 
             //var time = DateTimeHelper.GetUtcTimeByTimeStampMillisec(1407535921);

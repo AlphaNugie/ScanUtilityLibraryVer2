@@ -134,8 +134,9 @@ namespace ScanUtilityLibrary.Core
                 string[] temp = info.Split(' ');
                 if (index == 1)
                     shifting = double.Parse(temp[2]);
-                ScanPoint point = new ScanPoint(ScanDeviceType.R2000, double.Parse(temp[0]), double.Parse(temp[1]), double.Parse(temp[2]) - shifting); //Z坐标校准
+                ScanPoint point = new ScanPoint(ScanDeviceType.R2000, double.Parse(temp[0]), double.Parse(temp[1]), double.Parse(temp[2]) - shifting); //Z坐标校准，以第一行的Z轴坐标为基准
                 current = temp[2];
+                //当Z轴坐标变化时变更为下一组
                 if (current != last)
                 {
                     if (!string.IsNullOrWhiteSpace(last) && list != null)
