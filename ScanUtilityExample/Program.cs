@@ -13,7 +13,9 @@ using ScanUtilityLibrary.Model.SICK.Dx;
 using ScanUtilityLibrary.Model.Tianhe;
 using ScanUtilityLibrary.Model.TripleIN;
 using ScanUtilityLibraryVer2.LivoxSdk2;
+using ScanUtilityLibraryVer2.LivoxSdk2.Core;
 using ScanUtilityLibraryVer2.LivoxSdk2.Include;
+using ScanUtilityLibraryVer2.LivoxSdk2.Model;
 using ScanUtilityLibraryVer2.LivoxSdk2.Samples;
 using System;
 using System.Collections.Generic;
@@ -87,12 +89,22 @@ namespace ScanUtilityExample
             #endregion
 
             #region livox sdk2 测试
+            List<LivoxLidarCartesianHighRawPoint> points = new List<LivoxLidarCartesianHighRawPoint>()
+            {
+                new LivoxLidarCartesianHighRawPoint() { x = 1000, y = 0, z = 1000, reflectivity = 4 },
+            };
+            //横滚顺时针90度，俯仰向下45度，回转向右90度
+            CoordTransParamSet transformer = new CoordTransParamSet(90, 45, -90);
+            var newList = points.TransformPoints(transformer);
+
             ColorSmoother colorSmoother = new ColorSmoother(byte.MinValue, byte.MaxValue);
             PlyFileClient plyFile = new PlyFileClient(true) { Path = "D:\\", FileName = "snapshot" };
             plyFile.RegisterCustomProperty("reflectivity", typeof(byte));
             DllLoader.ConfigureDllPath();
             LivoxLidarQuickStart.FrameTime = 500;
-            LivoxLidarQuickStart.Start("hap_config.json");
+            //转换到现有码头坐标系：走行增大的方向为前方，X轴正向前，Y轴正向左，Z轴正向上
+            CoordTransParamSet coordTransParamSet = new CoordTransParamSet(-90, 45, -90);
+            LivoxLidarQuickStart.Start("hap_config.json", coordTransParamSet);
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             while (stopwatch.ElapsedMilliseconds <= 300000)

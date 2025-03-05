@@ -9,9 +9,9 @@ D:\SCANNING\ScanUtilityLibraryVer2\ScanUtilityLibraryVer2.Tianhe\bin\Debug\Socke
 D:\SCANNING\ScanUtilityLibraryVer2\ScanUtilityLibraryVer2.Tianhe\bin\Debug\SocketHelper.xml
 D:\SCANNING\ScanUtilityLibraryVer2\ScanUtilityLibraryVer2.Tianhe\obj\Debug\ScanUtilityLibraryVer2.Tianhe.csproj.AssemblyReference.cache
 D:\SCANNING\ScanUtilityLibraryVer2\ScanUtilityLibraryVer2.Tianhe\obj\Debug\ScanUtilityLibraryVer2.Tianhe.csproj.CoreCompileInputs.cache
-D:\SCANNING\ScanUtilityLibraryVer2\ScanUtilityLibraryVer2.Tianhe\obj\Debug\ScanUtilityLibraryVer2.Tianhe.csproj.CopyComplete
 D:\SCANNING\ScanUtilityLibraryVer2\ScanUtilityLibraryVer2.Tianhe\bin\Debug\ScanUtilityLibraryVer2.Tianhe.dll
 D:\SCANNING\ScanUtilityLibraryVer2\ScanUtilityLibraryVer2.Tianhe\bin\Debug\ScanUtilityLibraryVer2.Tianhe.pdb
 D:\SCANNING\ScanUtilityLibraryVer2\ScanUtilityLibraryVer2.Tianhe\obj\Debug\ScanUtilityLibraryVer2.Tianhe.dll
 D:\SCANNING\ScanUtilityLibraryVer2\ScanUtilityLibraryVer2.Tianhe\obj\Debug\ScanUtilityLibraryVer2.Tianhe.pdb
 D:\SCANNING\ScanUtilityLibraryVer2\ScanUtilityLibraryVer2.Tianhe\bin\Debug\ScanUtilityLibraryVer2.Tianhe.xml
+D:\SCANNING\ScanUtilityLibraryVer2\ScanUtilityLibraryVer2.Tianhe\obj\Debug\ScanUtil.6B94A3BC.Up2Date

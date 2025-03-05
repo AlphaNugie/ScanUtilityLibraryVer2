@@ -121,9 +121,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ScanUtilityLibraryVer2.LivoxSdk2\ScanUtilityLibraryVer2.LivoxSdk2AnyCpu.csproj">
-      <Project>{cbe34e74-9e00-4af4-a60b-3365ff3e0e6b}</Project>
-      <Name>ScanUtilityLibraryVer2.LivoxSdk2AnyCpu</Name>
+    <ProjectReference Include="..\ScanUtilityLibraryVer2.LivoxSdk2AnyCpuNet45\ScanUtilityLibraryVer2.LivoxSdk2AnyCpuNet45.csproj">
+      <Project>{22f0497e-3fcf-44ce-8eef-2ff0fbf5db00}</Project>
+      <Name>ScanUtilityLibraryVer2.LivoxSdk2AnyCpuNet45</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScanUtilityLibraryVer2.Tianhe\ScanUtilityLibraryVer2.Tianhe.csproj">
       <Project>{b45c3300-d45b-4bd7-8add-364d63474883}</Project>
