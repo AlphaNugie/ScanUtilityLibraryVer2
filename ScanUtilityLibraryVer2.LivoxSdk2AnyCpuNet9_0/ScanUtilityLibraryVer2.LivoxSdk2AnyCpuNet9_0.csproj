@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+     <!--<TargetFramework>net9.0</TargetFramework>--> 
+    <TargetFrameworks>net45;net9.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>  <!--或 latest-->   <!--或 8.0--> 
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <RootNamespace>$(MSBuildProjectName.Replace(" ", "_").Replace("AnyCpuNet9_0", ""))</RootNamespace>
+    <!--<AssemblyName>$(MSBuildProjectName.Replace(" ", "_").Replace("AnyCpuNet9_0", ""))$(TargetFramework.Replace("net45", "").Replace("net9.0", ".Core"))</AssemblyName>-->
+    <AssemblyName>$(MSBuildProjectName.Replace(" ", "_").Replace("Net9_0", ".Core"))</AssemblyName>
+  </PropertyGroup>
+	
+	<!--设置不同框架的语言版本-->
+	<!--<PropertyGroup Condition="'$(TargetFramework)' == 'net45'">
+		<LangVersion>7.3</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net9.0'">
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>-->
+
+  <ItemGroup>
+    <Folder Include="bin\Debug\net45\" />
+    <Folder Include="bin\Debug\net9.0\" />
+  </ItemGroup>
+	
+	<!--NuGet包依赖根据框架区分-->
+	<!--<ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+		<PackageReference Include="LegacyPackage" Version="1.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+		<PackageReference Include="ModernPackage" Version="2.0.0" />
+	</ItemGroup>-->
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command=":: xcopy /e /r /y /exclude:$(ProjectDir)LivoxSdkSharedDll\_uncopy.txt D:\SCANNING\Livox-LiDAR\Livox-SDK2\build\sdk_core\Debug $(ProjectDir)LivoxSdkSharedDll\&#xD;&#xA;xcopy /e /r /y /exclude:D:\DLL\_uncopy.txt $(ProjectDir)bin\Debug\net9.0 D:\DLL\AnyCpu\&#xD;&#xA;xcopy /e /r /y /exclude:D:\DLL\_uncopy.txt $(ProjectDir)bin\Debug\net9.0 $(SolutionDir)ScanUtilityExample\bin\Debug\&#xD;&#xA;del /q $(ProjectDir)bin\Debug\net45\*AnyCpu.dll&#xD;&#xA;del /q $(ProjectDir)bin\Debug\net45\*AnyCpu.pdb&#xD;&#xA;del /q $(ProjectDir)bin\Debug\net45\*AnyCpu.xml&#xD;&#xA;ren $(ProjectDir)bin\Debug\net45\ScanUtilityLibraryVer2.LivoxSdk2AnyCpu.Core.dll ScanUtilityLibraryVer2.LivoxSdk2AnyCpu.dll&#xD;&#xA;ren $(ProjectDir)bin\Debug\net45\ScanUtilityLibraryVer2.LivoxSdk2AnyCpu.Core.pdb ScanUtilityLibraryVer2.LivoxSdk2AnyCpu.pdb&#xD;&#xA;ren $(ProjectDir)bin\Debug\net45\ScanUtilityLibraryVer2.LivoxSdk2AnyCpu.Core.xml ScanUtilityLibraryVer2.LivoxSdk2AnyCpu.xml&#xD;&#xA;xcopy /e /r /y /exclude:D:\DLL\_uncopy.txt $(ProjectDir)bin\Debug\net45 D:\DLL\AnyCpu\&#xD;&#xA;xcopy /e /r /y /exclude:D:\DLL\_uncopy.txt $(ProjectDir)bin\Debug\net45 $(SolutionDir)ScanUtilityExample\bin\Debug\" />
+  </Target>
+
+</Project>
